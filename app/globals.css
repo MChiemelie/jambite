@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body{
+  scroll-behavior: smooth;
+}
+
+body {  
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+body::-webkit-scrollbar {
+  width: 6px;
+}
+
+body::-webkit-scrollbar-thumb{
+  background-color: currentColor;
+}
+
+@layer base {
+  :root {
+    --accent1: 288deg 96% 35%;
+    --accent2: 229deg 59% 49%;
+    --accent3: 206deg 88% 55%;
+    --accent4: 26deg 100% 44%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent1: 288deg 95.8% 60.6%;
+      --accent2: 229deg 59% 49%;
+      --accent3: 206deg 88% 55%;
+      --accent4: 35deg 100% 45%;
+    }
+  }
+}
