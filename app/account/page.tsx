@@ -1,13 +1,11 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers'
-import AccountForm from '@/components/AccountForm'
+import React from 'react';
+import AccountForm from '@/layout/account-form';
+import { createClient } from '@/services/supabase/server';
 
 export default async function Account() {
-  const supabase  = createServerComponentClient({ cookies });
+  const supabase = await createClient();
 
-  const { data: { session } } = await supabase.auth.getSession()
+  const { user } = (await supabase.auth.getUser()).data;
 
-  return <AccountForm session={session} />
+  return <AccountForm user={user} />;
 }
-
-export const dynamic = 'force-dynamic';

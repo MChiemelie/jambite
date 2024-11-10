@@ -2,71 +2,45 @@
 
 import { useState } from 'react';
 
-import Nav from "../../components/Nav";
+import Nav from '@/layout/Nav';
 
 const pricingData = [
   {
-    type: "START",
+    type: 'START',
     price: {
       monthly: 0,
-      annually: 0
+      annually: 0,
     },
-    features: [
-      "2 Subjects",
-      "10 Sessions",
-      "20 Questions Per Session",
-      "One Profile Allowed"
-    ],
-    buttonText: "Enjoy!"
+    features: ['2 Subjects', '10 Sessions', '20 Questions Per Session', 'One Profile Allowed'],
+    buttonText: 'Enjoy!',
   },
   {
-    type: "PRO",
+    type: 'PRO',
     price: {
       monthly: 1000,
-      annually: ((1000 - (1000 * 15 / 100)) * 12)
-
-
+      annually: (1000 - (1000 * 15) / 100) * 12,
     },
-    features: [
-      "English plus 3 Subjects of Your Choice",
-      "200 sessions",
-      "40 Questions Per Session",
-      "One Profile",
-      "Daily Notifications"
-    ],
-    buttonText: "Pay Now!"
+    features: ['English plus 3 Subjects of Your Choice', '200 sessions', '40 Questions Per Session', 'One Profile', 'Daily Notifications'],
+    buttonText: 'Pay Now!',
   },
   {
-    type: "BUSINESS",
+    type: 'BUSINESS',
     price: {
       monthly: 10000,
-      annually: ((10000 - (10000 * 15 / 100)) * 12)
-
+      annually: (10000 - (10000 * 15) / 100) * 12,
     },
-    features: [
-      "Access all Subjects",
-      "Unlimited sessions",
-      "40 Questions Per Session",
-      "Multiple Profiles",
-      "24/7 Email Support"
-    ],
-    buttonText: "Pay Now!"
+    features: ['Access all Subjects', 'Unlimited sessions', '40 Questions Per Session', 'Multiple Profiles', '24/7 Email Support'],
+    buttonText: 'Pay Now!',
   },
   {
-    type: "SPECIAL",
+    type: 'SPECIAL',
     price: {
       monthly: 20000,
-      annually: ((20000 - (20000 * 15 / 100)) * 12)
+      annually: (20000 - (20000 * 15) / 100) * 12,
     },
-    features: [
-      "Access all Subjects",
-      "Unlimited Sessions",
-      "Multiple Profiles",
-      "ChatGPT Experience - Answer Review with AI",
-      "24/7 Email Support and Customer Care"
-    ],
-    buttonText: "Pay Now!"
-  }
+    features: ['Access all Subjects', 'Unlimited Sessions', 'Multiple Profiles', 'ChatGPT Experience - Answer Review with AI', '24/7 Email Support and Customer Care'],
+    buttonText: 'Pay Now!',
+  },
 ];
 
 export default function Pricing() {
@@ -86,8 +60,12 @@ export default function Pricing() {
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-col text-center w-full mb-20">
           <div className="flex mx-auto border-2 border-accent-2 rounded overflow-hidden mt-6">
-            <button aria-label="Monthly based Payments" className="py-1 px-4 bg-accent-2 text-white focus:outline-none">Monthly</button>
-            <button aria-label="Annaully based Payments" className="py-1 px-4" onClick={toggleAnnually}>Annually</button>
+            <button aria-label="Monthly based Payments" className="py-1 px-4 bg-accent-2 text-white focus:outline-none">
+              Monthly
+            </button>
+            <button aria-label="Annaully based Payments" className="py-1 px-4" onClick={toggleAnnually}>
+              Annually
+            </button>
           </div>
         </div>
         <div className="flex flex-wrap -m-4">
@@ -99,11 +77,7 @@ export default function Pricing() {
                   <h2 className="text-sm tracking-widest title-font mb-1 font-medium">{pricingItem.type}</h2>
                   <h1 className="text-5xl pb-4 mb-4 border-b border-accent-2 leading-none">
                     {pricingItem.price.monthly === 0 ? 'Free' : `₦ ${getPrice(pricingItem)}`}
-                    {pricingItem.price.monthly !== 0 && (
-                      <span className="text-lg ml-1 font-normal">
-                        {isAnnually ? "/an" : "/mo"}
-                      </span>
-                    )}
+                    {pricingItem.price.monthly !== 0 && <span className="text-lg ml-1 font-normal">{isAnnually ? '/an' : '/mo'}</span>}
                   </h1>
                   {pricingItem.features.map((feature) => (
                     <p className="flex items-center mb-2" key={feature}>
@@ -117,15 +91,7 @@ export default function Pricing() {
                   ))}
                   <button aria-label="Monthly based Payments" className="flex items-center mt-auto bg-accent-2 text-white border-0 py-2 px-4 w-full focus:outline-none hover:rounded">
                     {pricingItem.buttonText}
-                    <svg
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="w-4 h-4 ml-auto"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-auto" viewBox="0 0 24 24">
                       <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
                   </button>

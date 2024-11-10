@@ -1,9 +1,8 @@
-import { Nav, Hero, Features, Testimonials, Join, Footer } from "@/components";
+import { Nav, Features, Hero, Testimonials, Join, Footer } from '@/layout';
 
-export default function Home () {
+export default function Page() {
   return (
-    <div className='space-y-10'>
-      <Nav />
+    <div className="space-y-10">
       <Hero />
       <Features />
       <Testimonials />

@@ -1,25 +1,20 @@
 import './globals.css';
-import { Assistant } from 'next/font/google';
-import { Providers } from '@/components';
+import React from 'react';
+import { Inter as FontSans } from 'next/font/google';
+import { cn } from '@/utilities';
+import PracticeProvider from '@/providers/practiceProvider';
 
-export const metadata = {
-  title: 'Jambite - Ace Your JAMB!',
-  description: 'Practice your JAMB Computer Based Test, and put yourself ahead the game. With a wide range of 17 subjects available, Prepare effectively for your exams by accessing a comprehensive collection of over 20,000 past questions.',
-}
-
-const inter = Assistant({
+const fontSans = FontSans({
   subsets: ['latin'],
-  display: 'swap',
+  variable: '--font-sans',
 });
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body>
-      <Providers>
-        {children}
-      </Providers>
+    <html lang="en">
+      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
+        <PracticeProvider>{children}</PracticeProvider>
       </body>
     </html>
-  )
+  );
 }
