@@ -1,10 +1,26 @@
-import { type NextRequest } from 'next/server';
-import { updateSession } from '@/services/supabase/middleware';
+import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+const routes = {
+  protected: ['/dashboard', '/practice', '/analytics', '/leaderboard', '/payments'],
+  public: ['/sign-in', '/sign-up', '/'],
+};
+
+export default async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+  const session = (await cookies()).get('appwrite-session');
+
+  if (routes.protected.includes(pathname) && !session) {
+    return NextResponse.redirect(new URL('/sign-in', req.nextUrl));
+  }
+
+  if (routes.public.includes(pathname) && session) {
+    return NextResponse.redirect(new URL('/dashboard', req.nextUrl));
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)']
+  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
 };

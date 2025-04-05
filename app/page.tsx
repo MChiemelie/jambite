@@ -1,13 +1,13 @@
-import { Nav, Features, Hero, Testimonials, Join, Footer } from '@/layout';
+import { Hero, Features, Footer, Join, Testimonials } from '@/components/landing';
 
-export default function Page() {
+export default function LandingPage() {
   return (
-    <div className="space-y-10">
+    <div className="gap-10">
       <Hero />
-      <Features />
+      {/* <Features />
       <Testimonials />
       <Join />
-      <Footer />
+      <Footer /> */}
     </div>
   );
 }

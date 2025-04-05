@@ -1,0 +1,13 @@
+{
+  "src": "./services",
+  "exclude": ["**/*.test.ts", "**/*.spec.ts", "node_modules", "dist"],
+  "filename": "index.ts",
+  "directory": "barrels",
+  "replaceExtension": "ts",
+  "delete": false,
+  "sort": true,
+  "importStrategy": "shortest",
+  "barrel": true,
+  "force": true,
+  "silent": false
+}

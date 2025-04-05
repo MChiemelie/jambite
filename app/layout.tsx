@@ -1,19 +1,24 @@
+import { Metadata } from 'next';
+import { lexend } from '@/fonts';
+import { Practice, Theme } from '@/providers';
 import './globals.css';
-import React from 'react';
-import { Inter as FontSans } from 'next/font/google';
-import { cn } from '@/utilities';
-import PracticeProvider from '@/providers/practiceProvider';
+import { ReactScan } from '@/components/dev';
 
-const fontSans = FontSans({
-  subsets: ['latin'],
-  variable: '--font-sans',
-});
+export const metadata: Metadata = {
+  title: 'Jambite - Practice with AI',
+  description: 'Jambite - Ace JAMB with AI assisted CBT Practice.',
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
-        <PracticeProvider>{children}</PracticeProvider>
+    <html lang="en" className={`${lexend.className}`} suppressHydrationWarning>
+      <body>
+        <Theme>
+          <Practice>
+            <ReactScan />
+            {children}
+          </Practice>
+        </Theme>
       </body>
     </html>
   );

@@ -5,20 +5,37 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
         port: '',
-        pathname: '/a/**'
+        pathname: '/a/**',
       },
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
         port: '',
-        pathname: '/**'
-      }
-    ]
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.freepik.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'merriam-webster.com',
+        pathname: '/assets/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cloud.appwrite.io',
+      },
+    ],
   },
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: true,
   },
-  reactStrictMode: false
+  reactStrictMode: false,
 };
 
 module.exports = nextConfig;

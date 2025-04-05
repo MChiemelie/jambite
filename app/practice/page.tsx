@@ -1,59 +1,56 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '@/store';
-import { setQuestions, setUser } from '@/store/practiceSlice';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { getQuestions } from '@/fetchQuestions';
-import { Practice } from '@/layout/practice';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { Status } from '@/components/custom';
+import { Practice } from '@/components/practice';
+import { getUserData } from '@/services/auth';
+import { decrementTrials } from '@/services/payments';
+import { getQuestions } from '@/services/questions';
+import { AppDispatch, RootState } from '@/stores';
+import { setQuestions, setUser } from '@/stores/practice/slice';
+import { randomYear } from '@/utilities';
 
 export default function PracticePage() {
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const { selectedSubjectsParameters, questions } = useSelector((state: RootState) => state.practice);
-  const supabase = createClientComponentClient();
-  const [error, setError] = useState<string | null>(null);
+  const { selectedSubjectsParameters, selectedSubjects } = useSelector((state: RootState) => state.practice);
+
+  const { status: userStatus, data: user, error: userError } = useQuery({ queryKey: ['user'], queryFn: getUserData });
+
+  // prettier-ignore
+  const { status: questionsStatus, data: questions, error: questionsError } = useQuery({
+    queryKey: ['questions', selectedSubjectsParameters],
+    queryFn: async () => getQuestions(selectedSubjectsParameters, randomYear()),
+    enabled: selectedSubjects.length > 0,
+  });
 
   useEffect(() => {
-    console.log('We are at the practice page');
+    if (selectedSubjects.length === 0) {
+      router.push('/dashboard');
+      return;
+    }
 
-    const fetchData = async () => {
-      try {
-        const {data: { user }} = await supabase.auth.getUser();
+    if (userStatus === 'success' && questionsStatus === 'success') {
+      decrementTrials();
+      dispatch(setUser(user));
+      dispatch(setQuestions(questions));
+    }
+  }, [selectedSubjects, router, userStatus, questionsStatus, user, questions, dispatch]);
 
-        // Handle user authentication
-        if (user) {
-          dispatch(setUser(user));
-            console.log("Practice User:", user);
-        } else {
-          console.log('We cannot set the user');
-        }
+  if (userStatus === 'pending' || questionsStatus === 'pending') return <Status image="/assets/questions.svg" desc1="We're gathering and compling your questions" desc2="This may take a while, please stay with us!" />;
 
-        // Fetch questions if subjects are selected
-        if (selectedSubjectsParameters.length > 0) {
-          const randomYear = getRandomYear();
-          const questionsData = await getQuestions(selectedSubjectsParameters, randomYear);
-          dispatch(setQuestions(questionsData));
-        }
-      } catch (err) {
-        setError('Failed to fetch data');
-        console.error('Error fetching data:', err);
-      }
-    };
-
-    fetchData();
-  }, [dispatch, selectedSubjectsParameters, supabase]);
-
-  const getRandomYear = () => {
-    const years = ['2000', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010'];
-    return years[Math.floor(Math.random() * years.length)];
-  };
-
-  if (error) {
-    throw new Error(error); // Trigger error boundary
+  if (userStatus === 'error' || questionsStatus === 'error') {
+    return (
+      <span>
+        {userError && <Status image="/assets/error.svg" desc1={`User Error: ${userError.message}`} desc2="" />}
+        <br />
+        {questionsError && <Status image="/assets/error.svg" desc1={`Questions Error: ${questionsError.message}`} desc2="" />}
+      </span>
+    );
   }
 
-  return (
-    questions ? <Practice questions={questions} /> : <p>No questions available.</p>
-  );
+  return <Practice questions={questions} />;
 }

@@ -1,9 +1,0 @@
-export type PerformanceSubject {
-  subject: string;
-  attempts: number;
-}
-
-export type PerformanceData {
-  mostAttemptedSubjects: PerformanceSubject[];
-  topScores: { subject: string; score: number }[];
-}
