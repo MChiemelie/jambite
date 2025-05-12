@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-
+@plugin 'tailwindcss-motion';
 @custom-variant dark (&:is(.dark *));
 
 @theme {

@@ -1,4 +1,4 @@
-import { Models } from 'appwrite';
+import { Models } from 'node-appwrite';
 import { PracticeData } from './practice';
 
 export type UserAuth = Models.User<Models.Preferences>;
@@ -37,7 +37,7 @@ export const exampleUserAuth: UserAuth = {
   status: true,
   labels: [],
   passwordUpdate: '2024-11-20T09:00:00Z',
-  phone: null,
+  phone: "",
   phoneVerification: false,
   mfa: false,
   targets: [],

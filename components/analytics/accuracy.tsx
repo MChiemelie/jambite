@@ -3,8 +3,9 @@
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/shadcn/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/shadcn/chart';
+import { AccuracyProps } from '@/types';
 
-export default function Accuracy({ data }) {
+export default function Accuracy({ data }:{data: AccuracyProps['data']}) {
   const { correct, incorrect } = data[0];
   const totalAttempts = correct + incorrect;
   const accuracy = totalAttempts > 0 ? Math.round((correct / totalAttempts) * 100) : 0;

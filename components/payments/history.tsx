@@ -23,7 +23,7 @@ export default function History() {
         setTransactions(fetchedTransactions);
 
         setTotalPages(Math.ceil((data.meta?.total || 0) / perPage));
-        setTotalAmount(fetchedTransactions.reduce((sum, payment) => sum + (payment.amount || 0) / 100, 0));
+        setTotalAmount(fetchedTransactions.reduce((sum: number, payment: any) => sum + (payment.amount || 0) / 100, 0));
       } catch (error) {
         console.error('Error fetching payments:', error);
       } finally {
@@ -43,11 +43,11 @@ export default function History() {
   };
 
   if (loading) {
-    return <Status image="/assets/payments.svg" desc1="Getting payments..." desc2="" />;
+    return <Status image="/payments.svg" desc1="Getting payments..." desc2="" />;
   }
 
   if (transactions.length === 0) {
-    return <Status image="/assets/payments.svg" desc1="You've not made any payment(s) yet" desc2="" />;
+    return <Status image="/payments.svg" desc1="You've not made any payment(s) yet" desc2="" />;
   }
 
   return (

@@ -26,12 +26,16 @@ export default async function AnalyticsPage() {
     },
   };
 
-  const highestScoresBySubject: Record<string, Performances> = performanceData.reduce((acc, p) => {
-    if (!acc[p.subject] || acc[p.subject].score < p.score) {
-      acc[p.subject] = p;
-    }
-    return acc;
-  }, {});
+  const highestScoresBySubject = performanceData.reduce<Record<string, Performances>>(
+      (acc, p) => {
+        const prev = acc[p.subject];
+        if (!prev || prev.score < p.score) {
+          acc[p.subject] = p;
+        }
+        return acc;
+      },
+      {} as Record<string, Performances>
+    );
 
   const subjectsScoreData = Object.values(highestScoresBySubject).map((p) => ({
     subject: p.subject,

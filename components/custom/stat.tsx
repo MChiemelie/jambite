@@ -1,4 +1,14 @@
-export default function Stat({ icon: Icon, color, value, title, subtitle }) {
+import { LucideIcon } from 'lucide-react';
+
+export type StatProps = {
+  icon: LucideIcon;
+  color: string;
+  value: string;
+  title: string;
+  subtitle: string;
+};
+
+export default function Stat({ icon: Icon, color, value, title, subtitle }: StatProps) {
   return (
     <div className="flex w-full items-center gap-4">
       <Icon className={`w-8 h-8 ${color}`} />

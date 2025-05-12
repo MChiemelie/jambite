@@ -7,7 +7,7 @@ export default async function Words() {
   const parser = new xml2js.Parser();
 
   const jsonData = (await new Promise((resolve, reject) =>
-    parser.parseString(xmlData, (err, result) => {
+    parser.parseString(xmlData, (err: any, result: any) => {
       if (err) reject(err);
       else resolve(result);
     })

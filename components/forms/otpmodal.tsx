@@ -34,7 +34,7 @@ const OtpModal = ({ userId, email }: { userId: string; email: string }) => {
         <AlertDialogHeader className="relative flex justify-center">
           <AlertDialogTitle className="h2 text-center">
             Enter Your OTP
-            <Image src="/assets/icons/close-dark.svg" alt="close" width={20} height={20} onClick={() => setIsOpen(false)} className="otp-close-button" />
+            <Image src="/close.svg" alt="close" width={20} height={20} onClick={() => setIsOpen(false)} className="otp-close-button" />
           </AlertDialogTitle>
           <AlertDialogDescription className="subtitle-2 text-center text-light-100">
             We&apos;ve sent a code to <span className="pl-1 text-brand">{email}</span>
@@ -56,7 +56,7 @@ const OtpModal = ({ userId, email }: { userId: string; email: string }) => {
           <div className="flex w-full flex-col gap-4">
             <AlertDialogAction onClick={handleSubmit} className="h-12" type="button">
               Submit
-              {isLoading && <Image src="/assets/icons/loader.svg" alt="loader" width={24} height={24} className="ml-2 animate-spin" />}
+              {isLoading && <Image src="/loader.svg" alt="loader" width={24} height={24} className="ml-2 animate-spin" />}
             </AlertDialogAction>
 
             <div className="subtitle-2 mt-2 text-center text-light-100">

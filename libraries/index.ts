@@ -1,1 +1,1 @@
-export * from './appwrite';
+export * from "./appwrite"

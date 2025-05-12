@@ -1,4 +1,4 @@
-import Practice from './practice';
 import Theme from './theme';
+import Hydration from './hydration';
 
-export { Theme, Practice };
+export { Theme, Hydration };

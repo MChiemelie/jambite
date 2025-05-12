@@ -103,7 +103,7 @@ const AuthForm = ({ type }: { type: AuthType }) => {
           <Button type="submit" className="w-full" disabled={isLoading}>
             {type === 'sign-in' ? 'Sign In' : 'Sign Up'}
 
-            {isLoading && <Image src="/icons/loader.svg" alt="loader" width={24} height={24} className="ml-2 animate-spin" />}
+            {isLoading && <Image src="/loader.svg" alt="loader" width={24} height={24} className="ml-2 animate-spin" />}
           </Button>
 
           {errorMessage && <p className="error-message">*{errorMessage}</p>}

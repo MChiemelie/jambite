@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/shadcn/avatar';
@@ -8,21 +8,23 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/shadcn/sidebar';
 import { disableAI } from '@/services';
 import { getUserData, signOutUser } from '@/services/auth';
+import { usePracticeActions, useUser } from '@/stores/practice';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const [user, setUser] = useState(null);
+  const user = useUser();
+  const { reset } = usePracticeActions();
 
   useEffect(() => {
     async function fetchUser() {
       const userData = await getUserData();
-      setUser(userData);
       const { ai, trials } = userData;
 
       if (!trials && ai) {
         await disableAI();
       }
     }
+    reset();
     fetchUser();
   }, []);
 

@@ -1,5 +1,5 @@
-import { Pricing } from '@/components/payments';
+import { Plans } from '@/components/payments';
 
 export default function PaymentsPage() {
-  return <Pricing />;
+  return <Plans />;
 }

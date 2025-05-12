@@ -10,7 +10,7 @@ import { Separator } from '@/components/shadcn/separator';
 import { Sheet, SheetContent, SheetTitle } from '@/components/shadcn/sheet';
 import { Skeleton } from '@/components/shadcn/skeleton';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/shadcn/tooltip';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/mobile';
 import { cn } from '@/utilities';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar:state';

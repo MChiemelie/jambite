@@ -1,20 +1,26 @@
 import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Query } from 'node-appwrite';
 import { appwriteConfig } from '@/config';
 import { createAdminClient } from '@/libraries';
 import { getUserAuth } from '@/services';
 import { createAccount } from '@/services/auth';
+import { UserAuth } from '@/types';
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
   try {
     const userId = request.nextUrl.searchParams.get('userId');
     const secret = request.nextUrl.searchParams.get('secret');
+
+    if (!userId || !secret) {
+      return NextResponse.json({ error: 'Missing userId or secret' }, { status: 400 });
+    }
+
     const { account, databases } = await createAdminClient();
     const { documents } = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', userId)]);
 
     if (documents.length === 0) {
-      const { name, email } = await getUserAuth();
+      const { name, email } = (await getUserAuth()) as UserAuth;
       await createAccount({ fullname: name, email });
     }
 

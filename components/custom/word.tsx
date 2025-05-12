@@ -64,7 +64,7 @@ export default function Word({ words }: { words: Word[] }) {
             Merriam-Webster's Word of the Day
           </a>
         </p>
-        <Image width={50} height={50} src="https://merriam-webster.com/assets/mw/static/wod-rss-images/wotd_podcast_logo_2.jpg" alt="Merriam-Webster Logo" />
+        <Image width={50} height={50} src="/images/special/merriam-webster.jpeg" alt="Merriam-Webster Logo" />
       </div>
     </div>
   );

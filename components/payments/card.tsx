@@ -5,7 +5,9 @@ import { Rss } from 'lucide-react';
 import Image from 'next/image';
 import { getUserData } from '@/services';
 
-export default function Card({ authorization }) {
+type Authorization = { bank: string; channel: string; brand: string; last4: string; exp_month: string; exp_year: string };
+
+export default function Card({ authorization }: { authorization: Authorization }) {
   const { bank, channel, brand, last4, exp_month, exp_year } = authorization;
   const defaultImg = '/images/banks/default-image.png';
   const imgSrc = `/images/banks/${bank && bank !== 'default' ? bank : 'default-image'}.png`;

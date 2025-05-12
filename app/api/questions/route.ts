@@ -1,57 +1,77 @@
-import axios from 'axios';
-import { NextResponse } from 'next/server';
+import axios, { AxiosResponse } from 'axios';
+import { NextRequest, NextResponse } from 'next/server';
 import { subjectPathMap } from '@/data/subjects';
 import { Question } from '@/types';
 
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export async function GET(request: Request) {
-  try {
-    const baseUrl = BASE_URL || 'http://localhost:3000';
-    const { searchParams } = new URL(request.url, baseUrl);
-    const subjects = searchParams.get('subjects')?.split(',') || [];
-    const randomYear = searchParams.get('randomYear');
+if (!ACCESS_TOKEN) {
+  throw new Error('ACCESS_TOKEN env var is required');
+}
 
-    const englishResponse = await axios.get(`https://questions.aloc.com.ng/api/v2/m/3?subject=english&year=${randomYear}&random=false&withComprehension=true`, {
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  try {
+    const baseUrl = BASE_URL ?? 'http://localhost:3000';
+    const { searchParams } = new URL(request.url, baseUrl);
+
+    const subjects: string[] =
+      searchParams
+        .get('subjects')
+        ?.split(',')
+        .map((s) => s.trim())
+        .filter(Boolean) ?? [];
+
+    const randomYear = searchParams.get('randomYear') ?? '';
+
+    const englishResp: AxiosResponse<{ data: Question[] }> = await axios.get(`https://questions.aloc.com.ng/api/v2/m/3`, {
+      params: {
+        subject: 'english',
+        year: randomYear,
+        random: false,
+        withComprehension: true,
+      },
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         AccessToken: ACCESS_TOKEN,
       },
     });
+    const englishQuestions: Question[] = englishResp.data.data;
 
-    const englishQuestions: Question[] = englishResponse.data.data;
-
-    const fetchedQuestions = await Promise.all(
-      subjects.map(async (subject) => {
+    type Fetched = { subject: string; questions: Question[] };
+    const fetched: Fetched[] = await Promise.all(
+      subjects.map(async (subj): Promise<Fetched> => {
         try {
-          const response = await axios.get(`https://questions.aloc.com.ng/api/v2/q/2?subject=${subject}`, {
+          const resp: AxiosResponse<{ data: Question[] }> = await axios.get(`https://questions.aloc.com.ng/api/v2/q/2`, {
+            params: { subject: subj },
             headers: {
               Accept: 'application/json',
-              AccessToken: ACCESS_TOKEN,
               'Content-Type': 'application/json',
+              AccessToken: ACCESS_TOKEN,
             },
           });
-          return { subject: subjectPathMap[subject], questions: response.data.data };
-        } catch (error) {
-          console.error(`Failed to fetch questions for subject ${subject}:`, error);
-          return { subject: subjectPathMap[subject], questions: [] };
+          return { subject: subjectPathMap[subj] ?? subj, questions: resp.data.data };
+        } catch (err) {
+          console.error(`Failed to fetch for ${subj}:`, err);
+          return { subject: subjectPathMap[subj] ?? subj, questions: [] };
         }
       })
     );
 
-    const questionsBySubject: Record<string, Question[]> = fetchedQuestions.reduce(
+    // build the record; start with English
+    const questionsBySubject: Record<string, Question[]> = fetched.reduce(
       (acc, { subject, questions }) => {
         acc[subject] = questions;
         return acc;
       },
-      { 'Use of English': englishQuestions }
+      { 'Use of English': englishQuestions } as Record<string, Question[]>
     );
 
-    return NextResponse.json(questionsBySubject);
-  } catch (error) {
-    console.error('Error processing GET /api/questions:', error);
-    return NextResponse.json({ error: 'Failed to fetch questions.' }, { status: 500 });
+    return NextResponse.json<Record<string, Question[]>>(questionsBySubject);
+  } catch (err) {
+    console.error('Error in GET /api/questions:', err);
+    const msg = err instanceof Error ? err.message : 'Unknown error';
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

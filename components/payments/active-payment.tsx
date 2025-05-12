@@ -1,4 +1,6 @@
-export default function ActivePayment({ user }) {
+import { UserData } from '@/types';
+
+export default function ActivePayment({ user }: { user: UserData }) {
   const { trials, ai } = user;
 
   if (trials === 0) {

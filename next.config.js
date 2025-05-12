@@ -1,35 +1,11 @@
-const nextConfig = {
+module.exports = {
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-        port: '',
-        pathname: '/a/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'cdn.pixabay.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'img.freepik.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'merriam-webster.com',
-        pathname: '/assets/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'cloud.appwrite.io',
-      },
+      new URL('https://lh3.googleusercontent.com/a/**'),
+      new URL('https://res.cloudinary.com/**'),
+      new URL('https://cdn.pixabay.com/**'),
+      new URL('https://img.freepik.com/**'),
+      new URL('https://cloud.appwrite.io/**'),
     ],
   },
   typescript: {
@@ -37,5 +13,3 @@ const nextConfig = {
   },
   reactStrictMode: false,
 };
-
-module.exports = nextConfig;

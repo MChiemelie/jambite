@@ -1,9 +1,9 @@
 'use server';
 
-import { ID } from 'appwrite';
+import { ID, Models } from 'node-appwrite';
 import { appwriteConfig } from '@/config';
 import { createSessionClient } from '@/libraries';
-import { AIReview, PracticeData } from '@/types';
+import { AIReview, PracticeData, SubjectData } from '@/types';
 import { Performances, Practices } from '@/types';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
@@ -22,7 +22,8 @@ export const postPracticeData = async (practiceData: PracticeData) => {
   }
 };
 
-export const postPerformanceData = async (subjectPerformance) => {
+
+export const postPerformanceData = async (subjectPerformance: SubjectData): Promise<Models.Document> => {
   try {
     const { databases, account } = await createSessionClient();
     const user = await account.get();
