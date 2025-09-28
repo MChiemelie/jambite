@@ -1,56 +1,99 @@
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for instrumented libs
+lib-cov
+
+# Coverage
+coverage
+*.lcov
+.nyc_output
+
+# Grunt storage
 .grunt
 
-# Dependency directory
-# Commenting this out is preferred by some people, see
-# https://docs.npmjs.com/misc/faq#should-i-check-my-node_modules-folder-into-git
+# Bower
+bower_components
+
+# node-waf
+.lock-wscript
+
+# Compiled addons
+build/Release
+
+# Dependencies
 node_modules/
+jspm_packages/
+web_modules/
 
-# Book build output
-_book/
+# TypeScript cache
+*.tsbuildinfo
 
-# eBook build output
-*.epub
-*.mobi
-*.pdf
+# Optional caches
+.npm
+.eslintcache
+.stylelintcache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
 
-# Environment variables
-.env.local
+# REPL history
+.node_repl_history
+
+# npm pack output
+*.tgz
+
+# Yarn Integrity
+.yarn-integrity
+
+# dotenv
+.env
 .env.development.local
 .env.test.local
 .env.production.local
+.env.local
 
-# Next.js build output
-.next/
+# Parcel
+.cache
+.parcel-cache
 
-# Compiled files
-out/
-dist/
+# Next.js
+.next
+out
 
-# Log files
-logs/
-*.log
+# Nuxt
+.nuxt
+dist
 
-# IDE and editor files
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Gatsby (keep public/ for Next.js!)
+.cache/
+# public
 
-# Editor-specific files
-*~
-*.sublime-project
-*.sublime-workspace
-Thumbs.db
-Desktop.ini
+# vuepress
+.vuepress/dist
+.temp
+.cache
 
-# Mac-specific files
-.DS_Store
+# Docusaurus
+.docusaurus
 
-# Sensitive or private information
+# Sensitive files
 secrets.json
 private.key
 
@@ -60,3 +103,28 @@ public/videos/*
 !public/videos/*.js
 !public/videos/*.ts
 public/_next-video
+
+# Serverless
+.serverless/
+
+# FuseBox
+.fusebox/
+
+# DynamoDB Local
+.dynamodb/
+
+# TernJS
+.tern-port
+
+# VSCode testing
+.vscode-test
+
+# Yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Appwrite CLI local dev
+.appwrite

@@ -1,13 +1,16 @@
 {
-  "name": "jambite",
-  "version": "0.1.0",
-  "private": true,
+  "name": "starter-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "type": "module",
   "scripts": {
     "build": "next build",
     "dev": "next dev --turbopack",
     "lint": "next lint",
     "start": "next start",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -34,6 +37,10 @@
     "@radix-ui/react-slider": "^1.3.6",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "@supabase/auth-helpers-nextjs": "^0.7.3",
+    "@supabase/auth-ui-react": "^0.4.2",
+    "@supabase/auth-ui-shared": "^0.1.6",
+    "@supabase/supabase-js": "^2.26.0",
     "@tabler/icons-react": "^3.35.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@tanstack/react-table": "^8.21.3",
@@ -45,6 +52,7 @@
     "date-fns": "^4.1.0",
     "html-react-parser": "^5.2.6",
     "input-otp": "^1.4.2",
+    "lottie-react": "^2.4.0",
     "motion": "^12.23.21",
     "next": "15.5.2",
     "next-ai-stream": "^0.0.8",
@@ -71,6 +79,7 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.36.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@types/node": "20.4.2",
     "@types/react": "19.1.12",
     "@types/react-dom": "19.1.9",
     "@types/xml2js": "^0.4.14",
@@ -82,6 +91,7 @@
     "eslint-plugin-promise": "^7.2.1",
     "knip": "^5.64.0",
     "lucide-react": "^0.486.0",
+    "prettier": "^3.2.5",
     "react-day-picker": "8.10.1",
     "tailwindcss-motion": "^1.1.1",
     "typescript": "^5.9.2"

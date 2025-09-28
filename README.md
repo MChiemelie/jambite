@@ -1,135 +1,94 @@
-<h1 align="center"><strong>Jambite 🆒📚 </strong></h1>
+# 📚 Jambite
 
-<p align="center">
-  <img src="./public/herolight.png#gh-light-mode-only" alt="header" width='80%'/>
-  <img src="./public/herodark.png#gh-dark-mode-only" alt="header" width='80%'/>
-
-  <br>
-  <sub>🚀 Jambite hero section <br> Theme is set according to your device's theme.</sub>
-</p>
-
-📖 Jambite is a web application designed to aid prospective Nigerian students and undergraduates in preparing for the Joint Admissions and Matriculation Board (JAMB) Computer-Based Test (CBT).
-
-With over 20,000 JAMB past questions, Jambite offers a comprehensive suite to help students practice for JAMB CBT exams, eliminating the need for physical past question papers and enabling practice in the CBT format.
+Practice for JAMB CBT exams with free mock tests, extensive question banks, and a smooth learning experience.
 
 ## 🌟 Features
 
-- Access to free online mock exams 📝
-- Extensive collection of practice questions and answers for all JAMB subjects 📚
-- User-friendly interface for effortless navigation 🖥️
+- Free online mock exams 📝
+- Extensive collection of JAMB practice questions and answers 📚
+- Clean, user-friendly interface 🖥️
 
 ## 🚀 Getting Started
 
-Embark on your Jambite journey by visiting the [Jambite website](https://jambite.vercel.app) and creating an account. From there, you can take tests and practice for the JAMB CBT. 🎉
+Visit [Jambite](https://jambite.vercel.app) to create an account and start practicing. 🎉
 
-## 👩‍💻👨‍💻 For Developers
+### Developer Setup
 
-### 🤝 Contributing
-
-Jambite is an open-source project, and contributions from individuals interested in enhancing the project are welcomed. If you have suggestions or ideas for new features, please submit a pull request or open an issue on the GitHub repository. Your contributions play a pivotal role in making Jambite better. 🌟
-
-### 🛠️ Technologies Used
-
-- Next.js (App Router)
-- TailwindCSS (Styling)
-- Supabase (PostgreSQL) (Authentication and Database)
-
-### 📋 Prerequisites for Use and Contribution
-
-- Basic understanding of TailwindCSS
-- Proficiency in Next.js
-- Familiarity with PostgreSQL and Supabase
-
-### 🛠️ Setup
-
-Before proceeding with the installation, ensure you have the following tools installed:
-
-- Git (for contribution)
-- Node.js (for contribution)
-
-### ⏬ Installation Steps
-
-1. Fork the project by clicking the "Fork" icon in the upper right corner.
-2. Clone the project using the following command:
-
+1. Clone the repo:
    ```bash
-   git clone https://github.com/<your-github-username>/Jambite
+   git clone https://github.com/<your-org>/jambite.git
+   cd jambite
    ```
 
-3. Navigate to the project directory:
+
+2. Install dependencies:
 
    ```bash
-   cd Jambite
+   pnpm install
    ```
 
-4. Install project dependencies with npm:
+3. Run in development:
 
    ```bash
-   npm install
+   pnpm dev
    ```
 
-5. Launch the development environment:
+4. Lint & build:
 
    ```bash
-   npm run dev
+   pnpm lint
+   pnpm build
    ```
 
-6. After developing and making your contribution, check for warnings and errors:
+5. Start production build:
 
    ```bash
-   npm run lint
+   pnpm start
    ```
 
-7. When you're done with linting, run the build command to transpile, bundle, and get the optimized production-ready version of the code:
+## 🛠️ Tech Stack
+
+* **Next.js (App Router)** – frontend
+* **TailwindCSS** – styling
+* **Appwrite** – auth + database + storage
+
+## 🤝 Contributing
+
+1. Create a branch:
 
    ```bash
-   npm run build
+   git checkout -b feature/your-feature
    ```
 
-8. To test your optimized production-ready version of the code, run:
+2. Stage only your changes (skip `package.json` unless you changed deps):
 
    ```bash
-   npm run start
+   git add <file>
    ```
 
-### ✍️ Making Your Contributions
-
-1. Create a new branch:
+3. Commit:
 
    ```bash
-   git checkout -b YourBranchName
+   git commit -m "feat: add X"
    ```
 
-2. Stage your changes (do not commit the package.json):
+4. Push:
 
    ```bash
-   git add <path to the file you worked on>
+   git push origin feature/your-feature
    ```
 
-3. Commit your changes:
+PRs and issues welcome! 🌟
 
-   ```bash
-   git commit
-   ```
+## 📄 License
 
-4. Push your changes:
+Released under [MIT License](https://opensource.org/licenses/MIT).
 
-   ```bash
-   git push
-   ```
+## ❤️ Support
 
-### 📄 License
+If this project helps you, consider giving it a star ⭐.
 
-Jambite is released under the [MIT License](https://opensource.org/licenses/MIT). For more details, refer to the LICENSE file.
+## 👨‍💻 Meet the Developer
 
-### 🙏 Thank You and Anticipated Contributions
-
-Thank you for dedicating your time to reading and contributing to Jambite. Your contributions are immensely valued and play a significant role in driving the open-source community forward. Keep up the fantastic work! 🍻
-
-### ❤️ Support
-
-This project thrives on stars⭐. If you find value in what we're doing, please consider leaving a star✨.
-
-### Meet the Developer
-
-Hey 👋, I am Melikam Chiemelie, a frontend developer.<br /> Follow me on 🐦 [Twitter](https://twitter.com/ChiemelieJM)!<br/> Want to connect? Send me an email at 📧 melikamchukwuemelie@gmail.com.
+Hey 👋, I’m **Melikam Chiemelie**, a frontend dev & law student.
+🐦 [Twitter](https://twitter.com/ChiemelieJM) | 📧 [melikamchukwuemelie@gmail.com](mailto:melikamchukwuemelie@gmail.com)
