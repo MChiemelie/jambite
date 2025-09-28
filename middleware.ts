@@ -1,31 +1,26 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
-import {  NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next()
-  const supabase = createMiddlewareClient({ req, res })
+const routes = {
+  protected: ['/dashboard', '/practice', '/analytics', '/leaderboard', '/payments'],
+  public: ['/sign-in', '/sign-up', '/'],
+};
 
-  const { data: { user } } = await supabase.auth.getUser()
+export default async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+  const session = (await cookies()).get('appwrite-session');
 
-  if (user && req.nextUrl.pathname === '/') {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+  if (routes.protected.includes(pathname) && !session) {
+    return NextResponse.redirect(new URL('/sign-in', req.nextUrl));
   }
 
-  if (user && req.nextUrl.pathname === '/signIn') {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+  if (routes.public.includes(pathname) && session) {
+    return NextResponse.redirect(new URL('/dashboard', req.nextUrl));
   }
 
-  if (!user && req.nextUrl.pathname !== '/dashboard/:path*') {
-    return NextResponse.redirect(new URL('/signIn', req.url))
-  }
-
-  if (!user && req.nextUrl.pathname !== '/account/:path*') {
-    return NextResponse.redirect(new URL('/signIn', req.url))
-  }
-
-  return res;
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/account/:path*', '/dashboard/:path*']
-}
+  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+};

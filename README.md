@@ -1,48 +1,94 @@
-# ⚡ Node.js Starter Function
+# 📚 Jambite
 
-A simple starter function. Edit `src/main.js` to get started and create something awesome! 🚀
+Practice for JAMB CBT exams with free mock tests, extensive question banks, and a smooth learning experience.
 
-## 🧰 Usage
+## 🌟 Features
 
-### GET /ping
+- Free online mock exams 📝
+- Extensive collection of JAMB practice questions and answers 📚
+- Clean, user-friendly interface 🖥️
 
-- Returns a "Pong" message.
+## 🚀 Getting Started
 
-**Response**
+Visit [Jambite](https://jambite.vercel.app) to create an account and start practicing. 🎉
 
-Sample `200` Response:
+### Developer Setup
 
-```text
-Pong
-```
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/<your-org>/jambite.git
+   cd jambite
+   ```
 
-### GET, POST, PUT, PATCH, DELETE /
 
-- Returns a "Learn More" JSON response.
+2. Install dependencies:
 
-**Response**
+   ```bash
+   pnpm install
+   ```
 
-Sample `200` Response:
+3. Run in development:
 
-```json
-{
-  "motto": "Build like a team of hundreds_",
-  "learn": "https://appwrite.io/docs",
-  "connect": "https://appwrite.io/discord",
-  "getInspired": "https://builtwith.appwrite.io"
-}
-```
+   ```bash
+   pnpm dev
+   ```
 
-## ⚙️ Configuration
+4. Lint & build:
 
-| Setting           | Value         |
-| ----------------- | ------------- |
-| Runtime           | Node (18.0)   |
-| Entrypoint        | `src/main.js` |
-| Build Commands    | `npm install` |
-| Permissions       | `any`         |
-| Timeout (Seconds) | 15            |
+   ```bash
+   pnpm lint
+   pnpm build
+   ```
 
-## 🔒 Environment Variables
+5. Start production build:
 
-No environment variables required.
+   ```bash
+   pnpm start
+   ```
+
+## 🛠️ Tech Stack
+
+* **Next.js (App Router)** – frontend
+* **TailwindCSS** – styling
+* **Appwrite** – auth + database + storage
+
+## 🤝 Contributing
+
+1. Create a branch:
+
+   ```bash
+   git checkout -b feature/your-feature
+   ```
+
+2. Stage only your changes (skip `package.json` unless you changed deps):
+
+   ```bash
+   git add <file>
+   ```
+
+3. Commit:
+
+   ```bash
+   git commit -m "feat: add X"
+   ```
+
+4. Push:
+
+   ```bash
+   git push origin feature/your-feature
+   ```
+
+PRs and issues welcome! 🌟
+
+## 📄 License
+
+Released under [MIT License](https://opensource.org/licenses/MIT).
+
+## ❤️ Support
+
+If this project helps you, consider giving it a star ⭐.
+
+## 👨‍💻 Meet the Developer
+
+Hey 👋, I’m **Melikam Chiemelie**, a frontend dev & law student.
+🐦 [Twitter](https://twitter.com/ChiemelieJM) | 📧 [melikamchukwuemelie@gmail.com](mailto:melikamchukwuemelie@gmail.com)

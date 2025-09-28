@@ -1,14 +1,22 @@
-import { Nav, Hero, Features, Testimonials, Join, Footer } from "@/components";
+'use client';
 
-export default function Home () {
+import { Background, Footer, Hero, Nav, Plan, Pricing, Stake, Values } from '@/components/landing';
+
+export default function LandingPage() {
   return (
-    <div className='space-y-10'>
-      <Nav />
-      <Hero />
-      <Features />
-      <Testimonials />
-      <Join />
+    <>
+      <Background />
+      <header>
+        <Nav />
+        <Hero />
+      </header>
+      <main className='flex flex-col gap-20'>
+        <Stake />
+        <Values />
+        <Plan />
+        <Pricing />
+      </main>
       <Footer />
-    </div>
+    </>
   );
 }

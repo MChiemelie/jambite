@@ -1,25 +1,20 @@
+import ReactScan from '@/components/dev/react-scan';
+import { lexend } from '@/fonts';
+import { Providers } from '@/providers';
 import './globals.css';
-import { Assistant } from 'next/font/google';
-import { Providers } from '@/components';
+import { metadata } from '@/libraries/metadata';
 
-export const metadata = {
-  title: 'Jambite - Ace Your JAMB!',
-  description: 'Practice your JAMB Computer Based Test, and put yourself ahead the game. With a wide range of 17 subjects available, Prepare effectively for your exams by accessing a comprehensive collection of over 20,000 past questions.',
-}
+export { metadata };
 
-const inter = Assistant({
-  subsets: ['latin'],
-  display: 'swap',
-});
-
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
+    <html lang="en" className={`${lexend.className} select-none break-keep [hyphens:none]`} suppressHydrationWarning>
       <body>
-      <Providers>
-        {children}
-      </Providers>
+        <Providers>
+          {children}
+          <ReactScan />
+        </Providers>
       </body>
     </html>
-  )
+  );
 }

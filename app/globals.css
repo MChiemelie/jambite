@@ -1,38 +1,594 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin 'tailwindcss-motion';
+@custom-variant dark (&:is(.dark *));
 
-html, body{
-  scroll-behavior: smooth;
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-xs: 320px;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 881px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+  --breakpoint-2xl: 1920px;
+
+  --color-brand-100: #ea6365;
+  --color-brand: #373cc2;
+  --color-brand-alt: #373cc2;
+
+  --color-brand-red: #dc2626;
+  --color-brand-error: #ff0000;
+  --color-brand-green: #16a34a;
+  --color-brand-blue: #2563eb;
+  --color-brand-pink: #db2777;
+  --color-brand-orange: #ffa500;
+  --color-brand-yellow: #fbbc05;
+  --color-brand-amber: #d97706;
+  --color-brand-fuchsia: #c026d3;
+
+  --color-light-100: #333f4e;
+  --color-light-200: #a3b2c7;
+  --color-light-300: #f2f5f9;
+  --color-light-400: #f2f4f8;
+
+  --color-dark-100: #04050c;
+  --color-dark-200: #131524;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent-1: hsl(var(--accent1));
+  --color-accent-2: hsl(var(--accent2));
+  --color-accent-3: hsl(var(--accent3));
+  --color-accent-4: hsl(var(--accent4));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --shadow-drop-1: 0px 10px 30px 0px rgba(66, 71, 97, 0.1);
+  --shadow-drop-2: 0 8px 30px 0 rgba(65, 89, 214, 0.3);
+  --shadow-drop-3: 0 8px 30px 0 rgba(65, 89, 214, 0.1);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-caret-blink: caret-blink 1.25s ease-out infinite;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-wave-pause: wavePause 5s ease-in-out infinite;
+
+  @keyframes caret-blink {
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+    }
+    20%,
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+  @keyframes wavePause {
+    0%,
+    20% {
+      transform: rotate(15deg);
+      transform-origin: bottom;
+    }
+    10% {
+      transform: rotate(-15deg);
+      transform-origin: bottom;
+    }
+    20%,
+    100% {
+      transform: rotate(0deg);
+      transform-origin: bottom;
+    }
+  }
+  @keyframes glowing {
+    0%,
+    100% {
+      color: #9ca3af; /* Tailwind gray-400 */
+    }
+    50% {
+      color: #1f2937; /* Tailwind gray-800 */
+    }
+  }
+
+  @keyframes blob-rotate {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg) scale(1, 1);
+    }
+    50% {
+      transform: translate(-50%, -50%) rotate(180deg) scale(1, 1.5);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg) scale(1, 1);
+    }
+  }
 }
 
-body {  
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@utility h1 {
+  @apply text-[20px] md:text-[24px] sm:text-[28px] leading-[42px] font-bold;
+}
+@utility h2 {
+  @apply text-[24px] leading-[36px] font-bold;
+}
+@utility h3 {
+  @apply text-[20px] leading-[28px] font-semibold;
+}
+@utility h4 {
+  @apply text-[18px] leading-[20px] font-medium;
+}
+@utility h5 {
+  @apply text-[16px] leading-[24px] font-semibold;
+}
+@utility subtitle-1 {
+  @apply text-[16px] leading-[24px] font-medium;
+}
+@utility subtitle-2 {
+  @apply text-[14px] leading-[20px] font-semibold;
+}
+@utility body-1 {
+  @apply text-[16px] leading-[24px] font-normal;
+}
+@utility body-2 {
+  @apply text-[14px] leading-[20px] font-normal;
+}
+@utility button {
+  @apply text-[14px] leading-[20px] font-medium;
+}
+@utility caption {
+  @apply text-[12px] leading-[16px] font-normal;
+}
+@utility overline {
+  @apply text-[10px] leading-[14px] font-normal;
+}
+
+/* Layout Helpers */
+@utility container {
+  @apply mx-auto max-w-7xl px-5;
+}
+@utility flex-center {
+  @apply flex items-center justify-center;
+}
+@utility remove-scrollbar {
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    border-radius: 0px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 0px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: transparent;
+  }
+}
+
+/* Component Specific Styles */
+@utility primary-btn {
+  @apply bg-brand! hover:bg-brand-100! transition-all! rounded-full! button!;
+}
+@utility shad-no-focus {
+  @apply outline-hidden! ring-offset-transparent! focus:ring-transparent! focus:ring-offset-0! focus-visible:outline-hidden! focus-visible:ring-0! focus-visible:ring-transparent! focus-visible:ring-offset-0!;
+}
+@utility shad-input {
+  @apply border-none! shadow-none! p-0! shad-no-focus! placeholder:text-light-200! body-2!;
+}
+@utility shad-form-item {
+  @apply flex h-[78px] flex-col justify-center rounded-xl px-4 shadow-drop-1;
+}
+@utility shad-form-label {
+  @apply text-light-100! dark:text-light-400! pt-2! body-2! w-full!;
+}
+@utility shad-form-message {
+  @apply text-brand-red! body-2! ml-4!;
+}
+@utility shad-alert-dialog {
+  @apply gap-4! max-w-[95%]! sm:w-fit! rounded-xl! md:rounded-[30px]! px-4! md:px-8! py-10!  outline-hidden!;
+}
+@utility shad-submit-btn {
+  @apply bg-brand! button! hover:bg-brand-100! transition-all! rounded-full!;
+}
+@utility shad-otp {
+  @apply w-full! flex! gap-1! sm:gap-2! justify-between!;
+}
+@utility shad-otp-slot {
+  @apply text-[40px]! font-medium! rounded-xl! ring-brand! shadow-drop-1! justify-center! flex! border-2! border-light-300! size-12! md:size-16! gap-5!;
+}
+@utility shad-sheet {
+  @apply pt-0!;
+
+  & button {
+    @apply focus:ring-0! focus:ring-offset-0! focus-visible:border-none! outline-hidden! focus-visible:outline-hidden! focus-visible:ring-transparent! focus-visible:ring-offset-0!;
+  }
+}
+@utility shad-dialog {
+  & button {
+    @apply focus:ring-0! focus:ring-offset-0! focus-visible:border-none! outline-hidden! focus-visible:outline-hidden! focus-visible:ring-transparent! focus-visible:ring-offset-0!;
+  }
+  @apply rounded-[26px]! w-[90%]! max-w-[400px]! px-6! py-8!;
+}
+@utility shad-dropdown-item {
+  @apply cursor-pointer!;
+}
+@utility shad-chart-title {
+  @apply text-white!;
+}
+@utility shad-select-item {
+  @apply cursor-pointer!;
+}
+@utility main-content {
+  @apply remove-scrollbar! h-full! flex-1! overflow-auto! bg-light-400! px-5! py-7! sm:mr-7! sm:rounded-[30px]! md:mb-7! md:px-9! md:py-10!;
+}
+@utility modal-cancel-button {
+  @apply h-[52px]! flex-1! rounded-full! bg-white! text-light-100! hover:bg-transparent!;
+}
+@utility modal-submit-button {
+  @apply primary-btn! mx-0! h-[52px]! w-full! flex-1!;
+}
+@utility auth-form {
+  @apply flex! max-h-[70vh]! w-full! max-w-[580px]! flex-col! justify-center! gap-2! transition-all! lg:h-full! lg:gap-4!;
+}
+@utility form-title {
+  @apply h1! text-center!;
+}
+@utility error-message {
+  @apply body-2! mx-auto! w-fit! rounded-xl! bg-brand-error/5! px-8! py-4! text-center! text-brand-error!;
+}
+@utility chart {
+  @apply flex! items-center! rounded-[20px]! bg-brand! p-5! text-white! md:flex-col! xl:flex-row!;
+}
+@utility chart-container {
+  @apply mx-auto! aspect-square! w-[180px]! text-white! xl:w-[250px]!;
+}
+@utility polar-grid {
+  @apply first:fill-white/20! last:fill-brand!;
+}
+@utility chart-details {
+  @apply flex-1! items-start! px-3! py-0! sm:px-5! lg:p-3! xl:pr-5!;
+}
+@utility chart-total-percentage {
+  @apply fill-white! text-4xl! font-bold!;
+}
+@utility chart-title {
+  @apply h3! font-bold! md:text-center! lg:text-left!;
+}
+@utility chart-description {
+  @apply subtitle-1! mt-2! w-full! text-white/70! md:text-center! lg:text-left!;
+}
+@utility otp-close-button {
+  @apply absolute! -right-1! -top-7! cursor-pointer! sm:-right-2! sm:-top-4!;
+}
+@utility sidebar {
+  @apply remove-scrollbar! hidden! h-screen! w-[90px]! flex-col! overflow-auto! px-5! py-7! sm:flex! lg:w-[280px]! xl:w-[325px]!;
+
+  /* Sidebar Styles */
+  @apply remove-scrollbar! hidden! h-screen! w-[90px]! flex-col! overflow-auto! px-5! py-7! sm:flex! lg:w-[280px]! xl:w-[325px]! bg-gray-800! text-white!;
+}
+@utility sidebar-nav {
+  @apply h5! mt-9! flex-1! gap-1! text-brand!;
+  @apply h5! mt-9! flex-1! gap-1! text-white!;
+}
+@utility sidebar-nav-item {
+  @apply flex! text-light-100! gap-4! rounded-xl! lg:w-full! justify-center! lg:justify-start! items-center! h5! lg:px-[30px]! h-[52px]! lg:rounded-full!;
+  @apply flex! text-white! gap-4! rounded-xl! lg:w-full! justify-center! lg:justify-start! items-center! h5! lg:px-[30px]! h-[52px]! lg:rounded-full! hover:bg-gray-700!;
+}
+@utility sidebar-user-info {
+  @apply mt-4! flex! items-center! justify-center! gap-2! rounded-full! bg-brand/10! p-1! text-light-100! lg:justify-start! lg:p-3!;
+  @apply mt-4! flex! items-center! justify-center! gap-2! rounded-full! bg-gray-700! p-1! text-white! lg:justify-start! lg:p-3!;
+}
+@utility sidebar-user-avatar {
+  @apply aspect-square! w-10! rounded-full! object-cover!;
+  @apply aspect-square! w-10! rounded-full! object-cover!;
+}
+@utility shad-active {
+  @apply bg-brand! text-white! shadow-drop-2!;
+  @apply bg-gray-900! text-white! shadow-drop-2!;
+}
+@utility sort-select {
+  @apply shad-no-focus! h-11! w-full! rounded-[8px]! border-transparent! bg-white! shadow-xs! sm:w-[210px]!;
+}
+@utility sort-select-content {
+  @apply shadow-drop-3!;
+}
+@utility recharts-responsive-container {
+  height: initial !important;
+}
+
+@layer utilities {
+  /* prettier-ignore */
+  *, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+  /* prettier-ignore */
+  html, body {
+  scroll-behavior: smooth;
   overflow: auto;
   scrollbar-width: thin;
+  font-family: var(--font-body);
 }
 
-body::-webkit-scrollbar {
-  width: 6px;
+  /* prettier-ignore */
+  h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
 
-body::-webkit-scrollbar-thumb{
-  background-color: currentColor;
+  /* prettier-ignore */
+  ul, ol {
+  list-style: none;
+}
+
+  button {
+    outline: none;
+    border: none;
+  }
+
+  p {
+    text-wrap: balance;
+    hyphens: auto;
+  }
 }
 
 @layer base {
   :root {
-    --accent1: 288deg 96% 35%;
-    --accent2: 229deg 59% 49%;
-    --accent3: 206deg 88% 55%;
-    --accent4: 26deg 100% 44%;
-  }
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --accent1: 288deg 95.8% 60.6%;
-      --accent2: 229deg 59% 49%;
-      --accent3: 206deg 88% 55%;
-      --accent4: 35deg 100% 45%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    --font-heading: 'Assistant', sans-serif;
+    --font-body: 'Mulish', sans-serif;
+    --accent1: 243 100% 69.4%;
+    --accent2: 136 100% 18%;
+    --accent3: 0 100% 30%;
+    --accent4: 0 100% 0%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  @keyframes caret-blink {
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+    }
+    20%,
+    50% {
+      opacity: 0;
     }
   }
+
+  @keyframes shimmer {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Typography */
+}
+
+/* Flip Clock */
+.flip-clock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.flip-card {
+  width: 40px;
+  height: 40px;
+  perspective: 100px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease-in-out;
+}
+
+.flip-card-inner.flip {
+  transform: rotateX(90deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.flip-card-back {
+  transform: rotateX(180deg);
+}
+
+.glow-animation {
+  animation: glowing 2s infinite;
+}
+
+.landing {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-background {
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23373cc2' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0l28-28v2L54 40h-2zm4 0l24-24v2L58 40h-2zm4 0l20-20v2L62 40h-2zm4 0l16-16v2L66 40h-2zm4 0l12-12v2L70 40h-2zm4 0l8-8v2l-6 6h-2zm4 0l4-4v2l-2 2h-2z'/%3E%3C/g%3E%3C/svg%3E");
 }
