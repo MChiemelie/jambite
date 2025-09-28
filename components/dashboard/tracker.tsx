@@ -1,32 +1,28 @@
-import { Book, CheckCheck, CircleHelp, Flame, FlaskConical, LaptopMinimalCheck, Target, Watch } from 'lucide-react';
+'use server';
+
+import { calculateAnalytics } from '@/helpers/analytics';
 import { getUserData } from '@/services';
-import { getPerformance, getPractice } from '@/services/practice';
-import { abbreviateSubject, calculateStreak, getMostPracticedSubject } from '@/utilities';
+import { CheckCheck, Flame, FlaskConical, LaptopMinimalCheck, Target, Timer } from 'lucide-react';
 import { Card } from '.';
 
 export default async function Tracker() {
-  const [performanceData, practiceData] = await Promise.all([getPerformance(), getPractice()]);
+  const { practiceAnalytics, bestPractice, highestScore, subjectsScoreData } = await calculateAnalytics();
   const user = await getUserData();
 
-  const totalPractices = practiceData.length;
-  const totalCorrect = performanceData.reduce((acc, p) => acc + p.correct, 0);
-  const totalQuestions = practiceData.reduce((acc, p) => acc + Number(p.totalQuestions), 0);
-  const totalAttempts = practiceData.reduce((acc, p) => acc + Number(p.totalAttempts), 0);
+  const { totalPractices, totalCorrect, totalAttempts } = practiceAnalytics;
+
   const accuracy = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
-  const totalDuration = practiceData.reduce((acc, p) => acc + p.duration, 0);
-  const attemptPercentage = totalQuestions > 0 ? Math.round((totalAttempts / totalQuestions) * 100) : 0;
-  const bestPractice = practiceData.reduce((best, curr) => (curr.totalScore > best.totalScore ? curr : best), {
-    totalScore: 0,
-  });
-  const highestScore = bestPractice.totalScore;
-  const bestPerformance = performanceData.filter((p) => p.subject !== 'Use of English').reduce((best, curr) => (curr.score > best.score ? curr : best), { subject: 'None', score: 0 });
+
+  const bestPracticeScore = highestScore.totalScore;
+  const bestPerformance = subjectsScoreData[0];
+
   const bestSubject = bestPerformance.subject;
   const bestScore = bestPerformance.score;
-  const bestTimePractice = practiceData.filter((p) => p.totalAttempts > 0 && p.totalScore > 0).sort((a, b) => a.duration - b.duration || b.totalScore - a.totalScore || b.totalAttempts - a.totalAttempts)[0];
-  const bestTimeFormatted = bestTimePractice ? `${Math.floor(bestTimePractice.duration / 60)}m ${bestTimePractice.duration % 60}s` : 'None';
-  const streak = calculateStreak(practiceData);
-  const { mostPracticedSubject, mostPracticedCount } = getMostPracticedSubject(performanceData);
-  const abbreviatedSubject = abbreviateSubject(mostPracticedSubject);
+
+  const bestTimeFormatted = bestPractice ? `${Math.floor(bestPractice.duration / 60)}m ${bestPractice.duration % 60}s` : 'None';
+
+  const currentStreak = user.currentStreak;
+  const longestStreak = user.longestStreak;
 
   const trackerItems = [
     {
@@ -39,7 +35,7 @@ export default async function Tracker() {
     {
       icon: CheckCheck,
       color: 'text-green-600',
-      value: highestScore.toString(),
+      value: bestPracticeScore.toString(),
       title: 'Score',
       subtitle: `${bestSubject} (${bestScore})`,
     },
@@ -48,14 +44,14 @@ export default async function Tracker() {
       color: 'text-red-600',
       value: `${accuracy}%`,
       title: 'Accuracy',
-      subtitle: `Aced ${totalCorrect} of ${totalAttempts} attempts`,
+      subtitle: `Aced ${totalCorrect}/${totalAttempts} attempts`,
     },
     {
-      icon: CircleHelp,
+      icon: Timer,
       color: 'text-yellow-400',
-      value: `${attemptPercentage}%`,
-      title: 'Attempts',
-      subtitle: `Did ${totalAttempts} of ${totalQuestions} ques.`,
+      value: `${bestTimeFormatted}`,
+      title: 'Time',
+      subtitle: `Attempts: ${bestPractice.totalAttempts}, Score: ${bestPractice.totalCorrect}`,
     },
     {
       icon: FlaskConical,
@@ -67,14 +63,14 @@ export default async function Tracker() {
     {
       icon: Flame,
       color: 'text-red-600',
-      value: `${streak} ${streak === 1 ? 'day' : 'days'}`,
+      value: `${currentStreak} ${currentStreak === 1 ? 'day' : 'days'}`,
       title: 'Streak',
-      subtitle: `Longest: ${streak} ${streak >= 1 ? 'day' : 'days'}`,
+      subtitle: `Longest: ${longestStreak} ${longestStreak >= 1 ? 'day' : 'days'}`,
     },
   ];
 
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 max-w-full w-fit md:w-full place-items-center mx-auto">
+    <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 max-w-full w-fit md:w-full place-items-center mx-auto">
       {trackerItems.map((card, index) => (
         <Card key={index} title={card.title} subtitle={card.subtitle} value={card.value} icon={<card.icon className={`w-5 h-5 ${card.color} ${card.icon === Flame ? 'fill-current' : ''}`} />} />
       ))}

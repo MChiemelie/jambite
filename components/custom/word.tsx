@@ -1,40 +1,31 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Word } from '@/types';
 import parse from 'html-react-parser';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
-
-type Word = {
-  word: string;
-  pronunciation: string | null;
-  partOfSpeech: string | null;
-  nounType: string | null;
-  meaning: string | null;
-  meaningHTML: string | null;
-  example: string | null;
-  exampleHTML: string | null;
-  audioUrl: string | null;
-  pubDate: string | null;
-};
 
 export default function Word({ words }: { words: Word[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentWord = words[currentIndex];
 
   return (
-    <div className="rounded bg-muted/50 w-full min-h-full p-4 gap-4 flex flex-col justify-between">
+    <div className="rounded bg-muted/50 w-full md:min-h-full p-4 gap-4 flex flex-col justify-between">
       <div className="flex items-center justify-between">
-        <button onClick={() => setCurrentIndex((prev) => Math.min(prev + 1, words.length - 1))} disabled={currentIndex === words.length - 1} className={`flex items-center gap-2 font-semibold ${currentIndex === words.length - 1 ? 'text-gray-400' : 'text-blue-500'}`}>
-          <ArrowLeft size={20} />
+        <button onClick={() => setCurrentIndex((prev) => Math.min(prev + 1, words.length - 1))} disabled={currentIndex === words.length - 1} className={`flex items-center gap-2 font-semibold ${currentIndex === words.length - 1 ? 'text-gray-400' : 'text-blue-500'}`} aria-label="Previous word">
+          <ArrowLeft size={20} aria-hidden="true" />
         </button>
+
         <span className="text-sm font-medium">{currentWord.pubDate}</span>
-        <button onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))} disabled={currentIndex === 0} className={`flex items-center gap-2 font-semibold ${currentIndex === 0 ? 'text-gray-400' : 'text-blue-500'}`}>
-          <ArrowRight size={20} />
+
+        <button onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))} disabled={currentIndex === 0} className={`flex items-center gap-2 font-semibold ${currentIndex === 0 ? 'text-gray-400' : 'text-blue-500'}`} aria-label="Next word">
+          <ArrowRight size={20} aria-hidden="true" />
         </button>
       </div>
+
       <div className="flex items-center gap-4 text-end">
-        <h3 className="text-3xl font-semibold">{currentWord.word}</h3>
+        <h2 className="text-3xl font-semibold">{currentWord.word}</h2>
         <span className="text-blue-600 text-xs">
           {currentWord.pronunciation ? `${currentWord.pronunciation}` : ''}
           {currentWord.partOfSpeech ? ` • ${currentWord.partOfSpeech}` : ''}
@@ -50,7 +41,7 @@ export default function Word({ words }: { words: Word[] }) {
           <strong>Word of the Day Podcast by Merriam Webster</strong>
         </p>
         {currentWord.audioUrl && (
-          <audio controls className="w-full p-1">
+          <audio key={currentWord.audioUrl} controls className="w-full p-1">
             <source src={currentWord.audioUrl} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>

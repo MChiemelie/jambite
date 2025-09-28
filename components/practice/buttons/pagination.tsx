@@ -1,7 +1,7 @@
 'use client';
 
-import { useCurrentQuestion, usePracticeActions, useQuestions, useSelectedAnswers, useSelectedSubject } from '@/stores/practice';
 import { useMemo } from 'react';
+import { useCurrentQuestion, usePracticeActions, useQuestions, useSelectedAnswers, useSelectedSubject } from '@/stores/practice';
 
 export default function Pagination() {
   const questions = useQuestions();

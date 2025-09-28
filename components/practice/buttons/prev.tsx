@@ -12,7 +12,7 @@ export default function PreviousQuestionButton() {
   };
 
   return (
-    <button aria-label="Previous Question Button" onClick={handlePreviousQuestion} disabled={currentQuestion === 0} className="bg-accent-2 text-white py-1 px-3 rounded-sm w-28">
+    <button aria-label="Previous Question Button" onClick={handlePreviousQuestion} disabled={currentQuestion === 0} className="col-span-1 bg-accent-2 text-white py-1 rounded-sm text-sm md:text-lg">
       Previous
     </button>
   );

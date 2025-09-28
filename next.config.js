@@ -1,15 +1,30 @@
 module.exports = {
   images: {
     remotePatterns: [
-      new URL('https://lh3.googleusercontent.com/a/**'),
-      new URL('https://res.cloudinary.com/**'),
-      new URL('https://cdn.pixabay.com/**'),
-      new URL('https://img.freepik.com/**'),
-      new URL('https://cloud.appwrite.io/**'),
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.freepik.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cloud.appwrite.io',
+      },
     ],
   },
   typescript: {
     ignoreBuildErrors: true,
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
 };

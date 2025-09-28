@@ -1,7 +1,8 @@
 'use client';
+
 import { useEffect } from 'react';
-import { Timer } from 'lucide-react';
 import { useCountdown, usePracticeActions, useSubmitted } from '@/stores/practice';
+import { Timer } from 'lucide-react';
 
 export default function ExamTimer() {
   const countdown = useCountdown();

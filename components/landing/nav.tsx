@@ -1,21 +1,28 @@
 'use client';
 
-import React from 'react';
+import { Theme } from '@/components/themes';
 import { LogIn } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Nav() {
   return (
-    <nav className="flex justify-between items-center p-[2%] text-sm font-semibold">
-      <Image src="/logo.png" alt="logo" width={100} height={100} className="w-[4%] min-w-8 max-w-14 rounded-sm z-10" />
-      <Link href="/sign-in" className="p-[2px] relative z-10">
-        <div className="absolute inset-0 bg-linear-to-r from-indigo-500 to-purple-500 rounded-lg" />
-        <div className="flex items-center justify-center gap-2 px-8 py-[0.5rem] bg-black rounded-[6px] relative group transition duration-200 text-white hover:bg-transparent">
-          <span>Sign In</span>
-          <LogIn />
+    <>
+      <nav className="fixed top-0 flex items-center justify-between z-20 w-full p-2 md:p-4">
+        <Image src="/images/special/logo/1.png" alt="Jambite Logo" width={45} height={45} className="rounded-xs" />
+        <div className="flex gap-4 items-center">
+          <span className="bg-background border border-foreground/20 rounded-lg">
+            <Theme />
+          </span>
+          <Link href="/sign-in" className="p-[0.1rem] relative z-20">
+            <div className="absolute inset-0 bg-gradient-to-r from-sky-600 to-blue-800 rounded" />
+            <button className="rounded flex items-center justify-center gap-2 px-4 py-[.45rem] relative bg-background text-foreground hover:bg-transparent hover:text-white text-xs font-medium">
+              <span>Sign In</span>
+              <LogIn className="w-5 h-5" />
+            </button>
+          </Link>
         </div>
-      </Link>
-    </nav>
+      </nav>
+    </>
   );
 }

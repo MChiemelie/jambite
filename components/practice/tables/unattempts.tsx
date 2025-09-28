@@ -11,8 +11,8 @@ export default function UnattemptedSummary() {
     <>
       {totalUnattempted > 0 ? (
         <>
-          <p className="text-center">You still have {totalUnattempted} unattempted question(s).</p>
-          <table className="md:min-w-full table-auto">
+          <p className="block w-full text-center">You still have {totalUnattempted} unattempted question(s).</p>
+          <table className="w-full table-auto">
             <thead>
               <tr>
                 <th className="px-2 py-1 md:px-4 lg:py-2">Subject</th>

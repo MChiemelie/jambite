@@ -154,6 +154,18 @@
       color: #1f2937; /* Tailwind gray-800 */
     }
   }
+
+  @keyframes blob-rotate {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg) scale(1, 1);
+    }
+    50% {
+      transform: translate(-50%, -50%) rotate(180deg) scale(1, 1.5);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg) scale(1, 1);
+    }
+  }
 }
 
 @utility container {
@@ -180,7 +192,7 @@
 }
 
 @utility h1 {
-  @apply text-[28px] md:text-[24px] sm:text-[20px] leading-[42px] font-bold;
+  @apply text-[20px] md:text-[24px] sm:text-[28px] leading-[42px] font-bold;
 }
 @utility h2 {
   @apply text-[24px] leading-[36px] font-bold;
@@ -264,7 +276,7 @@
   @apply text-brand-red! body-2! ml-4!;
 }
 @utility shad-alert-dialog {
-  @apply gap-4! max-w-[95%]! sm:w-fit! rounded-xl! md:rounded-[30px]! px-4! md:px-8! py-10! bg-white! outline-hidden!;
+  @apply gap-4! max-w-[95%]! sm:w-fit! rounded-xl! md:rounded-[30px]! px-4! md:px-8! py-10!  outline-hidden!;
 }
 @utility shad-submit-btn {
   @apply bg-brand! button! hover:bg-brand-100! transition-all! rounded-full!;
@@ -307,7 +319,7 @@
   @apply primary-btn! mx-0! h-[52px]! w-full! flex-1!;
 }
 @utility auth-form {
-  @apply flex! max-h-[70vh]! w-full! max-w-[580px]! flex-col! justify-center! gap-2! transition-all! lg:h-full! lg:gap-4! p-4!;
+  @apply flex! max-h-[70vh]! w-full! max-w-[580px]! flex-col! justify-center! gap-2! transition-all! lg:h-full! lg:gap-4!;
 }
 @utility form-title {
   @apply h1! text-center!;
@@ -397,12 +409,6 @@
 }
 
   /* prettier-ignore */
-  button, a, input, textarea, ul, ol {
-  font-family: var(--font-accent);
-  text-decoration: none;
-}
-
-  /* prettier-ignore */
   ul, ol {
   list-style: none;
 }
@@ -410,6 +416,11 @@
   button {
     outline: none;
     border: none;
+  }
+
+  p {
+    text-wrap: balance;
+    hyphens: auto;
   }
 }
 
@@ -434,26 +445,7 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 10% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --chart-6: 220 50% 40%;
-    --chart-7: 150 60% 45%;
-    --chart-8: 10 85% 55%;
-    --chart-9: 275 50% 50%;
-    --chart-10: 35 90% 60%;
-    --chart-11: 200 45% 35%;
-    --chart-12: 180 65% 50%;
-    --chart-13: 300 55% 45%;
-    --chart-14: 50 80% 55%;
-    --chart-15: 210 40% 30%;
-    --chart-16: 360 70% 50%;
-    --chart-17: 90 65% 50%;
-    --chart-18: 240 55% 35%;
-    --chart-19: 20 80% 60%;
-    --chart-20: 330 75% 55%;
+
     --radius: 0.5rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -464,12 +456,16 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
     --font-heading: 'Assistant', sans-serif;
-    --font-body: 'Lexend', sans-serif;
-    --font-accent: 'Mulish', sans-serif;
+    --font-body: 'Mulish', sans-serif;
     --accent1: 243 100% 69.4%;
     --accent2: 136 100% 18%;
     --accent3: 0 100% 30%;
     --accent4: 0 100% 0%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -491,11 +487,6 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -587,4 +578,17 @@
 
 .glow-animation {
   animation: glowing 2s infinite;
+}
+
+.landing {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-background {
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23373cc2' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0l28-28v2L54 40h-2zm4 0l24-24v2L58 40h-2zm4 0l20-20v2L62 40h-2zm4 0l16-16v2L66 40h-2zm4 0l12-12v2L70 40h-2zm4 0l8-8v2l-6 6h-2zm4 0l4-4v2l-2 2h-2z'/%3E%3C/g%3E%3C/svg%3E");
 }

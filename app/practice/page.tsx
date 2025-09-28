@@ -1,30 +1,29 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import { Status } from '@/components/custom';
 import { Practice } from '@/components/practice';
+import { useQuestions, useUser } from '@/contexts';
 import { decrementTrials } from '@/services/payments';
 import { useFetchData, usePracticeActions, useSelectedSubjectsParameters } from '@/stores/practice';
-import { useUser, useQuestions } from '@/hooks';
+import { useRouter } from 'next/navigation';
 
 export default function PracticePage() {
   const router = useRouter();
   const hasRun = useRef(false);
 
-  const selectedSubjects = useSelectedSubjectsParameters();
+  const selectedSubjectsParameters = useSelectedSubjectsParameters();
   const fetchData = useFetchData();
-  // const canPractice = useQuestions();
 
   const { setUser, setQuestions, setFetchData } = usePracticeActions();
 
-  const { user, userLoading, userError } = useUser(fetchData);;
+  const { user, userLoading, userError } = useUser();
   const { questions, questionsLoading, questionsError } = useQuestions(fetchData);
 
   useEffect(() => {
     if (!user || !questions) return;
 
-    if (selectedSubjects.length !== 3) {
+    if (selectedSubjectsParameters.length !== 3) {
       if (!hasRun.current) return;
       router.push('/dashboard');
       return;
@@ -36,16 +35,14 @@ export default function PracticePage() {
     }
 
     if (fetchData) {
-      console.log("Tried to fetch data")
       decrementTrials();
       setUser(user);
       setQuestions(questions);
     }
-
-  }, [selectedSubjects, user, questions, setUser, setQuestions, router]);
+  }, [selectedSubjectsParameters, user, questions, setUser, setQuestions, router, fetchData, setFetchData]);
 
   if (userLoading || questionsLoading) {
-    return <Status image="/assets/questions.svg" desc1="We are compiling your questions…" desc2="Almost there!" />;
+    return <Status image="/assets/questions.svg" desc1="We are compiling your questions." desc2="Almost there!" />;
   }
 
   if (userError || questionsError) {

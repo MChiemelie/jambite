@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://jambite.com
+
+# Sitemaps
+Sitemap: https://jambite.com/sitemap.xml

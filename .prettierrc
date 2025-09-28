@@ -1,5 +1,10 @@
 {
-  "printWidth": 12000000,
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "importOrder": ["^react$", "<THIRD_PARTY_MODULES>", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderCaseSensitive": false,
+  "printWidth": 12000000000000,
   "tabWidth": 2,
   "useTabs": false,
   "semi": true,
@@ -10,5 +15,6 @@
   "arrowParens": "always",
   "endOfLine": "lf",
   "proseWrap": "never",
+  "space-before-function-paren": "off",
   "htmlWhitespaceSensitivity": "ignore"
 }

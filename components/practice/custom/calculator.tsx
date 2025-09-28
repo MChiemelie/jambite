@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/shadcn/button';
-import { CalculatorIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/shadcn/dialog';
+import { CalculatorIcon } from 'lucide-react';
 
 const CalculatorCode: React.FC = () => {
   const [display, setDisplay] = useState('0');

@@ -1,44 +1,33 @@
 'use client';
 
-import { useCountdown, useNumberAttempted, useQuestions, useScore, useSubjectScores, useTotalNumberAttempted } from '@/stores/practice';
+import { useDuration, useNumberAttempted, useQuestions, useSubjectScores, useTotalCorrect, useTotalNumberAttempted, useTotalQuestions, useTotalScore } from '@/stores/practice';
 
 export default function Results() {
-  const countdown = useCountdown();
   const questions = useQuestions();
   const totalNumberAttempted = useTotalNumberAttempted();
   const subjectScores = useSubjectScores();
-  const score = useScore();
+  const totalCorrect = useTotalCorrect();
+  const totalScore = useTotalScore();
+  const duration = useDuration();
   const numberAttempted = useNumberAttempted();
+  const totalQuestions = useTotalQuestions();
 
-  const initialCountdown = 1200;
-  const elapsedTime = initialCountdown - countdown;
-  const totalQuestions = Object.values(questions).reduce((sum, arr) => sum + arr.length, 0);
-
-  const durationMinutes = Math.floor(elapsedTime / 60);
-  const durationSeconds = elapsedTime % 60;
-
-  const totalScore = Object.keys(subjectScores).reduce((acc, subject) => {
-    const totalForSubject = questions[subject]?.length || 0;
-    if (totalForSubject > 0) {
-      const percentage = Number(((subjectScores[subject] / totalForSubject) * 100).toFixed());
-      return acc + percentage;
-    }
-    return acc;
-  }, 0);
+  const durationMinutes = Math.floor(duration / 60);
+  const durationSeconds = duration % 60;
 
   return (
     <div className="text-center text-xs sm:text-sm md:text-base gap-1">
-      <p>
-        Accuracy: {score}/{totalQuestions} ({((score / totalQuestions) * 100).toFixed()}%)
+      <p className="block w-full">
+        Accuracy: {totalCorrect}/{totalQuestions} ({((totalCorrect / totalQuestions) * 100).toFixed()}%)
       </p>
-      <p>
+      <p className="block w-full">
         Total Attempts: {totalNumberAttempted}/{totalQuestions} ({((totalNumberAttempted / totalQuestions) * 100).toFixed()}%)
       </p>
-      <p>
+      <p className="block w-full">
         Duration: {durationMinutes} mins, {durationSeconds} secs
       </p>
-      <p>Total Score: {totalScore}</p>
-      <table className="md:min-w-full table-auto">
+      <p className="block w-full">Total Score: {totalScore}</p>
+      <table className="w-full table-auto">
         <thead>
           <tr>
             <th className="px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base">Subject</th>

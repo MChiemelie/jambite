@@ -1,7 +1,9 @@
-import axios, { AxiosResponse } from 'axios';
-import { NextRequest, NextResponse } from 'next/server';
+'use server';
+
 import { subjectPathMap } from '@/data/subjects';
 import { Question } from '@/types';
+import axios, { AxiosResponse } from 'axios';
+import { NextRequest, NextResponse } from 'next/server';
 
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;

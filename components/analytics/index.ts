@@ -1,10 +1,8 @@
 import Accuracy from './accuracy';
-import Acumen from './acumen';
 import Attempts from './attempts';
 import Duration from './duration';
+import Precision from './precision';
 import Scores from './scores';
-import ScoreTrend from './scores-trend';
 import Subjects from './subjects';
-import Tracker from './tracker';
 
-export { Subjects, Attempts, Scores, Duration, ScoreTrend, Accuracy, Acumen, Tracker };
+export { Subjects, Attempts, Scores, Accuracy, Duration, Precision };

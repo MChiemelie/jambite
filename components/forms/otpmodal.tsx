@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/shadcn/alert-dialog';
 import { Button } from '@/components/shadcn/button';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/shadcn/input-otp';
 import { sendEmailOTP, verifySecret } from '@/services/auth';
+import { X } from 'lucide-react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-const OtpModal = ({ userId, email }: { userId: string; email: string }) => {
+export default function OtpModal ({ userId, email }: { userId: string; email: string }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
   const [password, setPassword] = useState('');
@@ -20,7 +21,9 @@ const OtpModal = ({ userId, email }: { userId: string; email: string }) => {
     try {
       const sessionId = await verifySecret({ userId, password });
       if (sessionId) router.push('/dashboard');
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error:', error);
+    }
     setIsLoading(false);
   };
 
@@ -30,20 +33,20 @@ const OtpModal = ({ userId, email }: { userId: string; email: string }) => {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent className="shad-alert-dialog">
+      <AlertDialogContent className="shad-alert-dialog bg-background">
         <AlertDialogHeader className="relative flex justify-center">
           <AlertDialogTitle className="h2 text-center">
             Enter Your OTP
-            <Image src="/close.svg" alt="close" width={20} height={20} onClick={() => setIsOpen(false)} className="otp-close-button" />
+            <X onClick={() => setIsOpen(false)} className="otp-close-button" />
           </AlertDialogTitle>
-          <AlertDialogDescription className="subtitle-2 text-center text-light-100">
+          <AlertDialogDescription className="subtitle-2 text-center text-foreground">
             We&apos;ve sent a code to <span className="pl-1 text-brand">{email}</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <InputOTP maxLength={6} value={password} onChange={setPassword}>
           <InputOTPGroup className="shad-otp">
-            <InputOTPSlot index={0} className="shad-otp-slot" />
+            <InputOTPSlot index={0} className="shad-otp-slot ring-brand" />
             <InputOTPSlot index={1} className="shad-otp-slot" />
             <InputOTPSlot index={2} className="shad-otp-slot" />
             <InputOTPSlot index={3} className="shad-otp-slot" />
@@ -56,7 +59,7 @@ const OtpModal = ({ userId, email }: { userId: string; email: string }) => {
           <div className="flex w-full flex-col gap-4">
             <AlertDialogAction onClick={handleSubmit} className="h-12" type="button">
               Submit
-              {isLoading && <Image src="/loader.svg" alt="loader" width={24} height={24} className="ml-2 animate-spin" />}
+              {isLoading && <Image src="/assets/loader.svg" alt="loader" width={24} height={24} className="ml-2 animate-spin" />}
             </AlertDialogAction>
 
             <div className="subtitle-2 mt-2 text-center text-light-100">
@@ -71,5 +74,3 @@ const OtpModal = ({ userId, email }: { userId: string; email: string }) => {
     </AlertDialog>
   );
 };
-
-export default OtpModal;

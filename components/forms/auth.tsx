@@ -1,32 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
-import Link from 'next/link';
-import { z } from 'zod';
+import { useState } from 'react';
 import { Button } from '@/components/shadcn/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/shadcn/form';
 import { Input } from '@/components/shadcn/input';
-import { createAccount, signInUser, signUpWithFacebook, signUpWithGoogle } from '@/services/auth';
-import OtpModal from './otpmodal';
+import { createAccount, signInUser, signUpWithGoogle } from '@/services/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { OtpModal } from './';
 
 type AuthType = 'sign-in' | 'sign-up';
 
-const authFormSchema = (authType: AuthType) => {
-  return z.object({
+const authFormSchema = (authType: AuthType) =>
+  z.object({
     email: z.string().email(),
     fullname: authType === 'sign-up' ? z.string().min(2).max(50) : z.string().optional(),
   });
-};
 
 const AuthForm = ({ type }: { type: AuthType }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [userId, setuserId] = useState(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const formSchema = authFormSchema(type);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,26 +38,24 @@ const AuthForm = ({ type }: { type: AuthType }) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     setErrorMessage('');
-
     try {
       const user =
         type === 'sign-up'
           ? await createAccount({
-              fullname: values.fullname || '',
+              fullname: values.fullname ?? '',
               email: values.email,
             })
           : await signInUser({ email: values.email });
-
-      setuserId(user.userId);
-    } catch {
-      setErrorMessage('Failed to create account. Please try again.');
+      setUserId(user?.userId ?? null);
+    } catch (err: any) {
+      setErrorMessage(err?.message ?? 'Failed to create account. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <>
+    <main className="flex flex-col gap-4 w-full items-center">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form">
           <h1 className="form-title">{type === 'sign-in' ? '🤗 Welcome Back!' : '🏆 Join The League'}</h1>
@@ -70,12 +68,10 @@ const AuthForm = ({ type }: { type: AuthType }) => {
                 <FormItem>
                   <div className="shad-form-item">
                     <FormLabel className="shad-form-label">Full Name</FormLabel>
-
                     <FormControl>
                       <Input placeholder="Enter your full name" className="shad-input" {...field} />
                     </FormControl>
                   </div>
-
                   <FormMessage className="shad-form-message" />
                 </FormItem>
               )}
@@ -88,58 +84,72 @@ const AuthForm = ({ type }: { type: AuthType }) => {
             render={({ field }) => (
               <FormItem>
                 <div className="shad-form-item">
-                  <FormLabel className="shad-form-label">Email</FormLabel>
-
+                  <FormLabel className="shad-form-label" htmlFor="email">
+                    Email
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your email" className="shad-input" {...field} />
+                    <Input
+                      id="email"
+                      placeholder="Enter your email"
+                      className="shad-input"
+                      aria-describedby="email-message"
+                      {...field}
+                    />
                   </FormControl>
                 </div>
-
-                <FormMessage className="shad-form-message" />
+                <FormMessage id="email-message" className="shad-form-message" />
               </FormItem>
             )}
           />
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {type === 'sign-in' ? 'Sign In' : 'Sign Up'}
-
-            {isLoading && <Image src="/loader.svg" alt="loader" width={24} height={24} className="ml-2 animate-spin" />}
+            {isLoading && (
+              <Image
+                src="/assets/loader.svg"
+                alt="Loading circle"
+                width={24}
+                height={24}
+                className="ml-2 animate-spin"
+              />
+            )}
           </Button>
 
-          {errorMessage && <p className="error-message">*{errorMessage}</p>}
+          {errorMessage && (
+            <p className="error-message text-red-500" role="alert" aria-live="assertive">
+              *{errorMessage}
+            </p>
+          )}
 
-          <div className="body-2 flex justify-center">
-            <p className="text-light-100 dark:text-light-300">{type === 'sign-in' ? "Don't have an account?" : 'Already have an account?'}</p>
-            <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className="ml-1 font-medium text-blue-500">
-              {' '}
+          <div className="body-2 flex justify-center gap-2 text-xs">
+            <p className="text-foreground/60">{type === 'sign-in' ? "Don't have an account?" : 'Already have an account?'}</p>
+            <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className="font-medium text-brand">
               {type === 'sign-in' ? 'Sign Up' : 'Sign In'}
             </Link>
           </div>
         </form>
       </Form>
-      <div className="flex items-center">
-        <div className="grow border border-gray-200 dark:border-gray-800 min-w-[90px]"></div>
-        <span className="mx-2 text-xs">continue with </span>
-        <div className="grow border border-gray-200 dark:border-gray-800 min-w-[90px]"></div>
+
+      <div className="flex items-center mx-auto">
+        <div className="flex-grow border border-foreground/20 min-w-10 max-w-20" />
+        <span className="px-2 whitespace-nowrap text-xs text-foreground/80">continue with</span>
+        <div className="flex-grow border border-foreground/20 min-w-10 max-w-20" />
       </div>
 
-      <div className="sm:flex justify-evenly w-full p-4 gap-2 sm:gap-0">
+      <div className="flex flex-col xs:flex-row justify-evenly w-full gap-2">
         <form action={signUpWithGoogle}>
-          <button className="rounded-md flex items-center justify-center p-2 shadow-lg mx-auto">
-            <Image src="/images/socials/google.png" alt="Google" width={24} height={24} className="w-6 mr-2" />
+          <button
+            type="button"
+            className="border border-foreground/20 rounded-lg w-full flex items-center justify-center p-2 shadow-lg mx-auto gap-2"
+          >
+            <Image src="/images/socials/google.png" alt="Login with Google Button" width={24} height={24} className="w-6" />
             <span className="text-sm font-medium">Google</span>
           </button>
         </form>
-
-        <form action={signUpWithFacebook}>
-          <button className="rounded-md flex items-center justify-center p-2 shadow-lg mx-auto">
-            <Image src="/images/socials/facebook.png" alt="Facebook" width={24} height={24} className="w-6 mr-2" />
-            <span className="text-sm font-medium">Facebook</span>
-          </button>
-        </form>
       </div>
+
       {userId && <OtpModal email={form.getValues('email')} userId={userId} />}
-    </>
+    </main>
   );
 };
 

@@ -2,14 +2,16 @@ import { Greeting, Streak, Tracker, Words } from '@/components/dashboard';
 import { SelectSubjects } from '@/components/forms';
 import { getUserData } from '@/services';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
   const user = await getUserData();
 
   return (
-    <div className="lg:h-full flex flex-col">
-      <div className="md:flex w-full px-4 gap-4 h-full">
-        <div className="flex md:flex-col gap-4 justify-between items-center lg:h-full">
-          <div className="flex flex-col justify-between h-full w-full">
+    <div className="flex flex-col gap-4 px-4">
+      <div className="flex flex-col lg:flex-row w-full gap-4 h-full justify-center">
+        <div className="flex lg:flex-col gap-4 justify-evenly items-center mx-auto lg:h-full">
+          <div className="flex flex-col items-center justify-evenly h-full">
             <Greeting user={user} />
             <div className="lg:hidden">
               <Tracker />
@@ -21,13 +23,14 @@ export default async function DashboardPage() {
           <div className="hidden lg:block">
             <Tracker />
           </div>
-          <div className="flex-1 lg:flex gap-4">
+          <div className="flex-1 flex flex-col md:flex-row gap-4">
             <SelectSubjects />
             <Words />
           </div>
         </div>
       </div>
-      <div className="flex-1 min-h-screen rounded bg-muted/50 px-4 m-4" />
+      {/* <div className="flex-1 min-h-screen rounded bg-muted/50 px-4" /> */}
+      {/* <Leaderboard /> */}
     </div>
   );
 }

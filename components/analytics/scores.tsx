@@ -1,8 +1,8 @@
 'use client';
 
-import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/shadcn/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/shadcn/chart';
+import { Bar, BarChart, XAxis, YAxis } from 'recharts';
 
 const subjects = ['Use of English', 'Mathematics', 'Commerce', 'Accounting', 'Biology', 'Physics', 'Chemistry', 'Lit. In English', 'Government', 'Christian Rel. Know', 'Geography', 'Economics', 'Islamic Rel. Know', 'Civic Education', 'History'];
 const parameters = ['Eng', 'Math', 'Com', 'Acc', 'Bio', 'Phy', 'Chem', 'Lit', 'Govt', 'CRK', 'Geo', 'Eco', 'IRK', 'Civic', 'His'];
@@ -21,7 +21,6 @@ export default function Scores({ data }: { data: { subject: string; score: numbe
       fill: `hsl(var(--chart-${index + 1}))`,
     }));
   };
-
   const mapSubjectToShortName = (subject: string): string => {
     const index = subjects.indexOf(subject);
     return index !== -1 ? parameters[index] : subject;
@@ -43,10 +42,10 @@ export default function Scores({ data }: { data: { subject: string; score: numbe
   } satisfies ChartConfig;
 
   return (
-    <Card className="bg-muted/50">
+    <Card className="flex flex-col justify-between bg-muted/50">
       <CardHeader>
         <CardTitle className="text-center">Scores</CardTitle>
-        <CardDescription className="text-center">Best scores across subjects</CardDescription>
+        <CardDescription className="text-center">Top Scores by Subject</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -64,15 +63,15 @@ export default function Scores({ data }: { data: { subject: string; score: numbe
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-center gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Best score is {Math.max(...data.map((item) => item.score))} in{' '}
+      <CardFooter className="flex flex-col items-center gap-2 text-sm leading-none">
+        <p className="font-medium">
+          Your highest score is {Math.max(...data.map((item) => item.score))} in{' '}
           {(() => {
             const bestScoreItem = data.find((item) => item.score === Math.max(...data.map((item) => item.score)));
             return bestScoreItem ? bestScoreItem.subject : 'N/A';
           })()}
-        </div>
-        <div className="leading-none text-muted-foreground">Showing best scores across subjects</div>
+        </p>
+        <p className="text-muted-foreground">Showing best scores across subjects</p>
       </CardFooter>
     </Card>
   );

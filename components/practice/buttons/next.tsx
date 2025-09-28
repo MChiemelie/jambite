@@ -1,7 +1,7 @@
 'use client';
 
-import { useCurrentQuestion, usePracticeActions, useQuestions, useSelectedSubject } from '@/stores/practice';
 import { useMemo } from 'react';
+import { useCurrentQuestion, usePracticeActions, useQuestions, useSelectedSubject } from '@/stores/practice';
 
 export default function NextQuestionButton() {
   const questions = useQuestions();
@@ -17,7 +17,7 @@ export default function NextQuestionButton() {
   };
 
   return (
-    <button aria-label="Next Question Button" onClick={handleNextQuestion} disabled={currentQuestion >= currentQuestionsData.length - 1} className="bg-accent-2 text-white py-1 px-3 rounded-sm w-28">
+    <button aria-label="Next Question Button" onClick={handleNextQuestion} disabled={currentQuestion >= currentQuestionsData.length - 1} className="col-span-1 bg-accent-2 text-white rounded-sm  py-1 text-sm md:text-lg">
       Next
     </button>
   );

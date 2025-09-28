@@ -1,11 +1,11 @@
 'use client';
 
+import { useMemo } from 'react';
 import { Report } from '@/components/practice';
 import { useCurrentQuestion, useQuestions, useSelectedSubject, useSubmitted } from '@/stores/practice';
 import { Question } from '@/types';
-import { useMemo } from 'react';
 
-export default function Header() {
+export default function QuestionHeader() {
   const currentQuestion = useCurrentQuestion();
   const questions = useQuestions();
   const selectedSubject = useSelectedSubject();
@@ -17,12 +17,12 @@ export default function Header() {
   const currentQuestionId = currentQuestionData?.id ?? null;
 
   return (
-    <div className="p-6 flex flex-col lg:flex-row items-center justify-between gap-4">
+    <header className="p-4 md:p-6 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4">
       <div className="flex flex-col gap-1">
         <p className="uppercase text-accent-2 text-center">{selectedSubject}</p>
-        <p>Question {currentQuestion + 1}</p>
+        <p className="text-center sm:text-justify">Question {currentQuestion + 1}</p>
       </div>
       {submitted && currentQuestionId !== null && <Report />}
-    </div>
+    </header>
   );
 }

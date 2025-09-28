@@ -1,4 +1,7 @@
-import Theme from './theme';
+import AIReview from './ai';
 import Hydration from './hydration';
+import Providers from './providers';
+import Table from './table';
+import Theme from './theme';
 
-export { Theme, Hydration };
+export { AIReview, Table, Theme, Hydration, Providers };

@@ -1,16 +1,15 @@
 'use client';
 
-import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/shadcn/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/shadcn/chart';
 import { AccuracyProps } from '@/types';
+import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts';
 
-export default function Accuracy({ data }:{data: AccuracyProps['data']}) {
+export default function Accuracy({ data }: { data: AccuracyProps['data'] }) {
   const { correct, incorrect } = data[0];
   const totalAttempts = correct + incorrect;
   const accuracy = totalAttempts > 0 ? Math.round((correct / totalAttempts) * 100) : 0;
 
-  // Chart configuration
   const chartConfig = {
     incorrect: {
       label: 'Incorrect',
@@ -23,10 +22,10 @@ export default function Accuracy({ data }:{data: AccuracyProps['data']}) {
   } satisfies ChartConfig;
 
   return (
-    <Card className="flex flex-col bg-muted/50">
-      <CardHeader className="items-center pb-0">
+    <Card className="flex flex-col justify-between bg-muted/50">
+      <CardHeader className="items-center">
         <CardTitle>Accuracy</CardTitle>
-        <CardDescription>Correct vs Incorrect</CardDescription>
+        <CardDescription>Correct vs Wrong</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
         <ChartContainer config={chartConfig} className="mx-auto aspect-square w-full max-w-[250px]">

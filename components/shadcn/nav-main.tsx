@@ -1,10 +1,10 @@
 'use client';
 
-import { Bot, ChartLine, HandCoins, LayoutDashboard, type LucideIcon, Medal, Rss } from 'lucide-react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Collapsible, CollapsibleTrigger } from '@/components/shadcn/collapsible';
 import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/shadcn/sidebar';
+import { Bot, ChartLine, HandCoins, LayoutDashboard, Medal, Rss, type LucideIcon } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 type NavItem = {
   title: string;
@@ -41,7 +41,7 @@ const navData: NavItem[] = [
     icon: Medal,
   },
   {
-    title: 'AI',
+    title: 'Chat',
     url: '/ai',
     icon: Bot,
   },

@@ -16,13 +16,6 @@ export type Question = BaseQuestion & {
   section?: string;
 };
 
-export type Questions = {
+type Questions = {
   questions: Record<string, Question[]> | Question[];
-};
-
-export type ReportQuestionProps = {
-  subject: string;
-  questionId: number;
-  fullName?: string;
-  onReportSubmitted?: () => void;
 };

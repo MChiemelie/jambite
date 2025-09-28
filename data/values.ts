@@ -1,0 +1,38 @@
+export const values = [
+  {
+	heading: 'AI Advantage',
+	subheading: 'Meet Your AI Companion',
+	description1: 'Meet your new study buddy — Erudite, our premium AI assistant.',
+	description2: 'It reviews your answers and explains tricky questions so you learn in the process.',
+	video: '/videos/1.mp4',
+	reverse: '',
+	gradient: 'bg-gradient-to-r from-[#fde68a] to-[#f59e0b]',
+  },
+  {
+	heading: 'CBT Interface',
+	subheading: 'Master the CBT Interface',
+	description1: 'Experience an exam-like interface that feels just like the real thing.',
+	description2: 'Don’t have a PC? No problem! Jambite is designed for all devices — smartphones, tablets, and laptops.',
+	video: '/videos/2.mp4',
+	reverse: 'md:flex-row-reverse',
+	gradient: 'bg-gradient-to-r from-[#ff9843] via-[#ffdd95] to-[#86a7fc]',
+  },
+  {
+	heading: 'Past Questions',
+	subheading: 'A Trove of Past Questions',
+	description1: 'Access 17 subjects and over 20,000 past questions — all while saving money.',
+	description2: 'After practice, accurate answers and user-friendly explanations are provided for each question.',
+	video: '/videos/3.mp4',
+	reverse: '',
+	gradient: 'bg-gradient-to-r from-[#fef08a] via-[#84cc16] to-[#16a34a]',
+  },
+  {
+	heading: 'Performance Analytics',
+	subheading: 'Progress with Analytics',
+	description1: 'Each practice session is analysed in detail — your total score, subject scores, time spent, and number of attempts.',
+	description2: 'Our dedicated analytics page allows you to track your progress over time.',
+	video: '/videos/2.mp4',
+	reverse: 'md:flex-row-reverse',
+	gradient: 'bg-gradient-to-r from-[#14b8a6] via-[#0891b2] to-[#1d4ed8]',
+  },
+];

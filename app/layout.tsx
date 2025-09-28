@@ -1,19 +1,19 @@
-import { Metadata } from 'next';
+import ReactScan from '@/components/dev/react-scan';
 import { lexend } from '@/fonts';
-import { Theme } from '@/providers';
+import { Providers } from '@/providers';
 import './globals.css';
-import { ReactScan } from '@/components/dev';
+import { metadata } from '@/libraries/metadata';
 
-export const metadata: Metadata = {
-  title: 'Jambite - CBT with AI',
-  description: 'Jambite - Ace JAMB with AI assisted CBT Practice.',
-};
+export { metadata };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${lexend.className}`} suppressHydrationWarning>
+    <html lang="en" className={`${lexend.className} select-none break-keep [hyphens:none]`} suppressHydrationWarning>
       <body>
-        <Theme>{children}</Theme>
+        <Providers>
+          {children}
+          <ReactScan />
+        </Providers>
       </body>
     </html>
   );

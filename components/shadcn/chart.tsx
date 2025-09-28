@@ -1,9 +1,9 @@
 'use client';
 
 import * as React from 'react';
+import { cn } from '@/utilities';
 import * as RechartsPrimitive from 'recharts';
 import { NameType, Payload, ValueType } from 'recharts/types/component/DefaultTooltipContent';
-import { cn } from '@/utilities';
 
 const THEMES = { light: '', dark: '.dark' } as const;
 
@@ -236,4 +236,4 @@ function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key:
   return configLabelKey in config ? config[configLabelKey] : config[key as keyof typeof config];
 }
 
-export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle };
+export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent };

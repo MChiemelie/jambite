@@ -1,7 +1,11 @@
 'use client';
 
-import { Hydration } from '@/providers';
+import { AIReview, Hydration } from '@/providers';
 
 export default function PracticeLayout({ children }: { children: React.ReactNode }) {
-  return <Hydration>{children}</Hydration>;
+  return (
+    <Hydration>
+      <AIReview>{children}</AIReview>
+    </Hydration>
+  );
 }

@@ -1,0 +1,537 @@
+{
+  "projectId": "673137790037cac4292c",
+  "endpoint": "https://fra.cloud.appwrite.io/v1",
+  "projectName": "Jambite",
+  "settings": {
+    "services": {
+      "account": true,
+      "avatars": true,
+      "databases": true,
+      "locale": true,
+      "health": true,
+      "storage": true,
+      "teams": true,
+      "users": true,
+      "sites": true,
+      "functions": true,
+      "graphql": true,
+      "messaging": true
+    },
+    "auth": {
+      "methods": {
+        "jwt": false,
+        "phone": false,
+        "invites": false,
+        "anonymous": false,
+        "email-otp": true,
+        "magic-url": false,
+        "email-password": false
+      },
+      "security": {
+        "duration": 31536000,
+        "limit": 0,
+        "sessionsLimit": 10,
+        "passwordHistory": 0,
+        "passwordDictionary": false,
+        "personalDataCheck": false,
+        "sessionAlerts": false,
+        "mockNumbers": []
+      }
+    }
+  },
+  "databases": [
+    {
+      "$id": "6731488700396455a17a",
+      "name": "jambite",
+      "enabled": true
+    }
+  ],
+  "collections": [
+    {
+      "$id": "673148fb002c5c290054",
+      "$permissions": ["create(\"users\")", "read(\"users\")", "update(\"users\")", "delete(\"users\")", "read(\"any\")"],
+      "databaseId": "6731488700396455a17a",
+      "name": "users",
+      "enabled": true,
+      "documentSecurity": true,
+      "attributes": [
+        {
+          "key": "fullname",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "email",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "format": "email",
+          "default": null
+        },
+        {
+          "key": "trials",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 10,
+          "default": null
+        },
+        {
+          "key": "ai",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": false
+        },
+        {
+          "key": "currentStreak",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 1000,
+          "default": null
+        },
+        {
+          "key": "longestStreak",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 1000,
+          "default": null
+        },
+        {
+          "key": "lastPracticed",
+          "type": "datetime",
+          "required": false,
+          "array": false,
+          "format": "",
+          "default": null
+        },
+        {
+          "key": "practices",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "67314910003561413631",
+          "relationType": "manyToOne",
+          "twoWay": true,
+          "twoWayKey": "user",
+          "onDelete": "restrict",
+          "side": "child"
+        },
+        {
+          "key": "firstname",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 20,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "lastname",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 20,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "location",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 50,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "birthday",
+          "type": "datetime",
+          "required": false,
+          "array": false,
+          "format": "",
+          "default": null
+        },
+        {
+          "key": "subjects",
+          "type": "string",
+          "required": false,
+          "array": true,
+          "elements": ["english", "mathematics", "commerce", "accounting", "biology", "physics", "chemistry", "englishlit", "government", "crk", "geography", "economics", "irk", "civiledu", "history"],
+          "format": "enum",
+          "default": null
+        },
+        {
+          "key": "gender",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "elements": ["male", "female"],
+          "format": "enum",
+          "default": null
+        },
+        {
+          "key": "phone",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 11,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "userId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 20,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "avatarUrl",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 400,
+          "default": "",
+          "encrypt": false
+        },
+        {
+          "key": "avatarId",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 20,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": [
+        {
+          "key": "email",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["email"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "fullname",
+          "type": "fulltext",
+          "status": "available",
+          "attributes": ["fullname"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "67314910003561413631",
+      "$permissions": ["create(\"users\")", "read(\"users\")"],
+      "databaseId": "6731488700396455a17a",
+      "name": "practices",
+      "enabled": true,
+      "documentSecurity": true,
+      "attributes": [
+        {
+          "key": "timestamp",
+          "type": "datetime",
+          "required": true,
+          "array": false,
+          "format": "",
+          "default": null
+        },
+        {
+          "key": "duration",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 7200,
+          "default": null
+        },
+        {
+          "key": "feedback",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 500,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "completed",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": true
+        },
+        {
+          "key": "totalScore",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 400,
+          "default": null
+        },
+        {
+          "key": "totalAttempts",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 180,
+          "default": null
+        },
+        {
+          "key": "totalCorrect",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 60,
+          "default": null
+        },
+        {
+          "key": "totalQuestions",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 180,
+          "default": null
+        },
+        {
+          "key": "performances",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "6740d78b0014693e6846",
+          "relationType": "oneToMany",
+          "twoWay": true,
+          "twoWayKey": "practices",
+          "onDelete": "cascade",
+          "side": "parent"
+        },
+        {
+          "key": "user",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "673148fb002c5c290054",
+          "relationType": "manyToOne",
+          "twoWay": true,
+          "twoWayKey": "practices",
+          "onDelete": "restrict",
+          "side": "parent"
+        },
+        {
+          "key": "userId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": [
+        {
+          "key": "userId",
+          "type": "key",
+          "status": "available",
+          "attributes": ["userId"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "timestamp",
+          "type": "key",
+          "status": "available",
+          "attributes": ["timestamp"],
+          "orders": ["DESC"]
+        },
+        {
+          "key": "userTime",
+          "type": "key",
+          "status": "available",
+          "attributes": ["timestamp", "userId"],
+          "orders": ["DESC", "ASC"]
+        },
+        {
+          "key": "practiceId",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["$id"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "6740d78b0014693e6846",
+      "$permissions": ["create(\"users\")", "read(\"users\")"],
+      "databaseId": "6731488700396455a17a",
+      "name": "performances",
+      "enabled": true,
+      "documentSecurity": true,
+      "attributes": [
+        {
+          "key": "userId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "correct",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 60,
+          "default": null
+        },
+        {
+          "key": "attempts",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 60,
+          "default": null
+        },
+        {
+          "key": "totalQuestions",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 60,
+          "default": null
+        },
+        {
+          "key": "subject",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 20,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "score",
+          "type": "integer",
+          "required": true,
+          "array": false,
+          "min": 0,
+          "max": 100,
+          "default": null
+        },
+        {
+          "key": "practiceId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 36,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "practices",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "67314910003561413631",
+          "relationType": "oneToMany",
+          "twoWay": true,
+          "twoWayKey": "performances",
+          "onDelete": "cascade",
+          "side": "child"
+        }
+      ],
+      "indexes": [
+        {
+          "key": "userId",
+          "type": "key",
+          "status": "available",
+          "attributes": ["userId"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "practiceId",
+          "type": "key",
+          "status": "available",
+          "attributes": ["practiceId"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "userSubject",
+          "type": "key",
+          "status": "available",
+          "attributes": ["userId", "subject"],
+          "orders": ["ASC", "ASC"]
+        },
+        {
+          "key": "performanceId",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["$id"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "68ac1908003ace99ef87",
+      "$permissions": [],
+      "databaseId": "6731488700396455a17a",
+      "name": "payments",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        {
+          "key": "reference",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 10,
+          "default": null,
+          "encrypt": false
+        },
+        {
+          "key": "userId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 20,
+          "default": null,
+          "encrypt": false
+        }
+      ],
+      "indexes": []
+    }
+  ],
+  "buckets": [
+    {
+      "$id": "673153640004211e1906",
+      "$permissions": ["read(\"any\")", "update(\"any\")", "delete(\"any\")", "create(\"users\")", "read(\"users\")", "update(\"users\")", "delete(\"users\")"],
+      "fileSecurity": false,
+      "name": "avatar",
+      "enabled": true,
+      "maximumFileSize": 2000000,
+      "allowedFileExtensions": ["jpg", "png"],
+      "compression": "gzip",
+      "encryption": true,
+      "antivirus": true
+    }
+  ]
+}

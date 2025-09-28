@@ -1,32 +1,17 @@
 'use client';
 
-import { useEffect } from 'react';
-import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react';
-import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/shadcn/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/shadcn/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/shadcn/sidebar';
-import { disableAI } from '@/services';
-import { getUserData, signOutUser } from '@/services/auth';
-import { usePracticeActions, useUser } from '@/stores/practice';
+import { useUser } from '@/contexts';
+import { signOutUser } from '@/services/auth';
+import { usePracticeActions } from '@/stores/practice';
+import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const user = useUser();
-  const { reset } = usePracticeActions();
-
-  useEffect(() => {
-    async function fetchUser() {
-      const userData = await getUserData();
-      const { ai, trials } = userData;
-
-      if (!trials && ai) {
-        await disableAI();
-      }
-    }
-    reset();
-    fetchUser();
-  }, []);
+  const { user } = useUser();
 
   return (
     <SidebarMenu>
@@ -35,7 +20,7 @@ export function NavUser() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user?.avatar} alt={user?.fullname} />
+                <AvatarImage src={user?.avatarUrl} alt={`A profile image of ${user?.fullname}`} />
                 <AvatarFallback className="rounded-lg">JB</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -49,7 +34,7 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user?.avatar} alt={user?.fullname} />
+                  <AvatarImage src={user?.avatarUrl || '/images/profile/default.jpg'} alt={`A profile image of ${user?.fullname}`} />
                   <AvatarFallback className="rounded-lg">JB</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -60,30 +45,39 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                <Link href="/payments">Upgrade to Pro</Link>
-              </DropdownMenuItem>
+              <Link href="/payments">
+                <DropdownMenuItem>
+                  <Sparkles />
+                  Upgrade to Pro
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                <Link href="/dashboard">Account</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                <Link href="/payments">Billing</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                <Link href="/dashboard">Notifications</Link>
-              </DropdownMenuItem>
+              <Link href="/account">
+                <DropdownMenuItem>
+                  <BadgeCheck />
+                  Account{' '}
+                </DropdownMenuItem>
+              </Link>
+
+              <Link href="/payments">
+                <DropdownMenuItem>
+                  <CreditCard />
+                  Billing
+                </DropdownMenuItem>
+              </Link>
+              <Link href="/dashboard">
+                <DropdownMenuItem>
+                  <Bell />
+                  Notifications
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={signOutUser}>
               <LogOut />
-              <button onClick={signOutUser}>Log out</button>
+              Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

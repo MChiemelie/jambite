@@ -1,9 +1,9 @@
-import { createAIChatStreamRouteHandlers } from 'next-ai-stream/server';
-import { client } from '@/config';
+'use server';
 
-export const dynamic = 'force-dynamic';
+import { ai } from '@/config/ai';
+import { createAIChatStreamRouteHandlers } from 'next-ai-stream/server';
 
 export const { GET, POST } = createAIChatStreamRouteHandlers({
-  client,
+  client: ai,
   model: 'gpt-4o-mini',
 });

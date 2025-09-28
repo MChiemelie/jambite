@@ -1,14 +1,22 @@
-import { Hero, Values, Footer, Join, Stake, Testimonials } from '@/components/landing';
+'use client';
+
+import { Background, Footer, Hero, Nav, Plan, Pricing, Stake, Values } from '@/components/landing';
 
 export default function LandingPage() {
   return (
-    <div className="gap-10">
-      <Hero />
-      <Values />
-      {/* <Stake />
-       <Testimonials />
-       <Join />
-       <Footer /> */}
-    </div>
+    <>
+      <Background />
+      <header>
+        <Nav />
+        <Hero />
+      </header>
+      <main className='flex flex-col gap-20'>
+        <Stake />
+        <Values />
+        <Plan />
+        <Pricing />
+      </main>
+      <Footer />
+    </>
   );
 }

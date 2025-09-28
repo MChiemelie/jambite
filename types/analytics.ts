@@ -1,25 +1,16 @@
-export type Practices = {
-  practiceId: string;
-  timestamp: number;
-  duration: number;
-  totalAttempts: number;
-  totalQuestions: number;
-  totalCorrect: number;
-  totalScore: number;
-  userId: string;
-  createdAt: string;
-};
+import { Practice } from './practice';
 
-export type Performances = {
-  performanceId: string;
-  userId: string;
-  correct: number;
-  attempts: number;
-  totalSubjectQuestions: number;
-  subject: string;
-  score: number;
-  practiceId: string;
-  createdAt: string;
+export type AnalyticsResult = {
+  practiceAnalytics: PracticeAnalytics;
+  performanceAnalytics: PerformanceAnalytics;
+  accuracyData: AccuracyProps['data'];
+  subjectsScoreData: ScoresProps['data'];
+  subjectsAttemptsData: SubjectsProps['data'];
+  acumenData: AcumenProps['data'];
+  durationData: DurationProps;
+  mostPracticed: MostPracticedSubjectResult;
+  bestPractice: Practice;
+  highestScore: Practice;
 };
 
 export type PerformanceAnalytics = {
@@ -29,11 +20,13 @@ export type PerformanceAnalytics = {
     subject: string;
     totalQuestions: number;
     totalAttempts: number;
+    totalCorrect: number;
     score: number;
   }[];
 };
 
 export type PracticeAnalytics = {
+  totalPractices: number;
   totalDuration: number;
   totalQuestions: number;
   totalCorrect: number;
@@ -58,8 +51,6 @@ export type ChartData = {
   fill: string;
 };
 
-export type ScoreTrendProps = {};
-
 export type AccuracyProps = {
   data: Array<{
     correct: number;
@@ -67,7 +58,7 @@ export type AccuracyProps = {
   }>;
 };
 
-export type AttemptsProps = {
+type AttemptsProps = {
   totalAttempts: number;
   totalQuestions: number;
 };
@@ -86,9 +77,13 @@ export type ScoresProps = {
   }>;
 };
 
-export type DurationProps = {
-  data: Practices[];
+type DurationItem = {
+  metric: string;
+  score: number;
+  duration: number;
 };
+
+export type DurationProps = DurationItem[];
 
 export type AcumenProps = {
   data: Array<{
@@ -101,22 +96,6 @@ export type AcumenProps = {
 export type MostPracticedSubjectResult = {
   mostPracticedSubject: string;
   mostPracticedCount: number;
-}
+};
 
-
-export type FullSubject =
-  | 'Use of English'
-  | 'Mathematics'
-  | 'Commerce'
-  | 'Accounting'
-  | 'Biology'
-  | 'Physics'
-  | 'Chemistry'
-  | 'Lit. In English'
-  | 'Government'
-  | 'Christian Rel. Know'
-  | 'Geography'
-  | 'Economics'
-  | 'Islamic Rel. Know'
-  | 'Civic Education'
-  | 'History';
+export type FullSubject = 'Use of English' | 'Mathematics' | 'Commerce' | 'Accounting' | 'Biology' | 'Physics' | 'Chemistry' | 'Lit. In English' | 'Government' | 'Christian Rel. Know' | 'Geography' | 'Economics' | 'Islamic Rel. Know' | 'Civic Education' | 'History';

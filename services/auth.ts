@@ -1,12 +1,14 @@
 'use server';
 
+import { appwriteConfig } from '@/config/appwrite';
+import { createAdminClient, createSessionClient } from '@/libraries';
+import { UpdateUser } from '@/types';
+import { parseStringify } from '@/utilities';
+import { names } from '@/utilities/names';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ID, OAuthProvider, Query } from 'node-appwrite';
-import { appwriteConfig } from '@/config';
-import { avatarUrl } from '@/constants';
-import { createAdminClient, createSessionClient } from '@/libraries';
-import { parseStringify } from '@/utilities';
+
 
 const getUserByEmail = async (email: string) => {
   const { databases } = await createAdminClient();
@@ -42,15 +44,42 @@ export const createAccount = async ({ fullname, email }: { fullname: string; ema
   if (!existingUser) {
     const { databases } = await createAdminClient();
 
+    const [firstname, lastname] = await names(fullname);
+
     await databases.createDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, ID.unique(), {
       fullname,
+      firstname,
+      lastname,
       email,
-      avatar: avatarUrl,
       userId,
+      trials: 0,
+      currentStreak: 0,
+      longestStreak: 0,
     });
   }
 
   return parseStringify({ userId });
+};
+
+export const updateProfile = async (updates: UpdateUser) => {
+  try {
+    const { databases, account } = await createSessionClient();
+    const sessionUser = await account.get();
+
+    const { documents, total } = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', sessionUser.$id)]);
+
+    if (total === 0) throw new Error('User not found');
+
+    const userDoc = documents[0];
+
+    const { email, ...safeUpdates } = updates as any;
+
+    const updated = await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, userDoc.$id, safeUpdates);
+
+    return parseStringify(updated);
+  } catch (error) {
+    handleError(error, 'Failed to update profile');
+  }
 };
 
 export const verifySecret = async ({ userId, password }: { userId: string; password: string }) => {
@@ -123,7 +152,7 @@ export const signInUser = async ({ email }: { email: string }) => {
       return parseStringify({ userId: existingUser.userId });
     }
 
-    return parseStringify({ userId: null, error: 'User not found' });
+    return parseStringify({ userId: null, error: 'User not found. Try sign up.' });
   } catch (error) {
     handleError(error, 'Failed to sign in user');
   }
@@ -135,16 +164,6 @@ export async function signUpWithGoogle() {
   const origin = (await headers()).get('origin');
 
   const redirectUrl = await account.createOAuth2Token(OAuthProvider.Google, `${origin}/api/oauth`, `${origin}/sign-up`);
-
-  return redirect(redirectUrl);
-}
-
-export async function signUpWithFacebook() {
-  const { account } = await createAdminClient();
-
-  const origin = (await headers()).get('origin');
-
-  const redirectUrl = await account.createOAuth2Token(OAuthProvider.Facebook, `${origin}/api/oauth`, `${origin}/sign-up`);
 
   return redirect(redirectUrl);
 }

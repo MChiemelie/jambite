@@ -1,9 +1,11 @@
-import Values from './values'
+import Background from './background';
 import Footer from './footer';
 import Hero from './hero';
-import Stake from './stake';
-import Join from './join';
+import HeroSection from './hero-section';
 import Nav from './nav';
-import Testimonials from './testimonials';
+import Plan from './plan';
+import Pricing from './pricing';
+import Stake from './stake';
+import Values from './values';
 
-export { Hero, Values, Footer, Join, Nav, Testimonials, Stake };
+export { Background, Pricing, Plan, Hero, HeroSection, Values, Footer, Nav, Stake };

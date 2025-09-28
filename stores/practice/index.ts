@@ -1,22 +1,23 @@
 'use client';
 
+import { selectAnswer, setAIReview, setQuestions, setUnattemptedQuestions, submitPractice } from '@/helpers/practice';
+import type { PracticeActions, PracticeStore } from '@/types';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
-import type { PracticeActions, PracticeStore } from '@/types';
-import { selectAnswer, setAIReview, setQuestions, submitPractice, setUnattemptedQuestions } from '@/helpers/practice';
 
 const initialState: PracticeStore = {
+  totalQuestions: 0,
+  duration: 0,
   unattemptedQuestions: {},
   currentQuestion: 0,
   selectedAnswers: {},
   aiReviews: {},
-  generatingForQuestionId: null,
   totalNumberAttempted: 0,
   numberAttempted: {},
   attemptedQuestions: {},
   submitted: false,
   countdown: 1200,
-  score: 0,
+  totalCorrect: 0,
   resultsFeedback: {},
   timeEnd: false,
   submitPopup: false,
@@ -24,6 +25,7 @@ const initialState: PracticeStore = {
   selectedSubjectsParameters: [],
   questions: {},
   subjectScores: {},
+  totalScore: 0,
   loading: false,
   error: null,
   user: null,
@@ -44,7 +46,10 @@ export const usePracticeStore = create<PracticeStore & { actions: PracticeAction
           setUser: (user) => set({ user }),
           setSelectedSubjects: (selectedSubjects) => set({ selectedSubjects }),
           setSelectedSubjectsParameters: (selectedSubjectsParameters) => set({ selectedSubjectsParameters }),
-          setScore: (score) => set({ score }),
+          setTotalCorrect: (totalCorrect) => set({ totalCorrect }),
+          setTotalQuestions: (totalQuestions) => set({ totalQuestions }),
+          setTotalScore: (totalScore) => set({ totalScore }),
+          setDuration: (duration) => set({ duration }),
           setSubjectScores: (subjectScores) => set({ subjectScores }),
           nextQuestion: () => set((s) => ({ currentQuestion: s.currentQuestion + 1 })),
           previousQuestion: () => set((s) => ({ currentQuestion: Math.max(0, s.currentQuestion - 1) })),
@@ -98,19 +103,18 @@ export const useCurrentQuestion = () => usePracticeStore((s) => s.currentQuestio
 export const useSelectedAnswers = () => usePracticeStore((s) => s.selectedAnswers);
 export const useUnattemptedQuestions = () => usePracticeStore((s) => s.unattemptedQuestions);
 export const useAiReviews = () => usePracticeStore((s) => s.aiReviews);
-export const useGeneratingForQuestionId = () => usePracticeStore((s) => s.generatingForQuestionId);
 export const useTotalNumberAttempted = () => usePracticeStore((s) => s.totalNumberAttempted);
 export const useNumberAttempted = () => usePracticeStore((s) => s.numberAttempted);
-export const useAttemptedQuestions = () => usePracticeStore((s) => s.attemptedQuestions);
+export const useTotalQuestions = () => usePracticeStore((s) => s.totalQuestions);
 export const useCountdown = () => usePracticeStore((s) => s.countdown);
-export const useScore = () => usePracticeStore((s) => s.score);
+export const useDuration = () => usePracticeStore((s) => s.duration);
+export const useTotalCorrect = () => usePracticeStore((s) => s.totalCorrect);
+export const useTotalScore = () => usePracticeStore((s) => s.totalScore);
 export const useResultsFeedback = () => usePracticeStore((s) => s.resultsFeedback);
 export const useTimeEnd = () => usePracticeStore((s) => s.timeEnd);
 export const useSubmitPopup = () => usePracticeStore((s) => s.submitPopup);
 export const useSelectedSubjects = () => usePracticeStore((s) => s.selectedSubjects);
 export const useSelectedSubjectsParameters = () => usePracticeStore((s) => s.selectedSubjectsParameters);
 export const useSubjectScores = () => usePracticeStore((s) => s.subjectScores);
-export const useLoading = () => usePracticeStore((s) => s.loading);
-export const useError = () => usePracticeStore((s) => s.error);
 export const usePendingReview = () => usePracticeStore((s) => s.pendingReview);
 export const useFetchData = () => usePracticeStore((s) => s.fetchData);

@@ -1,11 +1,11 @@
-import { cookies } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
-import { Query } from 'node-appwrite';
-import { appwriteConfig } from '@/config';
+import { appwriteConfig } from '@/config/appwrite';
 import { createAdminClient } from '@/libraries';
 import { getUserAuth } from '@/services';
 import { createAccount } from '@/services/auth';
 import { UserAuth } from '@/types';
+import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
+import { Query } from 'node-appwrite';
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,16 +16,40 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Missing userId or secret' }, { status: 400 });
     }
 
-    const { account, databases } = await createAdminClient();
+    const { account, databases, storage } = await createAdminClient();
+
+    // ensure we have a user record
     const { documents } = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', userId)]);
 
-    if (documents.length === 0) {
+    let userDoc = documents[0];
+    if (!userDoc) {
       const { name, email } = (await getUserAuth()) as UserAuth;
-      await createAccount({ fullname: name, email });
+      userDoc = await createAccount({ fullname: name, email });
     }
 
+    // create session for this user
     const session = await account.createSession(userId, secret);
 
+    // ✅ get provider access token directly from session
+    const accessToken = session.providerAccessToken;
+
+    if (accessToken) {
+      const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const profile = await res.json();
+
+      if (profile.picture) {
+        const imageRes = await fetch(profile.picture);
+        const buffer = Buffer.from(await imageRes.arrayBuffer());
+
+        const file = await storage.createFile(appwriteConfig.bucketId, 'unique()', new File([buffer], 'avatar.jpg', { type: 'image/jpeg' }));
+
+        await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, userDoc.$id, { avatarId: file.$id });
+      }
+    }
+
+    // set auth cookie
     (await cookies()).set('appwrite-session', session.secret, {
       path: '/',
       httpOnly: true,

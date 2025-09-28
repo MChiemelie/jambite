@@ -1,6 +1,6 @@
-import { UserData } from '@/types';
+import { User } from '@/types';
 
-export default function ActivePayment({ user }: { user: UserData }) {
+export default function ActivePayment({ user }: { user: User }) {
   const { trials, ai } = user;
 
   if (trials === 0) {

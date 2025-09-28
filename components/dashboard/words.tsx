@@ -1,5 +1,5 @@
-import xml2js from 'xml2js';
 import { Word } from '@/components/custom';
+import xml2js from 'xml2js';
 
 export default async function Words() {
   const res = await fetch('https://www.merriam-webster.com/wotd/feed/rss2');
@@ -44,9 +44,9 @@ export default async function Words() {
     const example = exampleMatch ? exampleMatch[1] : null;
 
     const exampleMarkdown = example;
-    const exampleHTML = exampleMarkdown.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" class="text-blue-500 underline hover:text-blue-700" target="_blank" rel="noopener noreferrer">$1</a>');
+    const exampleHTML = exampleMarkdown?.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" class="text-blue-500 underline hover:text-blue-700" target="_blank" rel="noopener noreferrer">$1</a>');
 
-    const audioUrlMatch = item.enclosure ? item.enclosure[0].$.url : null;
+    const audioUrl = item.enclosure ? item.enclosure[0].$.url : null;
 
     return {
       word,
@@ -57,7 +57,7 @@ export default async function Words() {
       meaningHTML,
       example,
       exampleHTML,
-      audioUrl: audioUrlMatch,
+      audioUrl,
       pubDate,
     };
   });

@@ -1,10 +1,9 @@
-'use client';
-
-import * as React from 'react';
 import { Calendar } from '@/components/shadcn/calendar';
+import { calculateStreaks } from '@/helpers/streak';
 
-export default function Streak() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+export default async function Streak() {
+  const { practiceDates } = await calculateStreaks();
+  const practiceDays = practiceDates.map((d) => new Date(d));
 
-  return <Calendar mode="single" selected={date} onSelect={setDate} className="mx-auto rounded w-fit hidden sm:block" />;
+  return <Calendar mode="default" selected={practiceDays} className="mx-auto rounded w-fit hidden md:block" />;
 }

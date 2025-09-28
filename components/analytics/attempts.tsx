@@ -1,9 +1,9 @@
 'use client';
 
-import { Label, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/shadcn/card';
 import { ChartConfig, ChartContainer } from '@/components/shadcn/chart';
 import { QuestionsAttemptsProps } from '@/types/analytics';
+import { Label, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts';
 
 const chartConfig = {
   totalAttempts: {
@@ -25,16 +25,16 @@ export default function Attempts({ totalAttempts, totalQuestions }: QuestionsAtt
   const chartData = [
     {
       attempts: 'attempts',
-      totalAttempts: totalAttempts,
+      totalAttempts,
       fill: 'var(--color-attempts)',
     },
   ];
 
   return (
-    <Card className="flex flex-col bg-muted/50">
+    <Card className="flex flex-col justify-between bg-muted/50">
       <CardHeader className="items-center pb-0">
         <CardTitle>Attempts</CardTitle>
-        <CardDescription>Total Question Attempt</CardDescription>
+        <CardDescription>Total Questions Attempted</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
@@ -62,9 +62,11 @@ export default function Attempts({ totalAttempts, totalQuestions }: QuestionsAtt
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">You attempted {attemptRate.toFixed()}% of all your questions.</div>
-        <div className="leading-none text-muted-foreground">Total number of attempted questions</div>
+      <CardFooter className="flex-col gap-2 text-sm text-center">
+        <div className="flex items-center gap-2 font-medium leading-none">
+          You attempted {attemptRate.toFixed()}% of {totalQuestions} questions.
+        </div>
+        <div className="leading-none text-muted-foreground">{totalAttempts} attempted questions</div>
       </CardFooter>
     </Card>
   );

@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tailwind.config.js", ".next/types/**/*.ts", "types/.d.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tailwind.config.js", ".next/types/**/*.ts", "types/.d.ts", "next-sitemap.config.js"],
   "exclude": ["node_modules"]
 }

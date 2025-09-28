@@ -1,9 +1,9 @@
 'use client';
 
-import type { Question } from '@/types';
-import { useCurrentQuestion, useQuestions, useSelectedSubject } from '@/stores/practice';
 import { useMemo } from 'react';
 import { Options, QuestionSection } from '@/components/practice';
+import { useCurrentQuestion, useQuestions, useSelectedSubject } from '@/stores/practice';
+import type { Question } from '@/types';
 
 export default function QuestionBlock() {
   const currentQuestion = useCurrentQuestion();
@@ -16,10 +16,10 @@ export default function QuestionBlock() {
   return (
     <>
       {currentQuestionData && (
-        <div className="flex flex-col gap-6 border-y-2 border-gray-300 p-6 text-sm md:text-lg">
+        <main className="flex flex-col gap-6 border-y-2 border-gray-300 p-4 md:p-6 md:text-lg">
           <QuestionSection />
           <Options />
-        </div>
+        </main>
       )}
     </>
   );

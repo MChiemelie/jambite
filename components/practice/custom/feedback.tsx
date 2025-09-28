@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useHasHydrated, useCurrentQuestion, usePracticeActions, useQuestions, useResultsFeedback, useSelectedSubject, useSubmitted } from '@/stores/practice';
+import { useCurrentQuestion, useHasHydrated, useQuestions, useResultsFeedback, useSelectedSubject, useSubmitted } from '@/stores/practice';
 import { Question } from '@/types';
-import { Check, ThumbsUp, X } from 'lucide-react';
 import parse from 'html-react-parser';
+import { Check, ThumbsUp, X } from 'lucide-react';
 
 const renderFeedbackMessage = (fb: { type: string; userAnswer?: string; correctAnswer: string }) => {
   switch (fb.type) {
@@ -32,17 +32,17 @@ const renderFeedbackMessage = (fb: { type: string; userAnswer?: string; correctA
 
 export default function Feedback() {
   const hasHydrated = useHasHydrated();
-  const submitted   = useSubmitted();
-  const currentQ    = useCurrentQuestion();
+  const submitted = useSubmitted();
+  const currentQ = useCurrentQuestion();
   const feedbackMap = useResultsFeedback();
-  const questions   = useQuestions();
+  const questions = useQuestions();
   const selectedSub = useSelectedSubject();
 
   if (!hasHydrated) return null;
 
   const currentQuestionsData = questions[selectedSub] ?? [];
   const currentQuestionData = currentQuestionsData[currentQ] as Question | undefined;
-  const currentQuestionId   = currentQuestionData?.id;
+  const currentQuestionId = currentQuestionData?.id;
 
   const fb = currentQuestionId != null ? feedbackMap[currentQuestionId] : undefined;
 
@@ -51,11 +51,7 @@ export default function Feedback() {
   return (
     <div className="flex flex-col gap-4">
       {renderFeedbackMessage(fb)}
-      {currentQuestionData?.solution && (
-        <div className="prose">
-          {parse(currentQuestionData.solution)}
-        </div>
-      )}
+      {currentQuestionData?.solution && <p className="md:text-lg">Solution: {parse(currentQuestionData.solution)}</p>}
     </div>
   );
 }
