@@ -97,12 +97,6 @@ dist
 secrets.json
 private.key
 
-# next-video
-!public/videos/*.json
-!public/videos/*.js
-!public/videos/*.ts
-public/_next-video
-
 # Serverless
 .serverless/
 
