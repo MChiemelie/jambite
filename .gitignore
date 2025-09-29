@@ -98,7 +98,6 @@ secrets.json
 private.key
 
 # next-video
-public/videos/*
 !public/videos/*.json
 !public/videos/*.js
 !public/videos/*.ts
