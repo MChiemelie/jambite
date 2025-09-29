@@ -43,7 +43,12 @@ export async function GET(request: NextRequest) {
         const imageRes = await fetch(profile.picture);
         const buffer = Buffer.from(await imageRes.arrayBuffer());
 
-        const file = await storage.createFile(appwriteConfig.bucketId, 'unique()', new File([buffer], 'avatar.jpg', { type: 'image/jpeg' }));
+        const file = await storage.createFile(appwriteConfig.bucketId, 'unique()', {
+          type: 'image/jpeg',
+          size: buffer.length,
+          filename: 'avatar.jpg',
+          stream: buffer,
+        } as any);
 
         await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, userDoc.$id, { avatarId: file.$id });
       }
@@ -57,7 +62,7 @@ export async function GET(request: NextRequest) {
       secure: true,
     });
 
-    return NextResponse.redirect(`${request.nextUrl.origin}/dashboard`);
+    await NextResponse.redirect(`${request.nextUrl.origin}/dashboard`);
   } catch (error) {
     console.error('Error during GET request:', error);
     return NextResponse.json({ error: 'Failed to process the request.' }, { status: 500 });
