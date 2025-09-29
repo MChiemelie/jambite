@@ -13,6 +13,10 @@
     "format": "prettier --write .",
     "knip": "knip"
   },
+   "packageManager": "pnpm@10.16.1",
+  "engines": {
+    "node": ">=20 <21"
+  },
   "eslintConfig": {
     "extends": [
       "next/core-web-vitals",
