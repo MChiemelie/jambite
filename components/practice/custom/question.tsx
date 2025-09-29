@@ -17,10 +17,10 @@ export default function QuestionSection() {
   const { question, image, section } = currentQuestionData;
 
   return (
-    <section className="flex flex-col gap-4 bg-red-400">
+    <section className="flex flex-col gap-4">
       {image && <Image src={image} alt="Question illustration" width={500} height={500} className="mx-auto max-w-md" />}
       {section && <section className="max-h-64 overflow-y-auto">{parse(section.charAt(0).toUpperCase() + section.slice(1))}</section>}
-      <p className="bg-green-400" >{parse(question)}</p>
+      <p>{parse(question)}</p>
     </section>
   );
 }

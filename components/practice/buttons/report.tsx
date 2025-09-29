@@ -2,15 +2,15 @@
 
 import { useMemo, useState } from 'react';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/shadcn/dialog';
+import { useUser } from '@/contexts';
 import { useCurrentQuestion, useQuestions, useSelectedSubject } from '@/stores/practice';
 import { Question } from '@/types';
 import { Flag } from 'lucide-react';
-import { useUser } from '@/contexts';
 
 export default function Report() {
   const questions = useQuestions();
   const subject = useSelectedSubject();
-  const {user} = useUser();
+  const { user } = useUser();
 
   const currentQuestionsData = useMemo(() => questions[subject] ?? [], [questions, subject]);
   const currentQuestion = useCurrentQuestion();

@@ -9,7 +9,6 @@ import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ID, OAuthProvider, Query } from 'node-appwrite';
 
-
 const getUserByEmail = async (email: string) => {
   const { databases } = await createAdminClient();
 

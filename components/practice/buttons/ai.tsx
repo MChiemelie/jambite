@@ -6,7 +6,7 @@ import { useAiReviews, useCurrentQuestion, usePracticeActions, useQuestions, use
 
 export default function AIButton() {
   const submitted = useSubmitted();
-  const {user} = useUser();
+  const { user } = useUser();
   const qIndex = useCurrentQuestion();
   const subject = useSelectedSubject();
   const qs = useQuestions()[subject] || [];

@@ -9,7 +9,7 @@ import { X } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-export default function OtpModal ({ userId, email }: { userId: string; email: string }) {
+export default function OtpModal({ userId, email }: { userId: string; email: string }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
   const [password, setPassword] = useState('');
@@ -73,4 +73,4 @@ export default function OtpModal ({ userId, email }: { userId: string; email: st
       </AlertDialogContent>
     </AlertDialog>
   );
-};
+}

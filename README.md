@@ -15,11 +15,11 @@ Visit [Jambite](https://jambite.vercel.app) to create an account and start pract
 ### Developer Setup
 
 1. Clone the repo:
+
    ```bash
    git clone https://github.com/<your-org>/jambite.git
    cd jambite
    ```
-
 
 2. Install dependencies:
 
@@ -48,9 +48,9 @@ Visit [Jambite](https://jambite.vercel.app) to create an account and start pract
 
 ## 🛠️ Tech Stack
 
-* **Next.js (App Router)** – frontend
-* **TailwindCSS** – styling
-* **Appwrite** – auth + database + storage
+- **Next.js (App Router)** – frontend
+- **TailwindCSS** – styling
+- **Appwrite** – auth + database + storage
 
 ## 🤝 Contributing
 
@@ -90,5 +90,4 @@ If this project helps you, consider giving it a star ⭐.
 
 ## 👨‍💻 Meet the Developer
 
-Hey 👋, I’m **Melikam Chiemelie**, a frontend dev & law student.
-🐦 [Twitter](https://twitter.com/ChiemelieJM) | 📧 [melikamchukwuemelie@gmail.com](mailto:melikamchukwuemelie@gmail.com)
+Hey 👋, I’m **Melikam Chiemelie**, a frontend dev & law student. 🐦 [Twitter](https://twitter.com/ChiemelieJM) | 📧 [melikamchukwuemelie@gmail.com](mailto:melikamchukwuemelie@gmail.com)

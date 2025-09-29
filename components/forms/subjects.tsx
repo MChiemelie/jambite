@@ -39,7 +39,7 @@ export default function SelectSubjects() {
   const { setSelectedSubjects, setSelectedSubjectsParameters } = usePracticeActions();
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useUser(true);
+  const { user } = useUser();
 
   useEffect(() => {
     if (user?.subjects?.length) {
@@ -88,7 +88,7 @@ export default function SelectSubjects() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col bg-muted/50 rounded w-full md:h-full p-4 gap-6 mx-auto">
-      <p className="text-xs text-center italic text-justify">You can only take four subjects per practice. Use of English has already been selected for you.</p>
+      <p className="text-xs text-center italic">You can only take four subjects per practice. Use of English has already been selected for you.</p>
 
       <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 text-sm md:text-md place-content-evenly">
         {subjects.map((subject, i) => {

@@ -1,29 +1,7 @@
-'use client';
-
+import { steps } from '@/data';
 import Image from 'next/image';
 
-const steps = [
-  {
-    number: 1,
-    title: 'Pay',
-    desc: `Click the "Start Recording" button in our extension, choose which part of your screen to capture, and who you want to send it to.`,
-    image: 'pay',
-  },
-  {
-    number: 2,
-    title: 'Select Subjects',
-    desc: `We generate a shareable link for your video. Simply send it via email or copy the link for any platform.`,
-    image: 'select',
-  },
-  {
-    number: 3,
-    title: 'Practice',
-    desc: `Recipients can access your video through the provided link, with our user-friendly interface suitable for everyone.`,
-    image: 'practice',
-  },
-];
-
-export default function Plan() {
+export default function Steps() {
   return (
     <section className="flex justify-center">
       <div className="w-11/12 flex flex-col items-center gap-16">
@@ -31,7 +9,7 @@ export default function Plan() {
           <h2 className="font-semibold text-2xl md:text-4xl text-foreground/60">
             How <span className="bg-gradient-to-r from-blue-800 to-indigo-900 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-sky-400 dark:via-blue-500 dark:to-cyan-400 dark:bg-clip-text dark:text-transparent">It Works!</span>
           </h2>
-          <p className="text-md font-meduim">Three steps to excellence. Yes! It is that easy!</p>
+          <p className="text-md font-meduim">You are just three steps to excellence. Yes! It is that easy!</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4 md:gap-6 lg:gap-12 w-full">

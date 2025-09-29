@@ -8,7 +8,7 @@ export default function Candidate() {
   const numberAttempted = useNumberAttempted();
   const totalNumberAttempted = useTotalNumberAttempted();
   const questions = useQuestions();
-  const {user} = useUser();
+  const { user } = useUser();
   const selectedSubject = useSelectedSubject();
 
   const totalQuestions = Object.values(questions).reduce((acc, subjectQuestions) => acc + (subjectQuestions?.length || 0), 0);

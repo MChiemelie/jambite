@@ -2,8 +2,8 @@
 
 import { useRef, useState } from 'react';
 import { Input } from '@/components/shadcn/input';
-import { createAvatar, updateAvatar } from '@/helpers/avatar';
 import { useUser } from '@/contexts';
+import { createAvatar, updateAvatar } from '@/helpers/avatar';
 import imageCompression from 'browser-image-compression';
 import { ImageUp } from 'lucide-react';
 import Image from 'next/image';

@@ -36,7 +36,7 @@ export default function Plans() {
 
   return (
     <section className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full text-sm md:text-md">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full text-sm md:text-md">
         {plans.map((plan) => (
           <div className="p-2 md:p-4 w-full h-96" key={plan.id}>
             <div className={`h-full p-4 rounded border-2 ${plan.id === 'premium' ? 'border-accent-1' : 'border-foreground'} flex flex-col relative overflow-hidden`}>
