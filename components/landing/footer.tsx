@@ -14,7 +14,7 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="z-20 p-2 lg:p-4 lg:min-h-screen bg-gradient-to-bl from-[#0f172a] via-[#1e1a78] to-[#0f172a] flex flex-col justify-between text-xl text-white">
+    <footer className="z-20 p-2 lg:p-4 min-h-[50vh] lg:min-h-screen bg-gradient-to-bl from-[#0f172a] via-[#1e1a78] to-[#0f172a] flex flex-col justify-between text-xl text-white">
       <div className="flex flex-col lg:flex-row justify-between mx-auto w-full lg:gap-10 gap-4 p-2 lg:p-4 max-w-7xl">
         <div className="flex flex-col gap-4 lg:gap-10 w-full lg:w-3/5">
           <h2 className="text-2xl lg:text-4xl font-bold flex items-center">👋🏾 We’d love to hear from you</h2>

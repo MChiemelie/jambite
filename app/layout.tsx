@@ -1,6 +1,7 @@
 import ReactScan from '@/components/dev/react-scan';
 import { lexend } from '@/fonts';
 import { Providers } from '@/providers';
+import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import { metadata } from '@/libraries/metadata';
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           {children}
           <ReactScan />
+          <Analytics />
           <SpeedInsights />
         </Providers>
       </body>

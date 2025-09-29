@@ -1,3 +1,5 @@
+'use client';
+
 import { values } from '@/data';
 import { cn } from '@/utilities/cn';
 

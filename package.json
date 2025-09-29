@@ -1,8 +1,7 @@
 {
-  "name": "starter-template",
+  "name": "jambite",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/main.js",
+  "description": "Jambite - A JAMB CBT web application with AI",
   "type": "module",
   "scripts": {
     "build": "next build",
@@ -13,10 +12,7 @@
     "format": "prettier --write .",
     "knip": "knip"
   },
-   "packageManager": "pnpm@10.16.1",
-  "engines": {
-    "node": ">=20 <21"
-  },
+  "packageManager": "pnpm@10.16.1",
   "eslintConfig": {
     "extends": [
       "next/core-web-vitals",
@@ -45,6 +41,7 @@
     "@tabler/icons-react": "^3.35.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@tanstack/react-table": "^8.21.3",
+    "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.12.2",
     "browser-image-compression": "^2.0.2",
