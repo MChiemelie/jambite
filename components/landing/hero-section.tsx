@@ -30,8 +30,8 @@ export default function HeroSection() {
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   return (
-    <div ref={ref} className="flex min-h-[100vh] md:min-h-[200vh] shrink-0 scale-[.30] xs:scale-[.35] sm:scale-[.65] transform flex-col items-center justify-start [perspective:800px] md:scale-100 md:py-48">
-      <section className="p-4 -mt-60 xs:-mt-40 sm:-mt-20 md:-mt-10 scale-200 sm:scale-none pb-40 sm:pb-0 flex flex-col sm:gap-8 gap-4 md:gap-4 max-w-3xl">
+    <div ref={ref} className="flex min-h-[100dvh] md:min-h-[200dvh] shrink-0 scale-[.30] xs:scale-[.35] sm:scale-[.65] transform flex-col items-center justify-start [perspective:800px] md:scale-100 md:py-48">
+      <section className="p-4 scale-200 sm:scale-none pb-40 sm:pb-0 flex flex-col sm:gap-8 gap-4 md:gap-4 max-w-3xl">
         <motion.h1 style={{ translateY: textTransform, opacity: textOpacity }} className="text-nowrap text-center text-5xl sm:text-6xl 3xl:text-8xl font-extrabold md:text-sky-50 lg:text-shadow-md text-shadow-2xs text-shadow-gray-800">
           Ace JAMB <br />
           with AI CBT Practice

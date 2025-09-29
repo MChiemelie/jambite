@@ -1,5 +1,3 @@
-'use client';
-
 import { values } from '@/data';
 import { cn } from '@/utilities/cn';
 
@@ -24,7 +22,7 @@ export default function Values() {
   );
 }
 
-function Value({ heading, subheading, description1, description2, video, reverse, gradient, index }: { heading: string; subheading: string; description1: string; description2: string; video: string; reverse: string; index: number; gradient: string }) {
+function Value({ heading, subheading, description1, description2, video, reverse, gradient }: { heading: string; subheading: string; description1: string; description2: string; video: string; reverse: string; index: number; gradient: string }) {
   return (
     <div className={cn('flex flex-col md:flex-row items-center mx-auto gap-4 md:gap-20', reverse)}>
       <div className="md:max-w-lg flex flex-col gap-2 md:gap-4">
