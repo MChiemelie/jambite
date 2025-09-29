@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { Button } from '@/components/shadcn/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/shadcn/form';
 import { Input } from '@/components/shadcn/input';
-import { createAccount, signInUser } from '@/services/auth';
+import { createAccount, signInUser, signUpWithGoogle } from '@/services/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { OtpModal } from './';
+import { GoogleAuth, OtpModal } from './';
 
 type AuthType = 'sign-in' | 'sign-up';
 
@@ -122,23 +122,8 @@ const AuthForm = ({ type }: { type: AuthType }) => {
         <div className="flex-grow border border-foreground/20 min-w-10 max-w-20" />
       </div>
 
-      <div className="flex flex-col xs:flex-row justify-evenly gap-2">
-        <button
-          type="button"
-          onClick={async () => {
-            try {
-              const res = await fetch('/api/oauth/google');
-              const { url } = await res.json();
-              window.location.href = url;
-            } catch (err) {
-              console.error(err);
-            }
-          }}
-          className="border border-foreground/20 rounded-lg w-full flex items-center justify-center p-2 shadow-lg mx-auto gap-2"
-        >
-          <Image src="/images/socials/google.png" alt="Login with Google Button" width={24} height={24} className="w-6" />
-          <span className="text-sm font-medium">Google</span>
-        </button>
+      <div className="flex flex-col xs:flex-row justify-evenly w-full gap-2">
+        <GoogleAuth />
       </div>
 
       {userId && <OtpModal email={form.getValues('email')} userId={userId} />}
