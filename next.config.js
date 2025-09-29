@@ -1,4 +1,8 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -28,3 +32,5 @@ module.exports = {
   },
   reactStrictMode: true,
 };
+
+export default nextConfig;

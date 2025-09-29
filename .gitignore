@@ -128,3 +128,4 @@ public/_next-video
 
 # Appwrite CLI local dev
 .appwrite
+.vercel

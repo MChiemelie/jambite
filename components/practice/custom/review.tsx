@@ -25,7 +25,7 @@ export default function AIReview() {
     }
   }, [messages, loading, pending, qId, subject, setAiReview, setPendingReview]);
 
-  if (loading){
+  if (loading) {
     return (
       <div className="flex bg-gray-200 border-2 border-gray-300 gap-2 p-4 rounded glow-animation">
         <Bot className="h-auto max-w-8" />
@@ -34,8 +34,8 @@ export default function AIReview() {
           <LoadingDots />
         </div>
       </div>
-    )
-  };
+    );
+  }
 
   return (
     existing && (

@@ -88,13 +88,7 @@ const AuthForm = ({ type }: { type: AuthType }) => {
                     Email
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      id="email"
-                      placeholder="Enter your email"
-                      className="shad-input"
-                      aria-describedby="email-message"
-                      {...field}
-                    />
+                    <Input id="email" placeholder="Enter your email" className="shad-input" aria-describedby="email-message" {...field} />
                   </FormControl>
                 </div>
                 <FormMessage id="email-message" className="shad-form-message" />
@@ -104,15 +98,7 @@ const AuthForm = ({ type }: { type: AuthType }) => {
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {type === 'sign-in' ? 'Sign In' : 'Sign Up'}
-            {isLoading && (
-              <Image
-                src="/assets/loader.svg"
-                alt="Loading circle"
-                width={24}
-                height={24}
-                className="ml-2 animate-spin"
-              />
-            )}
+            {isLoading && <Image src="/assets/loader.svg" alt="Loading circle" width={24} height={24} className="ml-2 animate-spin" />}
           </Button>
 
           {errorMessage && (
@@ -136,16 +122,21 @@ const AuthForm = ({ type }: { type: AuthType }) => {
         <div className="flex-grow border border-foreground/20 min-w-10 max-w-20" />
       </div>
 
-      <div className="flex flex-col xs:flex-row justify-evenly w-full gap-2">
-        <form action={signUpWithGoogle}>
-          <button
-            type="button"
-            className="border border-foreground/20 rounded-lg w-full flex items-center justify-center p-2 shadow-lg mx-auto gap-2"
-          >
-            <Image src="/images/socials/google.png" alt="Login with Google Button" width={24} height={24} className="w-6" />
-            <span className="text-sm font-medium">Google</span>
-          </button>
-        </form>
+      <div className="flex flex-col xs:flex-row justify-evenly gap-2">
+        <button
+          type="button"
+          onClick={async () => {
+            try {
+              await signUpWithGoogle();
+            } catch (err) {
+              console.error(err);
+            }
+          }}
+          className="border border-foreground/20 rounded-lg w-full flex items-center justify-center p-2 shadow-lg mx-auto gap-2"
+        >
+          <Image src="/images/socials/google.png" alt="Login with Google Button" width={24} height={24} className="w-6" />
+          <span className="text-sm font-medium">Google</span>
+        </button>
       </div>
 
       {userId && <OtpModal email={form.getValues('email')} userId={userId} />}

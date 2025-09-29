@@ -1,9 +1,8 @@
+
 import { postPerformance, postPractice } from '@/services/practice';
 import { PracticeActions, PracticeStore, Question } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { updateStreak } from './streak';
-import { useUser } from '@/contexts';
-
 
 export function selectAnswer(s: PracticeStore, questionId: number, selectedOption: string, subject: string) {
   const attempted = { ...s.attemptedQuestions };

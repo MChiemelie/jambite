@@ -1,5 +1,3 @@
-'use client';
-
 import { Theme } from '@/components/themes';
 import { LogIn } from 'lucide-react';
 import Image from 'next/image';

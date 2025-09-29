@@ -7,11 +7,11 @@ import { Separator } from '@/components/shadcn/separator';
 import { Sheet, SheetContent, SheetTitle } from '@/components/shadcn/sheet';
 import { Skeleton } from '@/components/shadcn/skeleton';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/shadcn/tooltip';
+import { useIsMobile } from '@/contexts/mobile';
 import { cn } from '@/utilities';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, VariantProps } from 'class-variance-authority';
 import { PanelLeft } from 'lucide-react';
-import { useIsMobile } from '@/contexts/mobile';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar:state';
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;

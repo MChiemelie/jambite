@@ -1,5 +1,3 @@
-'use client';
-
 import { values } from '@/data';
 import { cn } from '@/utilities/cn';
 
@@ -28,9 +26,9 @@ function Value({ heading, subheading, description1, description2, video, reverse
   return (
     <div className={cn('flex flex-col md:flex-row items-center mx-auto gap-4 md:gap-20', reverse)}>
       <div className="md:max-w-lg flex flex-col gap-2 md:gap-4">
-        <h3 className="text-md md:text-lg lg:text-xl text-center md:text-justify uppercase font-semibold bg-gradient-to-r from-blue-800 to-indigo-900 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-sky-400 dark:via-blue-500 dark:to-cyan-400 dark:bg-clip-text dark:text-transparent">{heading}</h3>
-        <h4 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center md:text-justify">{subheading}</h4>
-        <div className="flex flex-col gap-3 text-sm sm:text-md lg:text-lg text-center md:text-justify">
+        <h3 className="text-md md:text-lg lg:text-xl text-center uppercase font-semibold bg-gradient-to-r from-blue-800 to-indigo-900 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-sky-400 dark:via-blue-500 dark:to-cyan-400 dark:bg-clip-text dark:text-transparent">{heading}</h3>
+        <h4 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center">{subheading}</h4>
+        <div className="flex flex-col gap-3 text-sm sm:text-md lg:text-lg text-center">
           <p>{description1}</p>
           <p>{description2}</p>
         </div>
