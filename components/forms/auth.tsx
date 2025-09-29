@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/shadcn/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/shadcn/form';
 import { Input } from '@/components/shadcn/input';
-import { createAccount, signInUser, signUpWithGoogle } from '@/services/auth';
+import { createAccount, signInUser } from '@/services/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -127,7 +127,9 @@ const AuthForm = ({ type }: { type: AuthType }) => {
           type="button"
           onClick={async () => {
             try {
-              await signUpWithGoogle();
+              const res = await fetch('/api/oauth/google');
+              const { url } = await res.json();
+              window.location.href = url;
             } catch (err) {
               console.error(err);
             }

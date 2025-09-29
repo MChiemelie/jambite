@@ -5,9 +5,9 @@ import { createAdminClient, createSessionClient } from '@/libraries';
 import { UpdateUser } from '@/types';
 import { parseStringify } from '@/utilities';
 import { names } from '@/utilities/names';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { ID, OAuthProvider, Query } from 'node-appwrite';
+import { ID, Query } from 'node-appwrite';
 
 const getUserByEmail = async (email: string) => {
   const { databases } = await createAdminClient();
@@ -156,13 +156,3 @@ export const signInUser = async ({ email }: { email: string }) => {
     handleError(error, 'Failed to sign in user');
   }
 };
-
-export async function signUpWithGoogle() {
-  const { account } = await createAdminClient();
-
-  const origin = (await headers()).get('origin');
-
-  const redirectUrl = await account.createOAuth2Token(OAuthProvider.Google, `${origin}/api/oauth`, `${origin}/sign-up`);
-
-  return redirect(redirectUrl);
-}
