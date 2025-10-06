@@ -54,9 +54,9 @@ export async function updateStreak(user: User, practicedToday: boolean) {
 
   const userData = await databases.getDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, user.$id);
 
-  let { currentStreak, longestStreak, lastPracticed } = userData;
+  let { currentStreak, longestStreak, lastPractice } = userData;
   const now = new Date();
-  const last = lastPracticed ? new Date(lastPracticed) : null;
+  const last = lastPractice ? new Date(lastPractice) : null;
 
   if (practicedToday) {
     if (!last || now.getTime() - last.getTime() > 24 * 60 * 60 * 1000) {
@@ -80,6 +80,6 @@ export async function updateStreak(user: User, practicedToday: boolean) {
   return await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, user.$id, {
     currentStreak,
     longestStreak,
-    lastPracticed: practicedToday ? now.toISOString() : lastPracticed,
+    lastPractice: practicedToday ? now.toISOString() : lastPractice,
   });
 }

@@ -10,7 +10,7 @@ export interface User extends AppwriteDoc {
   ai?: boolean;
   currentStreak: number;
   longestStreak: number;
-  lastPracticed?: string | null;
+  lastPractice?: string | null;
   firstname?: string | null;
   lastname?: string | null;
   location?: string | null;
@@ -19,11 +19,12 @@ export interface User extends AppwriteDoc {
   gender?: 'male' | 'female';
   phone?: string | null;
   userId: string;
+  paystackId?: number
 }
 
-type CreateUser = Omit<User, keyof AppwriteDoc | 'ai' | 'lastPracticed' | 'avatar' | 'firstname' | 'lastname' | 'location' | 'birthday' | 'subjects' | 'gender' | 'phone'> & {
+type CreateUser = Omit<User, keyof AppwriteDoc | 'ai' | 'lastPractice' | 'avatar' | 'firstname' | 'lastname' | 'location' | 'birthday' | 'subjects' | 'gender' | 'phone'> & {
   ai?: boolean;
-  lastPracticed?: string | null;
+  lastPractice?: string | null;
   avatar?: string | null;
   firstname?: string | null;
   lastname?: string | null;

@@ -3,11 +3,11 @@
 // Generic Appwrite system fields
 export interface AppwriteDoc {
   $id: string;
-  createdAt: string;
+  $createdAt: string;
   $updatedAt: string;
-  $permissions?: string[];
-  $collectionId?: string;
-  $databaseId?: string;
+  $permissions: string[];
+  $collectionId: string;
+  $databaseId: string;
 }
 
 // Generic Appwrite list response

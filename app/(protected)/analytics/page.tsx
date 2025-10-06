@@ -1,6 +1,6 @@
-import { Accuracy, Attempts, Duration, Precision, Scores, Subjects } from '@/components/analytics';
 import { Status } from '@/components/custom';
 import { calculateAnalytics } from '@/helpers/analytics';
+import { AnalyticsGrid } from '@/components/analytics';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,20 +25,7 @@ export default async function AnalyticsPage() {
           </cite>
         </figcaption>
       </figure>
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 w-full">
-        <Accuracy data={accuracyData} />
-
-        <Attempts totalAttempts={practiceAnalytics?.totalAttempts} totalQuestions={practiceAnalytics?.totalQuestions} />
-
-        <Subjects data={subjectsAttemptsData} />
-
-        <Scores data={subjectsScoreData} />
-
-        <Duration data={durationData} />
-
-        <Precision data={acumenData} />
-      </div>
+      <AnalyticsGrid practiceAnalytics={practiceAnalytics} accuracyData={accuracyData} subjectsScoreData={subjectsScoreData} subjectsAttemptsData={subjectsAttemptsData} acumenData={acumenData} durationData={durationData} />
     </section>
   );
 }

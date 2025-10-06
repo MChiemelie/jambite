@@ -10,7 +10,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { OtpModal } from './';
+import { GoogleAuth, OtpModal } from '.';
 
 type AuthType = 'sign-in' | 'sign-up';
 
@@ -115,6 +115,16 @@ const AuthForm = ({ type }: { type: AuthType }) => {
           </div>
         </form>
       </Form>
+
+      <div className="flex items-center mx-auto">
+        <div className="flex-grow border border-foreground/20 min-w-10 max-w-20" />
+        <span className="px-2 whitespace-nowrap text-xs text-foreground/80">continue with</span>
+        <div className="flex-grow border border-foreground/20 min-w-10 max-w-20" />
+      </div>
+
+      <div className="flex flex-col xs:flex-row justify-evenly w-full gap-2">
+        <GoogleAuth />
+      </div>
 
       {userId && <OtpModal email={form.getValues('email')} userId={userId} />}
     </main>

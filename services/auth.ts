@@ -51,9 +51,6 @@ export const createAccount = async ({ fullname, email }: { fullname: string; ema
       lastname,
       email,
       userId,
-      trials: 0,
-      currentStreak: 0,
-      longestStreak: 0,
     });
   }
 

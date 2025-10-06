@@ -107,7 +107,7 @@
           "default": null
         },
         {
-          "key": "lastPracticed",
+          "key": "lastPractice",
           "type": "datetime",
           "required": false,
           "array": false,
