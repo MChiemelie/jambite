@@ -1,5 +1,5 @@
 import { plans } from '@/data';
-import { handlePay } from '@/services/payments';
+import { handlePay } from '@/helpers/payments';
 import { Check } from 'lucide-react';
 
 export default function Plans() {

@@ -1,4 +1,3 @@
-import { Models } from 'node-appwrite';
 import { AppwriteDoc } from './appwrite';
 
 export interface User extends AppwriteDoc {
@@ -36,5 +35,3 @@ type CreateUser = Omit<User, keyof AppwriteDoc | 'ai' | 'lastPractice' | 'avatar
 };
 
 export type UpdateUser = Partial<CreateUser>;
-
-export type UserAuth = Models.User<Models.Preferences>;

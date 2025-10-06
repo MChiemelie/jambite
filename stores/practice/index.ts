@@ -96,7 +96,6 @@ export const usePracticeStore = create<PracticeStore & { actions: PracticeAction
 export const usePracticeActions = () => usePracticeStore((s) => s.actions);
 export const useHasHydrated = () => usePracticeStore((s) => s.hasHydrated);
 export const useSubmitted = () => usePracticeStore((s) => s.submitted);
-export const useUser = () => usePracticeStore((s) => s.user);
 export const useQuestions = () => usePracticeStore((s) => s.questions);
 export const useSelectedSubject = () => usePracticeStore((s) => s.selectedSubject);
 export const useCurrentQuestion = () => usePracticeStore((s) => s.currentQuestion);

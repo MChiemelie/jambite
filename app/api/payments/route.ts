@@ -3,7 +3,7 @@
 import { appwriteConfig } from '@/config/appwrite';
 import { createAdminClient } from '@/libraries';
 import { handlePaymentError, PaymentError, PaymentErrorCode } from '@/services/error';
-import { validatePaymentInput, safePaystackRequest, safeDbOperation } from '@/services/payments';
+import { validatePaymentInput, safePaystackRequest, safeDbOperation } from '@/helpers/payments';
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 import { ID, Query } from 'node-appwrite';
@@ -25,7 +25,6 @@ export async function GET(req: Request) {
     const page = Number(searchParams.get('page')) || 1;
     const perPage = Number(searchParams.get('perPage')) || 10;
 
-    // Verify transaction
     if (action === 'verify' && reference) {
       validatePaymentInput({ reference });
 
@@ -40,45 +39,25 @@ export async function GET(req: Request) {
       return NextResponse.json(response.data);
     }
 
-    // Get subscriptions
-    if (action === 'subscription' && email) {
-      validatePaymentInput({ email });
-
-      const response = await safePaystackRequest(
-        () =>
-          axios.get('https://api.paystack.co/subscription', {
-            headers: paystackHeaders,
-            params: { email, page, perPage },
-          }),
-        'Fetching subscriptions'
-      );
-
-      return NextResponse.json(response.data);
-    }
-
-    // Get transactions
     if (action === 'transactions') {
-      const customer = searchParams.get('customer'); // Direct customer ID
+      const customer = searchParams.get('customer');
       const params: any = { page, perPage };
 
-      // If customer ID provided directly, use it
       if (customer) {
         params.customer = customer;
       }
-      // Otherwise, try to find customer by email
+
       else if (email) {
         validatePaymentInput({ email });
 
         try {
           const { databases } = await createAdminClient();
 
-          // Try Appwrite first for paystackId
           const userDocs = await safeDbOperation(() => databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('email', email)]), 'Fetching user by email');
 
           if (userDocs.total > 0 && userDocs.documents[0].paystackId) {
             params.customer = userDocs.documents[0].paystackId;
           } else {
-            // Fallback to Paystack API
             try {
               const customerResponse = await safePaystackRequest(() => axios.get(`https://api.paystack.co/customer/${encodeURIComponent(email)}`, { headers: paystackHeaders }), 'Fetching customer from Paystack');
 
@@ -86,19 +65,16 @@ export async function GET(req: Request) {
                 params.customer = customerResponse.data.data.id;
               }
             } catch (error: any) {
-              // Customer doesn't exist - continue without filter
               if (error.code !== PaymentErrorCode.PAYSTACK_INVALID_CUSTOMER) {
                 throw error;
               }
             }
           }
         } catch (error: any) {
-          // Log but continue - we can still fetch all transactions
           console.warn('Could not determine customer ID:', error.message);
         }
       }
 
-      // Fetch transactions
       const response = await safePaystackRequest(
         () =>
           axios.get('https://api.paystack.co/transaction', {
@@ -134,7 +110,6 @@ export async function POST(req: Request) {
       throw new PaymentError(PaymentErrorCode.MISSING_PARAMETERS, 'Action is required', 400);
     }
 
-    // Initialize Payment
     if (action === 'initialize') {
       const { amount, email } = body;
       validatePaymentInput({ amount, email });
@@ -157,12 +132,10 @@ export async function POST(req: Request) {
       return NextResponse.json(response.data);
     }
 
-    // Verify Payment
     if (action === 'verify') {
       const { reference, userId } = body;
       validatePaymentInput({ reference, userId });
 
-      // Step 1: Verify with Paystack
       const verifyRes = await safePaystackRequest(() => axios.get(`https://api.paystack.co/transaction/verify/${reference}`, { headers: paystackHeaders }), 'Verifying payment');
 
       const { status, data } = verifyRes.data;
@@ -173,14 +146,12 @@ export async function POST(req: Request) {
 
       const { databases } = await createAdminClient();
 
-      // Step 2: Check for duplicate reference
       const existing = await safeDbOperation(() => databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.paymentsCollectionId, [Query.equal('reference', reference)]), 'Checking for duplicate reference');
 
       if (existing.total > 0) {
         throw new PaymentError(PaymentErrorCode.DUPLICATE_REFERENCE, 'Payment reference has already been used', 400);
       }
 
-      // Step 3: Save payment record
       await safeDbOperation(
         () =>
           databases.createDocument(appwriteConfig.databaseId, appwriteConfig.paymentsCollectionId, ID.unique(), {
@@ -191,7 +162,6 @@ export async function POST(req: Request) {
         'Creating payment record'
       );
 
-      // Step 4: Update user trials and features
       const userDocs = await safeDbOperation(() => databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', userId)]), 'Fetching user document');
 
       if (userDocs.total === 0) {
@@ -203,7 +173,6 @@ export async function POST(req: Request) {
       const currentTrials = userDoc.trials || 0;
       const amount = data.amount;
 
-      // Calculate trial increment
       const trialIncrements: Record<number, number> = {
         150000: 1,
         200000: 1,
@@ -212,15 +181,12 @@ export async function POST(req: Request) {
       const increment = trialIncrements[amount] || 0;
       const updatedTrials = currentTrials + increment;
 
-      // Update trials
       await safeDbOperation(() => databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, docId, { trials: updatedTrials }), 'Updating user trials');
 
-      // Enable AI for premium plan
       if (amount === 200000) {
         await safeDbOperation(() => databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, docId, { ai: true }), 'Enabling AI feature');
       }
 
-      // Store paystackId if not already stored
       if (data.customer?.id && !userDoc.paystackId) {
         await safeDbOperation(() => databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, docId, { paystackId: data.customer.id }), 'Storing Paystack customer ID');
       }

@@ -13,14 +13,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Missing userId or secret' }, { status: 400 });
   }
 
-  console.log({ userId, secret });
-
   try {
-    // Step 1: Create session using admin client
-    const { account: adminAccount } = await createAdminClient();
-    const session = await adminAccount.createSession(userId, secret);
+    const { account: admin } = await createAdminClient();
+    const session = await admin.createSession(userId, secret);
 
-    // Step 2: Set the session cookie
     (await cookies()).set('appwrite-session', session.secret, {
       path: '/',
       httpOnly: true,
@@ -28,18 +24,13 @@ export async function GET(request: NextRequest) {
       secure: true,
     });
 
-    // Step 3: Create a session client to get user details
     const { account, databases } = await createSessionClient();
+
     const user = await account.get();
+    const { email, name: fullname } = user;
 
-    console.log(user);
-
-    // Extract details
-    const email = user.email;
-    const fullname = user.name;
     const profilePictureUrl = user.prefs?.profilePicture || null;
 
-    // Check if user exists in your database
     const existingUser = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', userId)]);
 
     if (existingUser.documents.length === 0) {

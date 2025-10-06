@@ -29,8 +29,6 @@ export default async function Tracker() {
   const longestStreak = user?.longestStreak ?? 0;
   const trials = user?.trials ?? 0;
 
-  console.log({analytics, subjectsScoreData, bestPerformance, bestSubject, bestScore});
-
   const trackerItems = [
     {
       icon: LaptopMinimalCheck,

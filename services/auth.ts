@@ -116,16 +116,6 @@ export const getUserData = async () => {
   }
 };
 
-export const getUserAuth = async () => {
-  try {
-    const { account } = await createSessionClient();
-    return await account.get();
-  } catch (error) {
-    console.error('Error fetching user authentication:', error);
-    return null;
-  }
-};
-
 export const signOutUser = async () => {
   const { account } = await createSessionClient();
 
