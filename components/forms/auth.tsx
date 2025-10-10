@@ -103,7 +103,7 @@ const AuthForm = ({ type }: { type: AuthType }) => {
 
           {errorMessage && (
             <p className="error-message text-red-500" role="alert" aria-live="assertive">
-              *{errorMessage}
+              {errorMessage}
             </p>
           )}
 

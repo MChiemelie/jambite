@@ -146,4 +146,4 @@ async function getCustomerIdSafely(email: string, databases: any, paystackHeader
   }
 }
 
-export { validatePaymentInput, safePaystackRequest, retryWithBackoff, getCustomerIdSafely, safeDbOperation, handlePay };
+export { validatePaymentInput, safePaystackRequest, safeDbOperation, handlePay };

@@ -21,6 +21,7 @@ export default function Scores({ data }: { data: { subject: string; score: numbe
       fill: `hsl(var(--chart-${index + 1}))`,
     }));
   };
+
   const mapSubjectToShortName = (subject: string): string => {
     const index = subjects.indexOf(subject);
     return index !== -1 ? parameters[index] : subject;
@@ -56,16 +57,31 @@ export default function Scores({ data }: { data: { subject: string; score: numbe
               left: 0,
             }}
           >
-            <YAxis dataKey="subject" type="category" tickLine={false} tickMargin={10} axisLine={false} tickFormatter={(value) => value} />
-            <XAxis dataKey="score" type="number" hide />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+            <YAxis
+              dataKey="subject"
+              type="category"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) => value}
+            />
+            <XAxis
+              dataKey="score"
+              type="number"
+              domain={[0, 100]}
+              hide
+            />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel formatter={(value) => `${value}%`} />}
+            />
             <Bar dataKey="score" layout="vertical" radius={5} />
           </BarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex flex-col items-center gap-2 text-sm leading-none">
         <p className="font-medium">
-          Your highest score is {Math.max(...data.map((item) => item.score))} in{' '}
+          Your highest score is {Math.max(...data.map((item) => item.score))}% in{' '}
           {(() => {
             const bestScoreItem = data.find((item) => item.score === Math.max(...data.map((item) => item.score)));
             return bestScoreItem ? bestScoreItem.subject : 'N/A';

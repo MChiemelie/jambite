@@ -4,6 +4,7 @@ import { Question } from './question';
 import { User } from './user';
 
 export type PracticeStore = {
+  initialCountdown: number;
   duration: number;
   currentQuestion: number;
   selectedAnswers: { [key: number]: string };
@@ -45,8 +46,8 @@ export type PracticeActions = {
   previousQuestion: () => void;
   setCurrentQuestion: (n: number) => void;
   setSubmitted: (f: boolean) => void;
-  timeEnded: () => void;
-  setCountdown: (n: number) => void;
+  timeEnded: () => Promise<void>; // Changed from void to Promise<void>
+  setCountdown: (n: number | ((prev: number) => number)) => void; // Added functional update support
   setTotalQuestions: (n: number) => void;
   setResultsFeedback: (fb: PracticeStore['resultsFeedback']) => void;
   setSubmitPopup: (f?: boolean) => void;
@@ -79,7 +80,7 @@ export interface Practice {
   createdAt: string;
 }
 
-export type CreatePractice = Omit<Practice, keyof AppwriteDoc | 'feedback' | 'completed'> & {
+export type CreatePractice = Omit<Practice, keyof AppwriteDoc | 'createdAt' | 'feedback' | 'completed'> & {
   feedback?: string | null;
   completed?: boolean;
 };
@@ -99,7 +100,7 @@ export interface Performance {
   createdAt: string;
 }
 
-export type CreatePerformance = Omit<Performance, keyof AppwriteDoc>;
+export type CreatePerformance = Omit<Performance, keyof AppwriteDoc | 'createdAt'>;
 
 type Performances = AppwriteList<Performance>;
 

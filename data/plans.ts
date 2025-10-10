@@ -12,7 +12,7 @@ export const plans = [
   {
     id: 'pro',
     name: 'Pro',
-    features: ['Everything in Free', 'Use of English + 3 Subjects', 'Answers Review and Corrections', 'Experts Solutions'],
+    features: ['Everything in Free', 'Use of English + 3 Subjects', 'Answers Review and Corrections', 'Experts Solutions (for difficult maths questions)'],
     pricing: { oneTime: proPrice },
     buttonText: 'Pay Now!',
   },

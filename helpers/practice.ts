@@ -1,4 +1,3 @@
-
 import { postPerformance, postPractice } from '@/services/practice';
 import { PracticeActions, PracticeStore, Question } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
@@ -78,7 +77,7 @@ const calculateScores = (subjects: string[], questions: Record<string, Question[
 
 export async function submitPractice(get: () => PracticeStore & { actions: PracticeActions }, set: (partial: Partial<PracticeStore>) => void) {
   const s = get();
-  const { questions, countdown, user } = s;
+  const { questions, countdown, user, initialCountdown } = s;
 
   if (!user?.$id) {
     console.error('User missing');
@@ -100,8 +99,6 @@ export async function submitPractice(get: () => PracticeStore & { actions: Pract
     }
     return acc;
   }, 0);
-
-  const initialCountdown = 1200;
 
   const duration = initialCountdown - countdown;
 

@@ -1,6 +1,6 @@
 import type { Practice, Performance } from '@/types';
 
-export const toNumber = (v: unknown, fallback = 0) => {
+const toNumber = (v: unknown, fallback = 0) => {
   const n = Number(v);
   return Number.isFinite(n) ? n : fallback;
 };

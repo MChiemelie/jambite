@@ -1,7 +1,8 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useCurrentQuestion, usePracticeActions, useQuestions, useSelectedSubject } from '@/stores/practice';
+import { useKey } from 'react-use';
 
 export default function NextQuestionButton() {
   const questions = useQuestions();
@@ -12,12 +13,18 @@ export default function NextQuestionButton() {
 
   const currentQuestionsData = useMemo(() => questions[subject] ?? [], [questions, subject]);
 
-  const handleNextQuestion = () => {
-    if (currentQuestion < currentQuestionsData.length - 1) nextQuestion();
-  };
+  const isLastQuestion = currentQuestionsData.length === 0 || currentQuestion >= currentQuestionsData.length - 1;
+
+  const handleNextQuestion = useCallback(() => {
+    if (currentQuestion < currentQuestionsData.length - 1) {
+      nextQuestion();
+    }
+  }, [currentQuestion, currentQuestionsData.length, nextQuestion]);
+
+  useKey('n', handleNextQuestion, undefined, [handleNextQuestion]);
 
   return (
-    <button aria-label="Next Question Button" onClick={handleNextQuestion} disabled={currentQuestion >= currentQuestionsData.length - 1} className="col-span-1 bg-accent-2 text-white rounded-sm  py-1 text-sm md:text-lg">
+    <button aria-label="Next Question" onClick={handleNextQuestion} disabled={isLastQuestion} className="col-span-1 bg-accent-2 text-white rounded-sm py-1 text-sm md:text-lg disabled:opacity-50 disabled:cursor-not-allowed">
       Next
     </button>
   );

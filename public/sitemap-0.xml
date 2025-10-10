@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://jambite.com/cancel</loc><lastmod>2025-09-27T19:01:26.682Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://jambite.com</loc><lastmod>2025-09-27T19:01:26.683Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://jambite.com/sign-up</loc><lastmod>2025-09-27T19:01:26.683Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://jambite.com/ai</loc><lastmod>2025-09-27T19:01:26.683Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://jambite.com/blog</loc><lastmod>2025-09-27T19:01:26.683Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://jambite.com/leaderboard</loc><lastmod>2025-09-27T19:01:26.683Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://jambite.com/practice</loc><lastmod>2025-09-27T19:01:26.683Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://jambite.com/verify</loc><lastmod>2025-09-27T19:01:26.683Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://jambite.com/sign-in</loc><lastmod>2025-09-27T19:01:26.683Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://jambite.ng/verify</loc><lastmod>2025-10-10T16:57:53.377Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://jambite.ng/cancel</loc><lastmod>2025-10-10T16:57:53.385Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://jambite.ng/sign-up</loc><lastmod>2025-10-10T16:57:53.385Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://jambite.ng/ai</loc><lastmod>2025-10-10T16:57:53.385Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://jambite.ng/blog</loc><lastmod>2025-10-10T16:57:53.385Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://jambite.ng/leaderboard</loc><lastmod>2025-10-10T16:57:53.385Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://jambite.ng/sign-in</loc><lastmod>2025-10-10T16:57:53.385Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://jambite.ng/practice</loc><lastmod>2025-10-10T16:57:53.385Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://jambite.ng</loc><lastmod>2025-10-10T16:57:53.385Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

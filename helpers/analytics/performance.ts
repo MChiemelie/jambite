@@ -11,13 +11,15 @@ export function computePerformanceSubjects(performances: Performance[]): Perform
     return acc;
   }, {});
 
-  const subjects = Object.entries(subjectsMap).map(([subject, v]) => ({
-    subject,
-    totalQuestions: v.totalQuestions,
-    totalAttempts: v.totalAttempts,
-    totalCorrect: v.totalCorrect,
-    score: v.score,
-  }));
+  const subjects = Object.entries(subjectsMap)
+    .map(([subject, v]) => ({
+      subject,
+      totalQuestions: v.totalQuestions,
+      totalAttempts: v.totalAttempts,
+      totalCorrect: v.totalCorrect,
+      score: v.score,
+    }))
+    .sort((a, b) => b.score - a.score);
 
   const totalCorrect = subjects.reduce((s, sub) => s + sub.totalCorrect, 0);
   const totalAttempts = subjects.reduce((s, sub) => s + sub.totalAttempts, 0);

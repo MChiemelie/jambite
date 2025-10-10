@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import { metadata } from '@/libraries/metadata';
+import NetworkStatus from '@/components/custom/network';
 
 export { metadata };
 
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Providers>
           {children}
+          <NetworkStatus />
           <ReactScan />
           <Analytics />
           <SpeedInsights />

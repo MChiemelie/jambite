@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { Report } from '@/components/practice';
 import { useCurrentQuestion, useQuestions, useSelectedSubject, useSubmitted } from '@/stores/practice';
 import { Question } from '@/types';
+import { KeyboardShortcutsDialog } from './tips';
 
 export default function QuestionHeader() {
   const currentQuestion = useCurrentQuestion();
@@ -22,7 +23,7 @@ export default function QuestionHeader() {
         <p className="uppercase text-accent-2 text-center">{selectedSubject}</p>
         <p className="text-center sm:text-justify">Question {currentQuestion + 1}</p>
       </div>
-      {submitted && currentQuestionId !== null && <Report />}
+      {submitted && currentQuestionId !== null ? <Report /> : <KeyboardShortcutsDialog />}
     </header>
   );
 }
