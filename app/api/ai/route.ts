@@ -1,5 +1,3 @@
-'use server';
-
 import { ai } from '@/config/ai';
 import { createAIChatStreamRouteHandlers } from 'next-ai-stream/server';
 

@@ -17,7 +17,7 @@ export default function PracticePage() {
 
   const { setUser, setQuestions, setFetchData } = usePracticeActions();
 
-  const { user, userLoading, userError } = useUser();
+  const { user, isLoading: userLoading, isError:userError } = useUser();
   const { questions, questionsLoading, questionsError } = useQuestions(fetchData);
 
   useEffect(() => {
@@ -42,13 +42,13 @@ export default function PracticePage() {
   }, [selectedSubjectsParameters, user, questions, setUser, setQuestions, router, fetchData, setFetchData]);
 
   if (userLoading || questionsLoading) {
-    return <Status image="/assets/questions.svg" desc1="We are compiling your questions." desc2="Almost there!" />;
+    return <Status image="/assets/questions.svg" desc1="We are compiling your questions." desc2="This might take  2 - 3 minutes. Please be patient." />;
   }
 
   if (userError || questionsError) {
     return (
       <>
-        {userError && <Status image="/assets/error.svg" desc1={`User Error: ${userError?.message}`} desc2="Couldn’t fetch your profile." />}
+        {userError && <Status image="/assets/error.svg" desc1={`User Error: ${userError}`} desc2="Couldn’t fetch your profile." />}
         {questionsError && <Status image="/assets/error.svg" desc1={`Questions Error: ${questionsError?.message}`} desc2="Couldn’t load your questions." />}
       </>
     );

@@ -22,9 +22,9 @@ interface Payment {
 export default function History() {
   const [transactions, setTransactions] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState(0);
   const perPage = 10;
-
   const columns = useMemo<ColumnDef<Payment>[]>(
     () => [
       {
@@ -88,21 +88,40 @@ export default function History() {
   useEffect(() => {
     async function fetchPayments() {
       setLoading(true);
+      setError(null);
+
       try {
         const res = await getPayments(pageIndex + 1, perPage);
         setTransactions(res.data || []);
         setTotalCount(res.total || 0);
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error fetching payments:', err);
+        setError(err.message || 'Failed to load payment history');
       } finally {
         setLoading(false);
       }
     }
+
     fetchPayments();
   }, [pageIndex]);
 
-  if (loading) return <Status image="/assets/payments.svg" desc1="Getting payments history" desc2="" />;
-  if (!transactions.length) return <Status image="/assets/payments.svg" desc1="No payments found" desc2="" />;
+  if (loading) {
+    return <Status image="/assets/payments.svg" desc1="Getting payments history" desc2="" />;
+  }
+
+  if (error) {
+    return (
+      <Status
+        image="/assets/payments.svg"
+        desc1="Failed to load payments"
+        desc2={error}
+      />
+    );
+  }
+
+  if (!transactions.length) {
+    return <Status image="/assets/payments.svg" desc1="No payments found" desc2="" />;
+  }
 
   return (
     <div className="w-full max-w-[90vw] md:max-w-screen overflow-x-auto mx-auto">

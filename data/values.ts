@@ -12,7 +12,7 @@ export const values = [
     heading: 'CBT Interface',
     subheading: 'Master the CBT Interface',
     description1: 'Experience an exam-like interface that feels just like the real thing.',
-    description2: 'Don’t have a PC? No problem! Jambite is designed for all devices — smartphones, tablets, and laptops.',
+    description2: "Don't have a PC? No problem! Jambite is designed for all devices — smartphones, tablets, and laptops.",
     video: '/videos/2.mp4',
     reverse: 'md:flex-row-reverse',
     gradient: 'bg-gradient-to-r from-[#ff9843] via-[#ffdd95] to-[#86a7fc]',
@@ -34,5 +34,14 @@ export const values = [
     video: '/videos/2.mp4',
     reverse: 'md:flex-row-reverse',
     gradient: 'bg-gradient-to-r from-[#14b8a6] via-[#0891b2] to-[#1d4ed8]',
+  },
+  {
+    heading: 'Keyboard Shortcuts',
+    subheading: 'CBT without Mouse',
+    description1: 'Master the ABCDPNSRY rule ahead of your exam — navigate questions using keyboard shortcuts just like the real thing.',
+    description2: 'Practice answering questions faster and more efficiently without reaching for your mouse.',
+    video: '/videos/2.mp4',
+    reverse: '',
+    gradient: 'bg-gradient-to-r from-[#ec4899] via-[#a855f7] to-[#6366f1]',
   },
 ];

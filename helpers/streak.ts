@@ -9,41 +9,60 @@ function toDateKey(date: Date): string {
   return date.toISOString().split('T')[0];
 }
 
+function getTodayKey(): string {
+  return toDateKey(new Date());
+}
+
+function getDaysDifference(date1Key: string, date2Key: string): number {
+  const d1 = new Date(date1Key);
+  const d2 = new Date(date2Key);
+  return Math.floor((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+}
+
 export async function calculateStreaks() {
   const practices = await getPractices();
 
-  if (!practices) {
+  if (!practices || practices.length === 0) {
     return { currentStreak: 0, longestStreak: 0, practiceDates: [] };
   }
-  const practiceDates = Array.from(new Set(practices.map((p) => toDateKey(new Date(p.createdAt))))).sort();
+
+  const practiceDates = Array.from(
+    new Set(practices.map((p) => toDateKey(new Date(p.createdAt))))
+  ).sort();
 
   let longestStreak = 1;
-  let currentStreak = 1;
   let streak = 1;
 
+  // Calculate longest streak
   for (let i = 1; i < practiceDates.length; i++) {
-    const prev = new Date(practiceDates[i - 1]);
-    const today = new Date(practiceDates[i]);
+    const daysDiff = getDaysDifference(practiceDates[i - 1], practiceDates[i]);
 
-    const diffDays = Math.floor((+today - +prev) / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 1) {
+    if (daysDiff === 1) {
       streak++;
+      longestStreak = Math.max(longestStreak, streak);
     } else {
       streak = 1;
     }
-    longestStreak = Math.max(longestStreak, streak);
   }
 
-  const lastDate = new Date(practiceDates.at(-1)!);
-  const diffFromToday = Math.floor((Date.now() - +lastDate) / (1000 * 60 * 60 * 24));
+  // Calculate current streak
+  const today = getTodayKey();
+  const lastPracticeDate = practiceDates[practiceDates.length - 1];
+  const daysSinceLastPractice = getDaysDifference(lastPracticeDate, today);
 
-  if (diffFromToday === 0) {
-    currentStreak = streak;
-  } else if (diffFromToday === 1) {
-    currentStreak = streak;
-  } else {
-    currentStreak = 0;
+  let currentStreak = 0;
+
+  if (daysSinceLastPractice <= 1) {
+    // Count backwards from last practice to find current streak
+    currentStreak = 1;
+    for (let i = practiceDates.length - 2; i >= 0; i--) {
+      const daysDiff = getDaysDifference(practiceDates[i], practiceDates[i + 1]);
+      if (daysDiff === 1) {
+        currentStreak++;
+      } else {
+        break;
+      }
+    }
   }
 
   return { currentStreak, longestStreak, practiceDates };
@@ -52,34 +71,17 @@ export async function calculateStreaks() {
 export async function updateStreak(user: User, practicedToday: boolean) {
   const { databases } = await createSessionClient();
 
-  const userData = await databases.getDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, user.$id);
+  // Recalculate from source of truth to avoid sync issues
+  const { currentStreak, longestStreak } = await calculateStreaks();
 
-  let { currentStreak, longestStreak, lastPracticed } = userData;
-  const now = new Date();
-  const last = lastPracticed ? new Date(lastPracticed) : null;
-
-  if (practicedToday) {
-    if (!last || now.getTime() - last.getTime() > 24 * 60 * 60 * 1000) {
-      currentStreak = 1;
-    } else {
-      currentStreak++;
+  return await databases.updateDocument(
+    appwriteConfig.databaseId,
+    appwriteConfig.usersCollectionId,
+    user.$id,
+    {
+      currentStreak,
+      longestStreak,
+      lastPractice: practicedToday ? new Date().toISOString() : user.lastPractice,
     }
-    if (currentStreak > longestStreak) {
-      longestStreak = currentStreak;
-    }
-  } else if (last) {
-    // midnight after the missed day
-    const resetDate = new Date(last);
-    resetDate.setHours(0, 0, 0, 0); // midnight of last practice day
-    resetDate.setDate(resetDate.getDate() + 2); // 2 days after last practice
-    if (now >= resetDate) {
-      currentStreak = 0;
-    }
-  }
-
-  return await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, user.$id, {
-    currentStreak,
-    longestStreak,
-    lastPracticed: practicedToday ? now.toISOString() : lastPracticed,
-  });
+  );
 }

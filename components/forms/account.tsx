@@ -52,7 +52,10 @@ type AccountForm = z.infer<typeof accountSchema>;
 export default function Account({ user }: { user: User }) {
   const form = useForm<AccountForm>({
     resolver: zodResolver(accountSchema),
-    defaultValues: { subjects: [ENGLISH] },
+    defaultValues: {
+      subjects: [ENGLISH],
+      gender: 'male' // Add default gender
+    },
   });
 
   const {
@@ -61,21 +64,26 @@ export default function Account({ user }: { user: User }) {
     setValue,
     watch,
     reset,
+    control,
     formState: { errors, isDirty, isSubmitting },
   } = form;
   const selectedSubjects = watch('subjects');
 
   useEffect(() => {
     if (user) {
+      const mappedSubjects = user.subjects
+        ?.map((s: string) => subjects.find((key) => subjectMap[key] === s) ?? '')
+        .filter(Boolean) || [ENGLISH];
+
       reset({
-        firstname: user.firstname ?? '',
-        lastname: user.lastname ?? '',
-        email: user.email ?? '',
+        firstname: user.firstname || '',
+        lastname: user.lastname || '',
+        email: user.email || '',
         birthday: user.birthday ? user.birthday.split('T')[0] : '',
-        phone: user.phone ?? '',
-        gender: (user.gender as 'male' | 'female') ?? 'male',
-        location: user.location ?? '',
-        subjects: user.subjects?.map((s: string) => subjects.find((key) => subjectMap[key] === s) ?? '').filter(Boolean) || [],
+        phone: user.phone || '',
+        gender: (user.gender as 'male' | 'female') || 'male',
+        location: user.location || '',
+        subjects: mappedSubjects.length > 0 ? mappedSubjects : [ENGLISH],
       });
     }
   }, [user, reset]);
@@ -145,7 +153,7 @@ export default function Account({ user }: { user: User }) {
             <div className="flex flex-col gap-1">
               <Label>Gender</Label>
               <Controller
-                control={form.control}
+                control={control}
                 name="gender"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
@@ -164,7 +172,7 @@ export default function Account({ user }: { user: User }) {
 
             <div className="flex flex-col gap-1 col-span-2">
               <Label>Location</Label>
-              <Controller control={form.control} name="location" render={({ field }) => <LocationInput value={field.value} onChange={field.onChange} />} />
+              <Controller control={control} name="location" render={({ field }) => <LocationInput value={field.value} onChange={field.onChange} />} />
               {errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
             </div>
           </div>

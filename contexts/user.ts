@@ -1,16 +1,23 @@
 'use client';
 
 import { getUserData } from '@/services';
-import { User } from '@/types';
 import useSWR from 'swr';
 
 export function useUser() {
-  const { data, error, isLoading, mutate } = useSWR<User>('/api/user', getUserData);
+  const {
+    error,
+    isLoading,
+    data: user,
+    mutate,
+  } = useSWR('/api/user', getUserData, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true,
+  });
 
   return {
-    user: data ?? null,
-    userLoading: isLoading,
-    userError: error,
-    refreshUser: () => mutate(),
+    user,
+    isLoading,
+    isError: !!error,
+    mutate,
   };
 }

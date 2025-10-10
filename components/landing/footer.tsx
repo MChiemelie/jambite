@@ -17,13 +17,16 @@ export default function Footer() {
     <footer className="z-20 p-2 lg:p-4 min-h-[50vh] lg:min-h-screen bg-gradient-to-bl from-[#0f172a] via-[#1e1a78] to-[#0f172a] flex flex-col justify-between text-xl text-white">
       <div className="flex flex-col lg:flex-row justify-between mx-auto w-full lg:gap-10 gap-4 p-2 lg:p-4 max-w-7xl">
         <div className="flex flex-col gap-4 lg:gap-10 w-full lg:w-3/5">
-          <h2 className="text-2xl lg:text-4xl font-bold flex items-center">👋🏾 We’d love to hear from you</h2>
+          <h2 className="text-2xl lg:text-4xl font-bold flex items-center">
+            <i className="animate-wavePause mx-2">👋🏽</i>
+            We’d love to hear from you
+          </h2>
           <p className="text-base font-medium leading-relaxed">
             Got an idea, feature request, or just wanna say hello? <br />
             Your feedback powers Jambite forward.
           </p>
           <button className="flex items-center w-fit cursor-pointer p-1 lg:p-2 rounded-sm gap-4 bg-gradient-to-r from-sky-600 to-blue-800">
-            <ArrowRight className="lg:h-7 lg:w-7 bg-black shadow-lg rounded-full p-1 lg:p-2" />
+            <ArrowRight className="lg:h-8 lg:w-8 bg-black shadow-lg rounded-full p-1 lg:p-2" />
             <span className="text-lg lg:text-xl font-semibold text-white pr-3">Contact Us</span>
           </button>
         </div>

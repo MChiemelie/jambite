@@ -6,23 +6,28 @@ import { CheckCheck, Flame, FlaskConical, LaptopMinimalCheck, Target, Timer } fr
 import { Card } from '.';
 
 export default async function Tracker() {
-  const { practiceAnalytics, bestPractice, highestScore, subjectsScoreData } = await calculateAnalytics();
-  const user = await getUserData();
+  const analytics = await calculateAnalytics().catch(() => null);
+  const user = await getUserData().catch(() => null);
+
+  const practiceAnalytics = analytics?.practiceAnalytics || { totalPractices: 0, totalCorrect: 0, totalAttempts: 0 };
+  const bestPractice = analytics?.bestPractice || { duration: 0, totalAttempts: 0, totalCorrect: 0 };
+  const highestScore = analytics?.highestScore || { totalScore: 0 };
+  const subjectsScoreData = analytics?.subjectsScoreData || [{ subject: 'None', score: 0 }];
 
   const { totalPractices, totalCorrect, totalAttempts } = practiceAnalytics;
 
   const accuracy = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
+  const bestPracticeScore = highestScore.totalScore ?? 0;
+  const bestPerformance = subjectsScoreData[0] || { subject: 'None', score: 0 };
 
-  const bestPracticeScore = highestScore.totalScore;
-  const bestPerformance = subjectsScoreData[0];
+  const bestSubject = bestPerformance.subject || 'None';
+  const bestScore = bestPerformance.score ?? 0;
 
-  const bestSubject = bestPerformance.subject;
-  const bestScore = bestPerformance.score;
+  const bestTimeFormatted = bestPractice.duration ? `${Math.floor(bestPractice.duration / 60)}m ${bestPractice.duration % 60}s` : 'None';
 
-  const bestTimeFormatted = bestPractice ? `${Math.floor(bestPractice.duration / 60)}m ${bestPractice.duration % 60}s` : 'None';
-
-  const currentStreak = user.currentStreak;
-  const longestStreak = user.longestStreak;
+  const currentStreak = user?.currentStreak ?? 0;
+  const longestStreak = user?.longestStreak ?? 0;
+  const trials = user?.trials ?? 0;
 
   const trackerItems = [
     {
@@ -49,14 +54,14 @@ export default async function Tracker() {
     {
       icon: Timer,
       color: 'text-yellow-400',
-      value: `${bestTimeFormatted}`,
+      value: bestTimeFormatted,
       title: 'Time',
-      subtitle: `Attempts: ${bestPractice.totalAttempts}, Score: ${bestPractice.totalCorrect}`,
+      subtitle: `Attempts: ${bestPractice.totalAttempts || 0}, Score: ${bestPractice.totalCorrect || 0}`,
     },
     {
       icon: FlaskConical,
       color: 'text-orange-600',
-      value: user?.trials,
+      value: trials.toString(),
       title: 'Trials',
       subtitle: `Trial(s) left`,
     },
@@ -65,7 +70,7 @@ export default async function Tracker() {
       color: 'text-red-600',
       value: `${currentStreak} ${currentStreak === 1 ? 'day' : 'days'}`,
       title: 'Streak',
-      subtitle: `Longest: ${longestStreak} ${longestStreak >= 1 ? 'day' : 'days'}`,
+      subtitle: `Longest: ${longestStreak} ${longestStreak === 1 ? 'day' : 'days'}`,
     },
   ];
 

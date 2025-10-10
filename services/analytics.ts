@@ -4,73 +4,90 @@ import { appwriteConfig } from '@/config/appwrite';
 import { createSessionClient } from '@/libraries';
 import { Performance, Practice } from '@/types';
 import { Query } from 'node-appwrite';
+import { getUserData } from '@/services';
 
-export const getPerformances = async (): Promise<Performance[]> => {
-  // try {
-  const { databases } = await createSessionClient();
-  const limit = 100;
+const DEFAULT_LIMIT = 100;
+
+const toNumber = (v: unknown, fallback = 0) => {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : fallback;
+};
+
+const safeString = (v: unknown, fallback = 'Unknown') => (v == null ? fallback : String(v));
+
+async function fetchAllDocuments(databases: any, collectionId: string, baseQueries: any[] = []) {
+  const all: any[] = [];
   let offset = 0;
-  let allDocs: Performance[] = [];
-  let hasMore = true;
 
-  while (hasMore) {
-    const { documents } = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.performancesCollectionId, [Query.limit(limit), Query.offset(offset)]);
+  while (true) {
+    const queries = [...baseQueries, Query.limit(DEFAULT_LIMIT), Query.offset(offset)];
+    const { documents } = await databases.listDocuments(appwriteConfig.databaseId, collectionId, queries);
 
-    const batch = documents.map((doc) => ({
-      performanceId: doc.$id,
-      userId: doc.userId,
-      correct: doc.correct,
-      attempts: doc.attempts,
-      totalQuestions: doc.totalQuestions,
-      subject: doc.subject,
-      score: doc.score,
-      practiceId: doc.practiceId,
-      createdAt: doc.$createdAt,
-    }));
+    if (!documents || documents.length === 0) break;
 
-    allDocs.push(...batch);
-    offset += limit;
-    hasMore = documents.length === limit;
+    all.push(...documents);
+
+    if (documents.length < DEFAULT_LIMIT) break;
+    offset += DEFAULT_LIMIT;
   }
 
-  return allDocs;
-  // } catch (error) {
-  //   console.error('Error fetching performance data:', error);
-  //   throw new Error('Failed to fetch performance data.');
-  // }
+  return all;
+}
+
+export const getPerformances = async (): Promise<Performance[]> => {
+  try {
+    const { databases } = await createSessionClient();
+    const { userId } = await getUserData();
+
+    if (!userId) return [];
+
+    const raw = await fetchAllDocuments(databases, appwriteConfig.performancesCollectionId, [Query.equal('userId', [userId]), Query.orderDesc('$createdAt')]);
+
+    return raw.map((doc: any) => {
+      const data = doc.data ?? doc;
+      return {
+        performanceId: String(doc.$id ?? data.performanceId ?? ''),
+        userId: String(data.userId ?? ''),
+        correct: toNumber(data.correct, 0),
+        attempts: toNumber(data.attempts, 0),
+        totalQuestions: toNumber(data.totalQuestions, 0),
+        subject: safeString(data.subject, 'Unknown'),
+        score: toNumber(data.score, 0),
+        practiceId: safeString(data.practiceId ?? data.practiceId, ''),
+        createdAt: String(doc.$createdAt ?? data.createdAt ?? ''),
+      } as Performance;
+    });
+  } catch (err) {
+    console.error('getPerformances error', err);
+    return [];
+  }
 };
 
 export const getPractices = async (): Promise<Practice[]> => {
-  // try {
-  const { databases } = await createSessionClient();
-  const limit = 100;
-  let offset = 0;
-  let allDocs: Practice[] = [];
-  let hasMore = true;
+  try {
+    const { databases } = await createSessionClient();
+    const { userId } = await getUserData();
 
-  while (hasMore) {
-    const { documents } = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.practicesCollectionId, [Query.limit(limit), Query.offset(offset)]);
+    if (!userId) return [];
 
-    const batch = documents.map((doc) => ({
-      practiceId: doc.$id,
-      timestamp: doc.timestamp,
-      duration: doc.duration,
-      totalAttempts: doc.totalAttempts,
-      totalQuestions: doc.totalQuestions,
-      totalCorrect: doc.totalCorrect,
-      totalScore: doc.totalScore,
-      userId: doc.userId,
-      createdAt: doc.$createdAt,
-    }));
+    const raw = await fetchAllDocuments(databases, appwriteConfig.practicesCollectionId, [Query.equal('userId', [userId]), Query.orderDesc('$createdAt')]);
 
-    allDocs.push(...batch);
-    offset += limit;
-    hasMore = documents.length === limit;
+    return raw.map((doc: any) => {
+      const data = doc.data ?? doc;
+      return {
+        practiceId: String(doc.$id ?? data.practiceId ?? ''),
+        timestamp: safeString(data.timestamp ?? data.$timestamp ?? ''),
+        duration: toNumber(data.duration, 0),
+        totalAttempts: toNumber(data.totalAttempts ?? data.attempts, 0),
+        totalQuestions: toNumber(data.totalQuestions, 0),
+        totalCorrect: toNumber(data.totalCorrect, 0),
+        totalScore: toNumber(data.totalScore, 0),
+        userId: String(data.userId ?? ''),
+        createdAt: String(doc.$createdAt ?? data.createdAt ?? ''),
+      } as Practice;
+    });
+  } catch (err) {
+    console.error('getPractices error', err);
+    return [];
   }
-
-  return allDocs;
-  // } catch (error) {
-  //   console.error('Error fetching practice data:', error);
-  //   throw new Error('Failed to fetch practice data.');
-  // }
 };

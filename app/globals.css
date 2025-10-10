@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin 'tailwindcss-motion';
 @custom-variant dark (&:is(.dark *));
 
@@ -93,6 +93,7 @@
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-shimmer: shimmer 2s linear infinite;
   --animate-wave-pause: wavePause 5s ease-in-out infinite;
+  --animate-glowing: glowing 2s infinite;
 
   @keyframes caret-blink {
     0%,
@@ -528,67 +529,4 @@
       background-position: -200% 0;
     }
   }
-
-  /* Typography */
-}
-
-/* Flip Clock */
-.flip-clock {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.flip-card {
-  width: 40px;
-  height: 40px;
-  perspective: 100px;
-}
-
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.3s ease-in-out;
-}
-
-.flip-card-inner.flip {
-  transform: rotateX(90deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.flip-card-back {
-  transform: rotateX(180deg);
-}
-
-.glow-animation {
-  animation: glowing 2s infinite;
-}
-
-.landing {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.hero-background {
-  background-color: #ffffff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23373cc2' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0l28-28v2L54 40h-2zm4 0l24-24v2L58 40h-2zm4 0l20-20v2L62 40h-2zm4 0l16-16v2L66 40h-2zm4 0l12-12v2L70 40h-2zm4 0l8-8v2l-6 6h-2zm4 0l4-4v2l-2 2h-2z'/%3E%3C/g%3E%3C/svg%3E");
 }

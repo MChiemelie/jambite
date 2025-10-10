@@ -6,7 +6,7 @@ export default function Steps() {
     <section className="flex justify-center">
       <div className="w-11/12 flex flex-col items-center gap-16">
         <div className="text-center flex flex-col gap-4">
-          <h2 className="font-semibold text-2xl md:text-4xl text-foreground/60">
+          <h2 className="font-semibold text-2xl md:text-4xl">
             How <span className="bg-gradient-to-r from-blue-800 to-indigo-900 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-sky-400 dark:via-blue-500 dark:to-cyan-400 dark:bg-clip-text dark:text-transparent">It Works!</span>
           </h2>
           <p className="text-md font-meduim">You are just three steps to excellence. Yes! It is that easy!</p>

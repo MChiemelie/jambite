@@ -11,8 +11,6 @@ import { useRouter } from 'next/navigation';
 
 const subjects = ['Use of English', 'Mathematics', 'Commerce', 'Accounting', 'Biology', 'Physics', 'Chemistry', 'Lit. In English', 'Government', 'Christian Rel. Know', 'Geography', 'Economics', 'Islamic Rel. Know', 'Civic Education', 'History'];
 
-const parameters = ['english', 'mathematics', 'commerce', 'accounting', 'biology', 'physics', 'chemistry', 'englishlit', 'government', 'crk', 'geography', 'economics', 'irk', 'civiledu', 'history'];
-
 const ENGLISH = subjects[0];
 
 const subjectMap: Record<string, string> = {
@@ -35,32 +33,53 @@ const subjectMap: Record<string, string> = {
 
 export default function SelectSubjects() {
   const router = useRouter();
-  const selectedSubjects = useSelectedSubjects();
+  const selectedSubjects = useSelectedSubjects(); // store holds ONLY additional subjects (no English)
   const { setSelectedSubjects, setSelectedSubjectsParameters } = usePracticeActions();
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useUser();
 
+  // init: map saved params (slugs) back to labels and store only extras (exclude English)
   useEffect(() => {
-    if (user?.subjects?.length) {
-      const mapped = user.subjects.map((param) => subjects.find((name) => subjectMap[name] === param) || ENGLISH).filter((s) => s !== ENGLISH);
-
-      setSelectedSubjects([...mapped]);
-    } else {
-      setSelectedSubjects([ENGLISH]);
+    if (!user) {
+      setSelectedSubjects([]); // no extras selected by default
+      return;
     }
+
+    // user.subjects assumed to be ['english', 'mathematics', ...] (slugs)
+    const mapped =
+      (user.subjects || [])
+        .map((param: string) => {
+          // find label by slug
+          const label = subjects.find((name) => subjectMap[name] === param);
+          return label ?? null;
+        })
+        .filter(Boolean) // remove nulls
+        .filter((label) => label !== ENGLISH) || [];
+
+    setSelectedSubjects(mapped as string[]);
   }, [user, setSelectedSubjects]);
 
   const handleCheckboxChange = (subject: string) => {
+    if (subject === ENGLISH) return; // English fixed
+
     const already = selectedSubjects.includes(subject);
 
     if (already) {
       setSelectedSubjects(selectedSubjects.filter((s) => s !== subject));
-    } else if (selectedSubjects.length < 3) {
-      setSelectedSubjects([...selectedSubjects, subject]);
-    } else {
-      setMessage('You can only pick 3 subjects in addition to Use of English.');
+      setMessage('');
+      return;
     }
+
+    if (selectedSubjects.length < 3) {
+      setSelectedSubjects([...selectedSubjects, subject]);
+      setMessage('');
+      return;
+    }
+
+    setMessage('You can only pick 3 subjects in addition to Use of English.');
+    // clear after a few seconds so message doesn't stick
+    window.setTimeout(() => setMessage(''), 3500);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,22 +87,38 @@ export default function SelectSubjects() {
     setIsLoading(true);
     setMessage('');
 
-    const { trials } = await getUserData();
-    if (trials === 0) {
-      router.push('/payments');
-      return;
-    }
+    try {
+      const userData = await getUserData().catch(() => ({ trials: 0 }));
+      const trials = userData?.trials ?? 0;
+      if (trials === 0) {
+        setIsLoading(false);
+        router.push('/payments');
+        return;
+      }
 
-    if (selectedSubjects.length !== 3) {
-      setMessage(`Pick exactly 3 subjects (you picked ${selectedSubjects.length}).`);
+      if (selectedSubjects.length !== 3) {
+        setMessage(`Pick exactly 3 subjects (you picked ${selectedSubjects.length}).`);
+        setIsLoading(false);
+        return;
+      }
+
+      // map labels -> slugs using subjectMap
+      const params = selectedSubjects.map((label) => {
+        const slug = subjectMap[label];
+        if (!slug) throw new Error(`Unknown subject: ${label}`);
+        return slug;
+      });
+
+      setSelectedSubjectsParameters(params);
+      // navigation — no need to setIsLoading(false) because route will change,
+      // but keep it explicit in case navigation fails:
       setIsLoading(false);
-      return;
+      router.push('/practice');
+    } catch (err) {
+      console.error('SelectSubjects submit error', err);
+      setMessage('Something went wrong. Try again.');
+      setIsLoading(false);
     }
-
-    const params = selectedSubjects.map((subj) => parameters[subjects.indexOf(subj)]);
-    setSelectedSubjectsParameters(params);
-
-    router.push('/practice');
   };
 
   return (
@@ -91,15 +126,15 @@ export default function SelectSubjects() {
       <p className="text-xs text-center italic">You can only take four subjects per practice. Use of English has already been selected for you.</p>
 
       <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 text-sm md:text-md place-content-evenly">
-        {subjects.map((subject, i) => {
+        {subjects.map((subject) => {
           const isEnglish = subject === ENGLISH;
-          const checked = selectedSubjects.includes(subject);
+          const checked = isEnglish ? true : selectedSubjects.includes(subject);
           const disabled = isEnglish;
 
           return (
-            <div key={parameters[i]} className="flex items-center gap-2">
+            <div key={subject} className="flex items-center gap-2">
               <Label className="flex items-center gap-2">
-                <Checkbox id={parameters[i]} checked={checked || isEnglish} disabled={disabled} onCheckedChange={() => handleCheckboxChange(subject)} aria-label={subject} />
+                <Checkbox id={subject} checked={checked} disabled={disabled} onCheckedChange={() => handleCheckboxChange(subject)} aria-label={subject} />
                 {subject}
               </Label>
             </div>

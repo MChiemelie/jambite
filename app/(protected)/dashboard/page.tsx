@@ -10,7 +10,7 @@ export default async function DashboardPage() {
   return (
     <div className="flex flex-col gap-4 px-4">
       <div className="flex flex-col lg:flex-row w-full gap-4 h-full justify-center">
-        <div className="flex lg:flex-col flex-col md:flex-row gap-4 justify-evenly items-center mx-auto lg:h-full">
+        <div className="flex lg:flex-col flex-col md:flex-row gap-4  justify-around items-center mx-auto lg:h-full">
           <div className="flex flex-col items-center justify-evenly h-full">
             <Greeting user={user} />
             <div className="lg:hidden">
@@ -29,8 +29,6 @@ export default async function DashboardPage() {
           </div>
         </div>
       </div>
-      {/* <div className="flex-1 min-h-screen rounded bg-muted/50 px-4" /> */}
-      {/* <Leaderboard /> */}
     </div>
   );
 }

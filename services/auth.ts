@@ -51,9 +51,6 @@ export const createAccount = async ({ fullname, email }: { fullname: string; ema
       lastname,
       email,
       userId,
-      trials: 0,
-      currentStreak: 0,
-      longestStreak: 0,
     });
   }
 
@@ -116,16 +113,6 @@ export const getUserData = async () => {
   } catch (error) {
     console.error('Error fetching user data:', error);
     throw new Error('Failed to fetch user data.');
-  }
-};
-
-export const getUserAuth = async () => {
-  try {
-    const { account } = await createSessionClient();
-    return await account.get();
-  } catch (error) {
-    console.error('Error fetching user authentication:', error);
-    return null;
   }
 };
 

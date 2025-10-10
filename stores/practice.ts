@@ -6,6 +6,8 @@ import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 const initialState: PracticeStore = {
+  initialCountdown: 1200,
+  countdown: 1200,
   totalQuestions: 0,
   duration: 0,
   unattemptedQuestions: {},
@@ -16,7 +18,6 @@ const initialState: PracticeStore = {
   numberAttempted: {},
   attemptedQuestions: {},
   submitted: false,
-  countdown: 1200,
   totalCorrect: 0,
   resultsFeedback: {},
   timeEnd: false,
@@ -55,16 +56,37 @@ export const usePracticeStore = create<PracticeStore & { actions: PracticeAction
           previousQuestion: () => set((s) => ({ currentQuestion: Math.max(0, s.currentQuestion - 1) })),
           setCurrentQuestion: (currentQuestion) => set({ currentQuestion }),
           setSubmitted: (submitted) => set({ submitted }),
-          timeEnded: () => {
+          timeEnded: async () => {
+            const state = get();
+            if (state.submitted || state.timeEnd) {
+              return;
+            }
+
+            // Mark that time has ended
             set({ timeEnd: true });
-            get().actions.submitPractice();
+
+            // Call submitPractice and wait for it to complete
+            await get().actions.submitPractice();
           },
-          setCountdown: (countdown) => set({ countdown }),
+          setCountdown: (countdown) => {
+            if (typeof countdown === 'function') {
+              set((state) => ({ countdown: countdown(state.countdown) }));
+            } else {
+              set({ countdown });
+            }
+          },
           setResultsFeedback: (resultsFeedback) => set({ resultsFeedback }),
           setSubmitPopup: (v) => set({ submitPopup: v }),
           selectAnswer: ({ questionId, selectedOption, subject }) => set((s) => selectAnswer(s, questionId, selectedOption, subject) || {}),
           setQuestions: (payload) => set((s) => setQuestions(s, payload)),
-          submitPractice: () => submitPractice(get, set),
+          submitPractice: async () => {
+            const state = get();
+            // Prevent double submission
+            if (state.submitted) {
+              return;
+            }
+            await submitPractice(get, set);
+          },
           setAiReview: ({ subject, questionId, review }) => set((s) => setAIReview(s, subject, questionId, review)),
           setUnattemptedQuestions: (subject, questionId) => set((s) => setUnattemptedQuestions(s, subject, questionId)),
           setPendingReview: (pendingReview) => set({ pendingReview }),
@@ -96,7 +118,6 @@ export const usePracticeStore = create<PracticeStore & { actions: PracticeAction
 export const usePracticeActions = () => usePracticeStore((s) => s.actions);
 export const useHasHydrated = () => usePracticeStore((s) => s.hasHydrated);
 export const useSubmitted = () => usePracticeStore((s) => s.submitted);
-export const useUser = () => usePracticeStore((s) => s.user);
 export const useQuestions = () => usePracticeStore((s) => s.questions);
 export const useSelectedSubject = () => usePracticeStore((s) => s.selectedSubject);
 export const useCurrentQuestion = () => usePracticeStore((s) => s.currentQuestion);

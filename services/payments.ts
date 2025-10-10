@@ -1,11 +1,15 @@
 'use server';
 
+import { Models, Query } from 'node-appwrite';
 import { appwriteConfig } from '@/config/appwrite';
 import { createSessionClient } from '@/libraries';
-import { ID, Query } from 'node-appwrite';
 import { getUserData } from './auth';
+import { plans } from '@/data';
+import { redirect } from 'next/navigation';
+import { PaymentError, PaymentErrorCode } from './error';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
 
 async function makePayment(amount: number) {
   try {
@@ -49,11 +53,47 @@ async function verifyPayment(reference: string, userId: string) {
 
 async function getPayments(currentPage: number, perPage: number) {
   try {
-    const response = await fetch(`${BASE_URL}/api/payments?action=transactions&page=${currentPage}&perPage=${perPage}`);
+    const user = await getUserData();
+
+    if (!user?.email) {
+      throw new PaymentError(PaymentErrorCode.INVALID_INPUT, 'User email not found', 400);
+    }
+
+    const { email, paystackId } = user;
+
+    const params = new URLSearchParams({
+      action: 'transactions',
+      page: currentPage.toString(),
+      perPage: perPage.toString(),
+    });
+
+    if (paystackId) {
+      params.append('customer', paystackId);
+    } else {
+      params.append('email', email);
+    }
+
+    const response = await fetch(`${BASE_URL}/api/payments?${params.toString()}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new PaymentError(errorData.code || PaymentErrorCode.UNKNOWN_ERROR, errorData.error || 'Failed to fetch payments', response.status, errorData.details);
+    }
+
     return response.json();
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to fetch payments:', error);
-    throw error;
+
+    // Re-throw PaymentError as-is
+    if (error instanceof PaymentError) {
+      throw error;
+    }
+
+    // Wrap other errors
+    throw new PaymentError(PaymentErrorCode.UNKNOWN_ERROR, 'Failed to fetch payments', 500, { originalError: error.message });
   }
 }
 

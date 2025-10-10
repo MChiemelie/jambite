@@ -1,7 +1,7 @@
 import { signUpWithGoogle } from '@/services';
 import Image from 'next/image';
 
-export default function GoogleAuth() {
+export default async function GoogleAuth() {
   return (
     <form action={signUpWithGoogle}>
       <button type="submit" className="border border-foreground/20 rounded-lg w-full flex items-center justify-center p-2 shadow-lg mx-auto gap-2">

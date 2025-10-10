@@ -1,7 +1,7 @@
 import { Sidebar } from '@/components/sidebar';
-import User from '@/providers/user';
+import { User } from '@/providers';
 
-export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
+export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   return (
     <User>
       <Sidebar>{children}</Sidebar>

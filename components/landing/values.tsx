@@ -5,7 +5,7 @@ export default function Values() {
   return (
     <section className="py-2 sm:py-4 gap-5 sm:gap-10 overflow-hidden">
       <div className="max-w-screen-xl mx-auto flex flex-col gap-4 sm:gap-8 md:gap-12 lg:gap-20">
-        <h2 className="max-w-4xl text-center mx-auto font-semibold text-xl sm:text-2xl  md:text-4xl md:w-[80%]">
+        <h2 className="max-w-5xl text-center mx-auto font-semibold text-xl sm:text-2xl  md:text-4xl md:w-[80%]">
           Everything you need <br />
           <span className="bg-gradient-to-r from-blue-800 to-indigo-900 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-sky-400 dark:via-blue-500 dark:to-cyan-400 dark:bg-clip-text dark:text-transparent">
             AI, Past Questions, <br className="hidden lg:block" /> CBT Interface, Analytics and more!

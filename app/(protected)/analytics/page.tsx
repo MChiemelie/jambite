@@ -1,6 +1,6 @@
-import { Accuracy, Attempts, Duration, Precision, Scores, Subjects } from '@/components/analytics';
 import { Status } from '@/components/custom';
 import { calculateAnalytics } from '@/helpers/analytics';
+import { AnalyticsGrid } from '@/components/analytics';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,9 +14,10 @@ export default async function AnalyticsPage() {
   }
 
   return (
-    <section className="p-2 md:p-4 lg:p-8 w-full">
-      <figure className="quote text-center mb-10">
+    <section className="p-2 md:p-4 lg:p-8 w-full flex flex-col gap-10">
+      <figure className="quote text-center">
         <blockquote>
+          <span className="text-2xl">📊</span>
           <h1 className="font-bold italic text-lg">“Above all else, show the data.”</h1>
         </blockquote>
         <figcaption>
@@ -25,20 +26,7 @@ export default async function AnalyticsPage() {
           </cite>
         </figcaption>
       </figure>
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 w-full">
-        <Accuracy data={accuracyData} />
-
-        <Attempts totalAttempts={practiceAnalytics?.totalAttempts} totalQuestions={practiceAnalytics?.totalQuestions} />
-
-        <Subjects data={subjectsAttemptsData} />
-
-        <Scores data={subjectsScoreData} />
-
-        <Duration data={durationData} />
-
-        <Precision data={acumenData} />
-      </div>
+      <AnalyticsGrid practiceAnalytics={practiceAnalytics} accuracyData={accuracyData} subjectsScoreData={subjectsScoreData} subjectsAttemptsData={subjectsAttemptsData} acumenData={acumenData} durationData={durationData} />
     </section>
   );
 }
