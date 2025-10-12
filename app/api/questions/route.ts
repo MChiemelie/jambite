@@ -1,9 +1,9 @@
 'use server';
 
+import axios, { type AxiosResponse } from 'axios';
+import { type NextRequest, NextResponse } from 'next/server';
 import { subjectPathMap } from '@/data/subjects';
-import { Question } from '@/types';
-import axios, { AxiosResponse } from 'axios';
-import { NextRequest, NextResponse } from 'next/server';
+import type { Question } from '@/types';
 
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -26,34 +26,43 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const randomYear = searchParams.get('randomYear') ?? '';
 
-    const englishResp: AxiosResponse<{ data: Question[] }> = await axios.get(`https://questions.aloc.com.ng/api/v2/m/60`, {
-      params: {
-        subject: 'english',
-        year: randomYear,
-        random: false,
-        withComprehension: true,
-      },
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        AccessToken: ACCESS_TOKEN,
-      },
-    });
+    const englishResp: AxiosResponse<{ data: Question[] }> = await axios.get(
+      `https://questions.aloc.com.ng/api/v2/m/60`,
+      {
+        params: {
+          subject: 'english',
+          year: randomYear,
+          random: false,
+          withComprehension: true
+        },
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          AccessToken: ACCESS_TOKEN
+        }
+      }
+    );
     const englishQuestions: Question[] = englishResp.data.data;
 
     type Fetched = { subject: string; questions: Question[] };
     const fetched: Fetched[] = await Promise.all(
       subjects.map(async (subj): Promise<Fetched> => {
         try {
-          const resp: AxiosResponse<{ data: Question[] }> = await axios.get(`https://questions.aloc.com.ng/api/v2/q/40`, {
-            params: { subject: subj },
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              AccessToken: ACCESS_TOKEN,
-            },
-          });
-          return { subject: subjectPathMap[subj] ?? subj, questions: resp.data.data };
+          const resp: AxiosResponse<{ data: Question[] }> = await axios.get(
+            `https://questions.aloc.com.ng/api/v2/q/40`,
+            {
+              params: { subject: subj },
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                AccessToken: ACCESS_TOKEN
+              }
+            }
+          );
+          return {
+            subject: subjectPathMap[subj] ?? subj,
+            questions: resp.data.data
+          };
         } catch (err) {
           console.error(`Failed to fetch for ${subj}:`, err);
           return { subject: subjectPathMap[subj] ?? subj, questions: [] };

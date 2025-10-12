@@ -1,18 +1,22 @@
 'use server';
 
-import { appwriteConfig } from '@/config/appwrite';
-import { createAdminClient, createSessionClient } from '@/libraries';
-import { UpdateUser } from '@/types';
-import { parseStringify } from '@/utilities';
-import { names } from '@/utilities/names';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ID, OAuthProvider, Query } from 'node-appwrite';
+import { appwriteConfig } from '@/config/appwrite';
+import { createAdminClient, createSessionClient } from '@/libraries';
+import type { UpdateUser } from '@/types';
+import { parseStringify } from '@/utilities';
+import { names } from '@/utilities/names';
 
 const getUserByEmail = async (email: string) => {
   const { databases } = await createAdminClient();
 
-  const result = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('email', [email])]);
+  const result = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.usersCollectionId,
+    [Query.equal('email', [email])]
+  );
 
   return result.total > 0 ? result.documents[0] : null;
 };
@@ -34,7 +38,13 @@ export const sendEmailOTP = async ({ email }: { email: string }) => {
   }
 };
 
-export const createAccount = async ({ fullname, email }: { fullname: string; email: string }) => {
+export const createAccount = async ({
+  fullname,
+  email
+}: {
+  fullname: string;
+  email: string;
+}) => {
   const existingUser = await getUserByEmail(email);
 
   const userId = await sendEmailOTP({ email });
@@ -45,13 +55,18 @@ export const createAccount = async ({ fullname, email }: { fullname: string; ema
 
     const [firstname, lastname] = await names(fullname);
 
-    await databases.createDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, ID.unique(), {
-      fullname,
-      firstname,
-      lastname,
-      email,
-      userId,
-    });
+    await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.usersCollectionId,
+      ID.unique(),
+      {
+        fullname,
+        firstname,
+        lastname,
+        email,
+        userId
+      }
+    );
   }
 
   return parseStringify({ userId });
@@ -62,7 +77,11 @@ export const updateProfile = async (updates: UpdateUser) => {
     const { databases, account } = await createSessionClient();
     const sessionUser = await account.get();
 
-    const { documents, total } = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', sessionUser.$id)]);
+    const { documents, total } = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.usersCollectionId,
+      [Query.equal('userId', sessionUser.$id)]
+    );
 
     if (total === 0) throw new Error('User not found');
 
@@ -70,7 +89,12 @@ export const updateProfile = async (updates: UpdateUser) => {
 
     const { email, ...safeUpdates } = updates as any;
 
-    const updated = await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, userDoc.$id, safeUpdates);
+    const updated = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.usersCollectionId,
+      userDoc.$id,
+      safeUpdates
+    );
 
     return parseStringify(updated);
   } catch (error) {
@@ -78,7 +102,13 @@ export const updateProfile = async (updates: UpdateUser) => {
   }
 };
 
-export const verifySecret = async ({ userId, password }: { userId: string; password: string }) => {
+export const verifySecret = async ({
+  userId,
+  password
+}: {
+  userId: string;
+  password: string;
+}) => {
   try {
     const { account } = await createAdminClient();
 
@@ -88,7 +118,7 @@ export const verifySecret = async ({ userId, password }: { userId: string; passw
       path: '/',
       httpOnly: true,
       sameSite: 'strict',
-      secure: true,
+      secure: true
     });
 
     return parseStringify({ sessionId: session.$id });
@@ -102,7 +132,11 @@ export const getUserData = async () => {
     const { databases, account } = await createSessionClient();
     const sessionUser = await account.get();
 
-    const { documents, total } = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', sessionUser.$id)]);
+    const { documents, total } = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.usersCollectionId,
+      [Query.equal('userId', sessionUser.$id)]
+    );
 
     if (total === 0) {
       console.warn(`No user found for userId: ${sessionUser.$id}`);
@@ -138,7 +172,10 @@ export const signInUser = async ({ email }: { email: string }) => {
       return parseStringify({ userId: existingUser.userId });
     }
 
-    return parseStringify({ userId: null, error: 'User not found. Try sign up.' });
+    return parseStringify({
+      userId: null,
+      error: 'User not found. Try sign up.'
+    });
   } catch (error) {
     handleError(error, 'Failed to sign in user');
   }
@@ -149,7 +186,11 @@ export async function signUpWithGoogle() {
 
   const origin = (await headers()).get('origin');
 
-  const redirectUrl = await account.createOAuth2Token(OAuthProvider.Google, `${origin}/api/oauth`, `${origin}/sign-up`);
+  const redirectUrl = await account.createOAuth2Token(
+    OAuthProvider.Google,
+    `${origin}/api/oauth`,
+    `${origin}/sign-up`
+  );
 
   return redirect(redirectUrl);
 }

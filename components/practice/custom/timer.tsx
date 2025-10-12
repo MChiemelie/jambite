@@ -1,8 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { useCountdown, usePracticeActions, useSubmitted } from '@/stores/practice';
 import { Timer } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import {
+  useCountdown,
+  usePracticeActions,
+  useSubmitted
+} from '@/stores/practice';
 
 export default function ExamTimer() {
   const countdown = useCountdown();
@@ -19,14 +23,18 @@ export default function ExamTimer() {
     }
 
     // Don't start timer if countdown is invalid
-    if (typeof countdown !== 'number' || isNaN(countdown) || countdown < 0) {
+    if (
+      typeof countdown !== 'number' ||
+      Number.isNaN(countdown) ||
+      countdown < 0
+    ) {
       return;
     }
 
     const timerId = setInterval(() => {
       setCountdown((prev) => {
         // Handle invalid previous value
-        if (typeof prev !== 'number' || isNaN(prev)) {
+        if (typeof prev !== 'number' || Number.isNaN(prev)) {
           return 0;
         }
 
@@ -55,14 +63,15 @@ export default function ExamTimer() {
   }, [submitted, timeEnded, setCountdown, countdown]);
 
   // Handle invalid countdown values
-  const validCountdown = typeof countdown === 'number' && !isNaN(countdown) ? countdown : 0;
+  const validCountdown =
+    typeof countdown === 'number' && !Number.isNaN(countdown) ? countdown : 0;
   const mm = String(Math.floor(validCountdown / 60)).padStart(2, '0');
   const ss = String(validCountdown % 60).padStart(2, '0');
 
   return (
-    <div className="flex gap-2 items-center">
+    <div className='flex gap-2 items-center'>
       <Timer />
-      <span className="bg-accent-2 p-2 w-[60px] text-center rounded-sm text-white">
+      <span className='bg-accent-2 p-2 w-[60px] text-center rounded-sm text-white'>
         {mm}:{ss}
       </span>
     </div>

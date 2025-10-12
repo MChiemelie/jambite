@@ -1,16 +1,18 @@
 'use client';
 
+import imageCompression from 'browser-image-compression';
+import { ImageUp } from 'lucide-react';
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { Input } from '@/components/shadcn/input';
 import { useUser } from '@/contexts';
 import { createAvatar, updateAvatar } from '@/helpers/avatar';
-import imageCompression from 'browser-image-compression';
-import { ImageUp } from 'lucide-react';
-import Image from 'next/image';
 
 export default function UploadAvatar() {
-  const { user } = useUser(true);
-  const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || '/images/profile/default.jpg');
+  const { user } = useUser();
+  const [avatarUrl, setAvatarUrl] = useState(
+    user?.avatarUrl || '/images/profile/default.jpg'
+  );
 
   const avatarId = user?.avatarId;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -26,14 +28,18 @@ export default function UploadAvatar() {
         maxSizeMB: 1,
         maxWidthOrHeight: 512,
         useWebWorker: true,
-        fileType: 'image/jpeg',
+        fileType: 'image/jpeg'
       });
 
-      const compressedFile = new File([compressedBlob], `${file.name.split('.').slice(0, -1).join('.') || 'avatar'}.jpg`, { type: 'image/jpeg' });
+      const compressedFile = new File(
+        [compressedBlob],
+        `${file.name.split('.').slice(0, -1).join('.') || 'avatar'}.jpg`,
+        { type: 'image/jpeg' }
+      );
 
       setAvatarUrl(URL.createObjectURL(compressedFile));
 
-      let newAvatar;
+      let newAvatar: any;
       if (avatarId) {
         newAvatar = await updateAvatar(compressedFile);
       } else {
@@ -52,15 +58,28 @@ export default function UploadAvatar() {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="relative cursor-pointer" onClick={handleClick}>
-        <Image src={avatarUrl} alt={user?.fullname || 'Avatar'} width={300} height={300} className="border-2 border-foreground/60 object-cover rounded-full h-60 w-60" />
+    <div className='flex flex-col items-center'>
+      <div className='relative cursor-pointer'>
+        <Image
+          src={avatarUrl}
+          alt={user?.fullname || 'Avatar'}
+          width={300}
+          height={300}
+          className='border-2 border-foreground/60 object-cover rounded-full h-60 w-60'
+        />
 
-        <div className="absolute bottom-4 right-4 lg:bottom-5 lg:right-5 bg-background/90 p-1 rounded-full border-2 border-brand">
-          <ImageUp className="text-foreground w-6 h-6" />
+        <div className='absolute bottom-4 right-4 lg:bottom-5 lg:right-5 bg-background/90 p-1 rounded-full border-2 border-brand'>
+          <ImageUp className='text-foreground w-6 h-6' />
         </div>
       </div>
-      <Input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+      <Input
+        type='file'
+        accept='image/*'
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        className='hidden'
+        onClick={handleClick}
+      />
     </div>
   );
 }

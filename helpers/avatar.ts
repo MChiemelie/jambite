@@ -1,16 +1,23 @@
 'use server';
 
+import { ID } from 'node-appwrite';
 import { appwriteConfig } from '@/config/appwrite';
 import { createSessionClient } from '@/libraries';
 import { getUserData, updateProfile } from '@/services';
-import { ID } from 'node-appwrite';
 
 export async function createAvatar(file: File) {
   const { storage } = await createSessionClient();
 
-  const newAvatar = await storage.createFile(appwriteConfig.bucketId, ID.unique(), file);
+  const newAvatar = await storage.createFile(
+    appwriteConfig.bucketId,
+    ID.unique(),
+    file
+  );
 
-  const newAvatarUrl = await getImageFile(appwriteConfig.bucketId, newAvatar.$id);
+  const newAvatarUrl = await getImageFile(
+    appwriteConfig.bucketId,
+    newAvatar.$id
+  );
 
   await updateProfile({ avatarUrl: newAvatarUrl, avatarId: newAvatar.$id });
 

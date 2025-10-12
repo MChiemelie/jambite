@@ -1,16 +1,19 @@
+import { cookies } from 'next/headers';
+import { type NextRequest, NextResponse } from 'next/server';
+import { ID, Query } from 'node-appwrite';
 import { appwriteConfig } from '@/config/appwrite';
 import { createAdminClient, createSessionClient } from '@/libraries';
 import { names } from '@/utilities/names';
-import { cookies } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
-import { ID, Query } from 'node-appwrite';
 
 export async function GET(request: NextRequest) {
   const userId = request.nextUrl.searchParams.get('userId');
   const secret = request.nextUrl.searchParams.get('secret');
 
   if (!userId || !secret) {
-    return NextResponse.json({ error: 'Missing userId or secret' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Missing userId or secret' },
+      { status: 400 }
+    );
   }
 
   try {
@@ -21,7 +24,7 @@ export async function GET(request: NextRequest) {
       path: '/',
       httpOnly: true,
       sameSite: 'strict',
-      secure: true,
+      secure: true
     });
 
     const { account, databases } = await createSessionClient();
@@ -31,24 +34,36 @@ export async function GET(request: NextRequest) {
 
     const profilePictureUrl = user.prefs?.profilePicture || null;
 
-    const existingUser = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', userId)]);
+    const existingUser = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.usersCollectionId,
+      [Query.equal('userId', userId)]
+    );
 
     if (existingUser.documents.length === 0) {
       const [firstname, lastname] = await names(fullname);
 
-      await databases.createDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, ID.unique(), {
-        fullname,
-        firstname,
-        lastname,
-        email,
-        userId,
-        avatarUrl: profilePictureUrl,
-      });
+      await databases.createDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.usersCollectionId,
+        ID.unique(),
+        {
+          fullname,
+          firstname,
+          lastname,
+          email,
+          userId,
+          avatarUrl: profilePictureUrl
+        }
+      );
     }
 
     return NextResponse.redirect(`${request.nextUrl.origin}/dashboard`);
   } catch (error) {
     console.error('Error during OAuth callback:', error);
-    return NextResponse.json({ error: 'Authentication failed' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Authentication failed' },
+      { status: 500 }
+    );
   }
 }

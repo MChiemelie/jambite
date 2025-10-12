@@ -49,7 +49,13 @@
   "collections": [
     {
       "$id": "673148fb002c5c290054",
-      "$permissions": ["create(\"users\")", "read(\"users\")", "update(\"users\")", "delete(\"users\")", "read(\"any\")"],
+      "$permissions": [
+        "create(\"users\")",
+        "read(\"users\")",
+        "update(\"users\")",
+        "delete(\"users\")",
+        "read(\"any\")"
+      ],
       "databaseId": "6731488700396455a17a",
       "name": "users",
       "enabled": true,
@@ -166,7 +172,23 @@
           "type": "string",
           "required": false,
           "array": true,
-          "elements": ["english", "mathematics", "commerce", "accounting", "biology", "physics", "chemistry", "englishlit", "government", "crk", "geography", "economics", "irk", "civiledu", "history"],
+          "elements": [
+            "english",
+            "mathematics",
+            "commerce",
+            "accounting",
+            "biology",
+            "physics",
+            "chemistry",
+            "englishlit",
+            "government",
+            "crk",
+            "geography",
+            "economics",
+            "irk",
+            "civiledu",
+            "history"
+          ],
           "format": "enum",
           "default": null
         },
@@ -523,7 +545,15 @@
   "buckets": [
     {
       "$id": "673153640004211e1906",
-      "$permissions": ["read(\"any\")", "update(\"any\")", "delete(\"any\")", "create(\"users\")", "read(\"users\")", "update(\"users\")", "delete(\"users\")"],
+      "$permissions": [
+        "read(\"any\")",
+        "update(\"any\")",
+        "delete(\"any\")",
+        "create(\"users\")",
+        "read(\"users\")",
+        "update(\"users\")",
+        "delete(\"users\")"
+      ],
       "fileSecurity": false,
       "name": "avatar",
       "enabled": true,

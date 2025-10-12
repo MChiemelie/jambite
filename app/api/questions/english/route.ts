@@ -1,8 +1,8 @@
 'use server';
 
-import { Question } from '@/types';
-import axios, { AxiosResponse } from 'axios';
-import { NextRequest, NextResponse } from 'next/server';
+import axios, { type AxiosResponse } from 'axios';
+import { type NextRequest, NextResponse } from 'next/server';
+import type { Question } from '@/types';
 
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 
@@ -16,19 +16,22 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const year = searchParams.get('year') ?? '';
     const count = parseInt(searchParams.get('count') ?? '60', 10);
 
-    const response: AxiosResponse<{ data: Question[] }> = await axios.get(`https://questions.aloc.com.ng/api/v2/m/${count}`, {
-      params: {
-        subject: 'english',
-        year,
-        random: false,
-        withComprehension: true,
-      },
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        AccessToken: ACCESS_TOKEN,
-      },
-    });
+    const response: AxiosResponse<{ data: Question[] }> = await axios.get(
+      `https://questions.aloc.com.ng/api/v2/m/${count}`,
+      {
+        params: {
+          subject: 'english',
+          year,
+          random: false,
+          withComprehension: true
+        },
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          AccessToken: ACCESS_TOKEN
+        }
+      }
+    );
 
     return NextResponse.json({ questions: response.data.data });
   } catch (err) {

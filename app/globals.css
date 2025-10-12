@@ -3,7 +3,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --breakpoint-*: initial;
+  --breakpoint: initial;
   --breakpoint-xs: 320px;
   --breakpoint-sm: 480px;
   --breakpoint-md: 881px;
@@ -390,29 +390,38 @@
 
 @layer utilities {
   /* prettier-ignore */
-  *, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
   /* prettier-ignore */
-  html, body {
-  scroll-behavior: smooth;
-  overflow: auto;
-  scrollbar-width: thin;
-  font-family: var(--font-body);
-}
+  html,
+  body {
+    scroll-behavior: smooth;
+    overflow: auto;
+    scrollbar-width: thin;
+    font-family: var(--font-body);
+  }
 
   /* prettier-ignore */
-  h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
 
   /* prettier-ignore */
-  ul, ol {
-  list-style: none;
-}
+  ul,
+  ol {
+    list-style: none;
+  }
 
   button {
     outline: none;
@@ -456,8 +465,8 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --font-heading: 'Assistant', sans-serif;
-    --font-body: 'Mulish', sans-serif;
+    --font-heading: "Assistant", sans-serif;
+    --font-body: "Mulish", sans-serif;
     --accent1: 243 100% 69.4%;
     --accent2: 136 100% 18%;
     --accent3: 0 100% 30%;

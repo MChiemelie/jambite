@@ -13,5 +13,5 @@ export const subjectPathMap: Record<string, string> = {
   economics: 'Economics',
   irk: 'Islamic Rel. Know',
   civiledu: 'Civic Education',
-  history: 'History',
+  history: 'History'
 };

@@ -1,7 +1,7 @@
 'use server';
 
-import { getUserData } from '@/services';
 import { redirect } from 'next/navigation';
+import { getUserData } from '@/services';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -15,7 +15,7 @@ export async function getQuestions(subjects: string[], randomYear: string) {
 
     const queryParams = new URLSearchParams({
       subjects: subjects.join(','),
-      randomYear,
+      randomYear
     }).toString();
 
     const response = await fetch(`${BASE_URL}/api/questions?${queryParams}`);
