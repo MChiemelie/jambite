@@ -1,9 +1,9 @@
 'use server';
 
+import axios, { type AxiosResponse } from 'axios';
+import { type NextRequest, NextResponse } from 'next/server';
 import { subjectPathMap } from '@/data/subjects';
-import { Question } from '@/types';
-import axios, { AxiosResponse } from 'axios';
-import { NextRequest, NextResponse } from 'next/server';
+import type { Question } from '@/types';
 
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 
@@ -18,23 +18,29 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   try {
     if (!subjectParam) {
-      return NextResponse.json({ error: 'Subject name is required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Subject name is required' },
+        { status: 400 }
+      );
     }
 
-    const response: AxiosResponse<{ data: Question[] }> = await axios.get(`https://questions.aloc.com.ng/api/v2/q/${count}`, {
-      params: { subject: subjectParam },
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        AccessToken: ACCESS_TOKEN,
-      },
-    });
+    const response: AxiosResponse<{ data: Question[] }> = await axios.get(
+      `https://questions.aloc.com.ng/api/v2/q/${count}`,
+      {
+        params: { subject: subjectParam },
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          AccessToken: ACCESS_TOKEN
+        }
+      }
+    );
 
     const displayName = subjectPathMap[subjectParam] ?? subjectParam;
 
     return NextResponse.json({
       subject: displayName,
-      questions: response.data.data,
+      questions: response.data.data
     });
   } catch (err) {
     console.error(`Error fetching subject questions for ${subjectParam}:`, err);

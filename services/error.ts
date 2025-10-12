@@ -19,7 +19,7 @@ enum PaymentErrorCode {
   TIMEOUT_ERROR = 'TIMEOUT_ERROR',
 
   // General errors
-  UNKNOWN_ERROR = 'UNKNOWN_ERROR',
+  UNKNOWN_ERROR = 'UNKNOWN_ERROR'
 }
 
 class PaymentError extends Error {
@@ -49,7 +49,7 @@ function handlePaymentError(error: any): {
     message: error.message,
     code: error.code,
     stack: error.stack,
-    details: error.response?.data || error.details,
+    details: error.response?.data || error.details
   });
 
   // Handle custom PaymentError
@@ -59,9 +59,9 @@ function handlePaymentError(error: any): {
         error: error.message,
         code: error.code,
         details: error.details,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       },
-      statusCode: error.statusCode,
+      statusCode: error.statusCode
     };
   }
 
@@ -73,9 +73,9 @@ function handlePaymentError(error: any): {
         error: paystackError.message || 'Paystack API error',
         code: PaymentErrorCode.PAYSTACK_API_ERROR,
         details: paystackError,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       },
-      statusCode: error.response.status,
+      statusCode: error.response.status
     };
   }
 
@@ -85,9 +85,9 @@ function handlePaymentError(error: any): {
       response: {
         error: 'Request timeout. Please try again.',
         code: PaymentErrorCode.TIMEOUT_ERROR,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       },
-      statusCode: 408,
+      statusCode: 408
     };
   }
 
@@ -96,22 +96,22 @@ function handlePaymentError(error: any): {
       response: {
         error: 'Network error. Please check your connection.',
         code: PaymentErrorCode.NETWORK_ERROR,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       },
-      statusCode: 503,
+      statusCode: 503
     };
   }
 
   // Handle Appwrite errors
-  if (error.type && error.type.includes('appwrite')) {
+  if (error.type?.includes('appwrite')) {
     return {
       response: {
         error: error.message || 'Database error',
         code: PaymentErrorCode.DATABASE_ERROR,
         details: { type: error.type, code: error.code },
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       },
-      statusCode: 500,
+      statusCode: 500
     };
   }
 
@@ -120,10 +120,11 @@ function handlePaymentError(error: any): {
     response: {
       error: 'An unexpected error occurred',
       code: PaymentErrorCode.UNKNOWN_ERROR,
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined,
-      timestamp: new Date().toISOString(),
+      details:
+        process.env.NODE_ENV === 'development' ? error.message : undefined,
+      timestamp: new Date().toISOString()
     },
-    statusCode: 500,
+    statusCode: 500
   };
 }
 

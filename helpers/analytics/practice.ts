@@ -1,4 +1,4 @@
-import type { Practice, PracticeAnalytics, DurationProps } from '@/types';
+import type { DurationProps, Practice, PracticeAnalytics } from '@/types';
 
 export function computePracticeAggregates(practices: Practice[]) {
   const initial = {
@@ -12,7 +12,7 @@ export function computePracticeAggregates(practices: Practice[]) {
     bestRatio: -Infinity,
     shortest: null as Practice | null,
     longest: null as Practice | null,
-    highestScore: null as Practice | null,
+    highestScore: null as Practice | null
   };
 
   const acc = practices.reduce((s, p) => {
@@ -31,12 +31,15 @@ export function computePracticeAggregates(practices: Practice[]) {
 
     if (!s.shortest || p.duration < s.shortest.duration) s.shortest = p;
     if (!s.longest || p.duration > s.longest.duration) s.longest = p;
-    if (!s.highestScore || p.totalScore > s.highestScore.totalScore) s.highestScore = p;
+    if (!s.highestScore || p.totalScore > s.highestScore.totalScore)
+      s.highestScore = p;
 
     return s;
   }, initial);
 
-  const averageDuration = acc.totalPractices ? acc.totalDuration / acc.totalPractices : 0;
+  const averageDuration = acc.totalPractices
+    ? acc.totalDuration / acc.totalPractices
+    : 0;
   const totalIncorrect = acc.totalAttempts - acc.totalCorrect;
 
   const practiceAnalytics: PracticeAnalytics = {
@@ -46,26 +49,54 @@ export function computePracticeAggregates(practices: Practice[]) {
     totalCorrect: acc.totalCorrect,
     totalScore: acc.totalScore,
     totalIncorrect,
-    totalAttempts: acc.totalAttempts,
+    totalAttempts: acc.totalAttempts
   };
 
-  const best = acc.bestPractice ?? (practices[0] ?? { duration: 0, totalScore: 0, totalAttempts: 0, totalQuestions: 0, totalCorrect: 0, practiceId: '' });
+  const best = acc.bestPractice ??
+    practices[0] ?? {
+      duration: 0,
+      totalScore: 0,
+      totalAttempts: 0,
+      totalQuestions: 0,
+      totalCorrect: 0,
+      practiceId: ''
+    };
   const shortest = acc.shortest ?? best;
   const longest = acc.longest ?? best;
   const highest = acc.highestScore ?? best;
 
   const durationData: DurationProps = [
-    { metric: 'Best', score: best.totalScore ?? 0, duration: best.duration ?? 0 },
-    { metric: 'Fastest', score: shortest.totalScore ?? 0, duration: shortest.duration ?? 0 },
-    { metric: 'Longest', score: longest.totalScore ?? 0, duration: longest.duration ?? 0 },
-    { metric: 'Highest', score: highest.totalScore ?? 0, duration: highest.duration ?? 0 },
-    { metric: 'Average', score: acc.totalPractices ? acc.totalScore / acc.totalPractices : 0, duration: averageDuration },
+    {
+      metric: 'Best',
+      score: best.totalScore ?? 0,
+      duration: best.duration ?? 0
+    },
+    {
+      metric: 'Fastest',
+      score: shortest.totalScore ?? 0,
+      duration: shortest.duration ?? 0
+    },
+    {
+      metric: 'Longest',
+      score: longest.totalScore ?? 0,
+      duration: longest.duration ?? 0
+    },
+    {
+      metric: 'Highest',
+      score: highest.totalScore ?? 0,
+      duration: highest.duration ?? 0
+    },
+    {
+      metric: 'Average',
+      score: acc.totalPractices ? acc.totalScore / acc.totalPractices : 0,
+      duration: averageDuration
+    }
   ];
 
   return {
     practiceAnalytics,
     durationData,
     bestPractice: best,
-    highestScore: highest,
+    highestScore: highest
   };
 }

@@ -1,5 +1,5 @@
-import { Word } from '@/components/custom';
 import xml2js from 'xml2js';
+import { Word } from '@/components/custom';
 
 export default async function Words() {
   const res = await fetch('https://www.merriam-webster.com/wotd/feed/rss2');
@@ -21,9 +21,18 @@ export default async function Words() {
 
   const parsedItems = items.map((item: any) => {
     const pubDateRaw = item?.pubDate?.[0] || null;
-    const pubDate = pubDateRaw ? new Date(pubDateRaw).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : null;
+    const pubDate = pubDateRaw
+      ? new Date(pubDateRaw).toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })
+      : null;
     const summary = item?.['itunes:summary']?.[0] || '';
-    const titleMatch = summary.match(/^Merriam-Webster's Word of the Day for .*? is: (.+?) /);
+    const titleMatch = summary.match(
+      /^Merriam-Webster's Word of the Day for .*? is: (.+?) /
+    );
     const word = titleMatch ? titleMatch[1] : 'No word available';
 
     const pronunciationMatch = summary.match(/\\([A-Za-z\-\\]+)\\/);
@@ -35,16 +44,26 @@ export default async function Words() {
     const nounTypeMatch = summary.match(/(plural|singular|mass)/);
     const nounType = nounTypeMatch ? nounTypeMatch[0] : null;
 
-    const meaningMatch = summary.match(/(?:verb|noun|adjective|adverb)\s+(?:plural|singular|mass)?\s*(.*?)(?=\.\s|$)/);
-    const meaning = meaningMatch && meaningMatch[1] ? meaningMatch[1].trim() : null;
+    const meaningMatch = summary.match(
+      /(?:verb|noun|adjective|adverb)\s+(?:plural|singular|mass)?\s*(.*?)(?=\.\s|$)/
+    );
+    const meaning = meaningMatch?.[1] ? meaningMatch[1].trim() : null;
 
-    const meaningHTML = meaning ? meaning.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" class="text-blue-500 underline hover:text-blue-700" target="_blank" rel="noopener noreferrer">$1</a>') : null;
+    const meaningHTML = meaning
+      ? meaning.replace(
+          /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+          '<a href="$2" class="text-blue-500 underline hover:text-blue-700" target="_blank" rel="noopener noreferrer">$1</a>'
+        )
+      : null;
 
     const exampleMatch = summary.match(/\/\/ (.+?)(?=\.\s|(?=\.\[)|$)/);
     const example = exampleMatch ? exampleMatch[1] : null;
 
     const exampleMarkdown = example;
-    const exampleHTML = exampleMarkdown?.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" class="text-blue-500 underline hover:text-blue-700" target="_blank" rel="noopener noreferrer">$1</a>');
+    const exampleHTML = exampleMarkdown?.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+      '<a href="$2" class="text-blue-500 underline hover:text-blue-700" target="_blank" rel="noopener noreferrer">$1</a>'
+    );
 
     const audioUrl = item.enclosure ? item.enclosure[0].$.url : null;
 
@@ -58,7 +77,7 @@ export default async function Words() {
       example,
       exampleHTML,
       audioUrl,
-      pubDate,
+      pubDate
     };
   });
 

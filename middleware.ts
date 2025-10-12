@@ -1,9 +1,15 @@
 import { cookies } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 const routes = {
-  protected: ['/dashboard', '/practice', '/analytics', '/leaderboard', '/payments'],
-  public: ['/sign-in', '/sign-up', '/'],
+  protected: [
+    '/dashboard',
+    '/practice',
+    '/analytics',
+    '/leaderboard',
+    '/payments'
+  ],
+  public: ['/sign-in', '/sign-up', '/']
 };
 
 export default async function middleware(req: NextRequest) {
@@ -22,5 +28,5 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)']
 };

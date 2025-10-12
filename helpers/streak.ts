@@ -3,7 +3,7 @@
 import { appwriteConfig } from '@/config/appwrite';
 import { createSessionClient } from '@/libraries';
 import { getPractices } from '@/services/analytics';
-import { User } from '@/types';
+import type { User } from '@/types';
 
 function toDateKey(date: Date): string {
   return date.toISOString().split('T')[0];
@@ -56,7 +56,10 @@ export async function calculateStreaks() {
     // Count backwards from last practice to find current streak
     currentStreak = 1;
     for (let i = practiceDates.length - 2; i >= 0; i--) {
-      const daysDiff = getDaysDifference(practiceDates[i], practiceDates[i + 1]);
+      const daysDiff = getDaysDifference(
+        practiceDates[i],
+        practiceDates[i + 1]
+      );
       if (daysDiff === 1) {
         currentStreak++;
       } else {
@@ -81,7 +84,9 @@ export async function updateStreak(user: User, practicedToday: boolean) {
     {
       currentStreak,
       longestStreak,
-      lastPractice: practicedToday ? new Date().toISOString() : user.lastPractice,
+      lastPractice: practicedToday
+        ? new Date().toISOString()
+        : user.lastPractice
     }
   );
 }

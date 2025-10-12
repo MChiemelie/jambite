@@ -3,7 +3,7 @@ import { Status } from '@/components/custom';
 const chat = {
   image: '/assets/chat.svg',
   desc1: 'The AI chat will soon be available.',
-  desc2: "What you're expecting!",
+  desc2: "What you're expecting!"
 };
 
 export default function ChatPage() {

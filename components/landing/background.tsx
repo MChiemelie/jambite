@@ -30,7 +30,7 @@ const Background: React.FC = () => {
   const lastRef = useRef<LastState>({
     starTimestamp: Date.now(),
     starPosition: { x: 0, y: 0 },
-    mousePosition: { x: 0, y: 0 },
+    mousePosition: { x: 0, y: 0 }
   });
   const countRef = useRef<number>(0);
 
@@ -42,18 +42,20 @@ const Background: React.FC = () => {
     maximumGlowPointSpacing: 10,
     colors: ['249 146 253', '252 254 255'],
     sizes: ['1.4rem', '1rem', '0.6rem'],
-    animations: ['fall-1', 'fall-2', 'fall-3'],
+    animations: ['fall-1', 'fall-2', 'fall-3']
   };
 
   useEffect(() => {
-    const rand = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1)) + min;
+    const rand = (min: number, max: number): number =>
+      Math.floor(Math.random() * (max - min + 1)) + min;
 
-    const selectRandom = <T,>(items: T[]): T => items[rand(0, items.length - 1)];
+    const selectRandom = <T,>(items: T[]): T =>
+      items[rand(0, items.length - 1)];
 
     const calcDistance = (a: Position, b: Position): number => {
       const diffX = b.x - a.x;
       const diffY = b.y - a.y;
-      return Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
+      return Math.sqrt(diffX ** 2 + diffY ** 2);
     };
 
     const createStar = (position: Position): void => {
@@ -62,7 +64,30 @@ const Background: React.FC = () => {
       const star = document.createElement('div');
       const color = selectRandom(config.colors);
 
-      const emojis = ['✔️', '🏆', '🥇', '🎉', '🎊', '✨', '🔥', '💯', '👑', '💻', '⌨️', '😁', '📚', '🤗', '📖', '🤖', '🥳', '🏅', '🎖️', '✅', '🌟', '🚀'];
+      const emojis = [
+        '✔️',
+        '🏆',
+        '🥇',
+        '🎉',
+        '🎊',
+        '✨',
+        '🔥',
+        '💯',
+        '👑',
+        '💻',
+        '⌨️',
+        '😁',
+        '📚',
+        '🤗',
+        '📖',
+        '🤖',
+        '🥳',
+        '🏅',
+        '🎖️',
+        '✅',
+        '🌟',
+        '🚀'
+      ];
       const randomEmoji = selectRandom(emojis);
 
       star.className = 'absolute pointer-events-none z-10';
@@ -91,7 +116,8 @@ const Background: React.FC = () => {
       glow.style.left = `${position.x}px`;
       glow.style.top = `${position.y}px`;
       glow.style.boxShadow = '0rem 0rem 1.2rem 0.6rem rgb(56 189 248 / 0.8)';
-      glow.style.background = 'radial-gradient(circle, rgba(56, 189, 248, 0.7), rgba(59, 130, 246, 0.5), rgba(34, 211, 238, 0.3), transparent)';
+      glow.style.background =
+        'radial-gradient(circle, rgba(56, 189, 248, 0.7), rgba(59, 130, 246, 0.5), rgba(34, 211, 238, 0.3), transparent)';
 
       containerRef.current.appendChild(glow);
 
@@ -102,7 +128,8 @@ const Background: React.FC = () => {
       }, config.glowDuration);
     };
 
-    const determinePointQuantity = (distance: number): number => Math.max(Math.floor(distance / config.maximumGlowPointSpacing), 1);
+    const determinePointQuantity = (distance: number): number =>
+      Math.max(Math.floor(distance / config.maximumGlowPointSpacing), 1);
 
     const createGlow = (last: Position, current: Position): void => {
       const distance = calcDistance(last, current);
@@ -128,7 +155,10 @@ const Background: React.FC = () => {
     };
 
     const adjustLastMousePosition = (position: Position): void => {
-      if (lastRef.current.mousePosition.x === 0 && lastRef.current.mousePosition.y === 0) {
+      if (
+        lastRef.current.mousePosition.x === 0 &&
+        lastRef.current.mousePosition.y === 0
+      ) {
         lastRef.current.mousePosition = position;
       }
     };
@@ -139,8 +169,11 @@ const Background: React.FC = () => {
       adjustLastMousePosition(mousePosition);
 
       const now = Date.now();
-      const hasMovedFarEnough = calcDistance(lastRef.current.starPosition, mousePosition) >= config.minimumDistanceBetweenStars;
-      const hasBeenLongEnough = now - lastRef.current.starTimestamp > config.minimumTimeBetweenStars;
+      const hasMovedFarEnough =
+        calcDistance(lastRef.current.starPosition, mousePosition) >=
+        config.minimumDistanceBetweenStars;
+      const hasBeenLongEnough =
+        now - lastRef.current.starTimestamp > config.minimumTimeBetweenStars;
 
       if (hasMovedFarEnough || hasBeenLongEnough) {
         createStar(mousePosition);
@@ -225,7 +258,10 @@ const Background: React.FC = () => {
         }
       `}</style>
 
-      <div ref={containerRef} className="fixed inset-0 w-screen h-screen overflow-hidden pointer-events-none" />
+      <div
+        ref={containerRef}
+        className='fixed inset-0 w-screen h-screen overflow-hidden pointer-events-none'
+      />
     </>
   );
 };

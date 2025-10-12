@@ -1,4 +1,4 @@
-import { AppwriteDoc } from './appwrite';
+import type { AppwriteDoc } from './appwrite';
 
 export interface User extends AppwriteDoc {
   fullname: string;
@@ -18,10 +18,23 @@ export interface User extends AppwriteDoc {
   gender?: 'male' | 'female';
   phone?: string | null;
   userId: string;
-  paystackId?: number
+  paystackId?: number;
 }
 
-type CreateUser = Omit<User, keyof AppwriteDoc | 'ai' | 'lastPractice' | 'avatar' | 'firstname' | 'lastname' | 'location' | 'birthday' | 'subjects' | 'gender' | 'phone'> & {
+type CreateUser = Omit<
+  User,
+  | keyof AppwriteDoc
+  | 'ai'
+  | 'lastPractice'
+  | 'avatar'
+  | 'firstname'
+  | 'lastname'
+  | 'location'
+  | 'birthday'
+  | 'subjects'
+  | 'gender'
+  | 'phone'
+> & {
   ai?: boolean;
   lastPractice?: string | null;
   avatar?: string | null;

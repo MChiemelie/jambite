@@ -1,10 +1,17 @@
 'use client';
 
+import { Bot } from 'lucide-react';
 import { useEffect } from 'react';
 import { LoadingDots } from '@/components/custom';
 import { useAIReviewStream } from '@/contexts/ai';
-import { useAiReviews, useCurrentQuestion, usePendingReview, usePracticeActions, useQuestions, useSelectedSubject } from '@/stores/practice';
-import { Bot } from 'lucide-react';
+import {
+  useAiReviews,
+  useCurrentQuestion,
+  usePendingReview,
+  usePracticeActions,
+  useQuestions,
+  useSelectedSubject
+} from '@/stores/practice';
 
 export default function AIReview() {
   const subject = useSelectedSubject();
@@ -27,10 +34,10 @@ export default function AIReview() {
 
   if (loading) {
     return (
-      <div className="flex bg-gray-200 border-2 border-gray-300 gap-2 p-4 rounded  animate-glowing">
-        <Bot className="h-auto max-w-8" />
-        <div className="flex items-center">
-          <p className="md:text-lg">Erudite is thinking</p>
+      <div className='flex bg-gray-200 border-2 border-gray-300 gap-2 p-4 rounded  animate-glowing'>
+        <Bot className='h-auto max-w-8' />
+        <div className='flex items-center'>
+          <p className='md:text-lg'>Erudite is thinking</p>
           <LoadingDots />
         </div>
       </div>
@@ -39,9 +46,9 @@ export default function AIReview() {
 
   return (
     existing && (
-      <div className="flex items-start bg-gray-200 border-2 border-gray-300 gap-2 p-4 rounded">
-        <Bot className="h-auto min-w-8" />
-        <p className="md:text-lg">{existing}</p>
+      <div className='flex items-start bg-gray-200 border-2 border-gray-300 gap-2 p-4 rounded'>
+        <Bot className='h-auto min-w-8' />
+        <p className='md:text-lg'>{existing}</p>
       </div>
     )
   );

@@ -1,9 +1,8 @@
-import type { DataTableConfig } from '@/config/data-table';
-import { FilterItemSchema } from '@/libraries/parsers';
 import type { ColumnSort, Row, RowData } from '@tanstack/react-table';
+import type { DataTableConfig } from '@/config/data-table';
+import type { FilterItemSchema } from '@/libraries/parsers';
 
 declare module '@tanstack/react-table' {
-  // biome-ignore lint/correctness/noUnusedVariables: <explanation>
   interface ColumnMeta<TData extends RowData, TValue> {
     label?: string;
     placeholder?: string;

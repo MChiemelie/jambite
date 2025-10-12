@@ -1,9 +1,9 @@
 'use client';
 
-import { useUser } from '@/contexts';
-import { getUserData, disableAI } from '@/services';
-import { useEffect, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { SWRConfig } from 'swr';
+import { useUser } from '@/contexts';
+import { disableAI, getUserData } from '@/services';
 
 function AIWatcher() {
   const { user, mutate } = useUser();
@@ -35,7 +35,11 @@ function AIWatcher() {
   return null;
 }
 
-export default function UserProvider({ children }: { children: React.ReactNode }) {
+export default function UserProvider({
+  children
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <SWRConfig value={{ fetcher: getUserData }}>
       <AIWatcher />

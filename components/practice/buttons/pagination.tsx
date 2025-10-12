@@ -1,7 +1,13 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useCurrentQuestion, usePracticeActions, useQuestions, useSelectedAnswers, useSelectedSubject } from '@/stores/practice';
+import {
+  useCurrentQuestion,
+  usePracticeActions,
+  useQuestions,
+  useSelectedAnswers,
+  useSelectedSubject
+} from '@/stores/practice';
 
 export default function Pagination() {
   const questions = useQuestions();
@@ -11,26 +17,35 @@ export default function Pagination() {
 
   const { setCurrentQuestion } = usePracticeActions();
 
-  const currentQuestionsData = useMemo(() => questions[subject] ?? [], [questions, subject]);
+  const currentQuestionsData = useMemo(
+    () => questions[subject] ?? [],
+    [questions, subject]
+  );
 
   const handlePaginationClick = (i: number) => setCurrentQuestion(i);
 
   return (
-    <div className="flex flex-wrap text-white gap-1">
-      {currentQuestionsData.map((question, index) => (
-        <span
-          key={question.id}
-          className={`p-1 rounded-sm w-10 text-center
-                      ${currentQuestion === index && selectedAnswers[question.id] === undefined ? 'text-accent-2 border-2 border-accent-2' : ''}
-                      ${currentQuestion === index && selectedAnswers[question.id] !== undefined ? 'text-accent-3 border-2 border-accent-3' : ''}
-                      ${currentQuestion !== index && selectedAnswers[question.id] === undefined ? 'bg-accent-2' : ''}
-                      ${currentQuestion !== index && selectedAnswers[question.id] !== undefined ? 'bg-accent-3' : ''}
-                    `}
-          onClick={() => handlePaginationClick(index)}
-        >
-          {index + 1}
-        </span>
-      ))}
+    <div className='grid grid-cols-5 sm:grid-cols-10 gap-2 p-2 md:p-4'>
+      {currentQuestionsData.map((question, index) => {
+        const isAnswered = question.id in selectedAnswers;
+        return (
+          <button
+            key={question.id}
+            type='button'
+            onClick={() => handlePaginationClick(index)}
+            className={`w-10 h-10 rounded flex items-center justify-center font-medium transition-colors ${
+              currentQuestion === index
+                ? 'bg-red-600 text-white'
+                : isAnswered
+                  ? 'bg-green-500 text-white'
+                  : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+            }`}
+            aria-label={`Go to question ${index + 1}`}
+          >
+            {index + 1}
+          </button>
+        );
+      })}
     </div>
   );
 }

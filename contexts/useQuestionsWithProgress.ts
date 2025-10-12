@@ -1,11 +1,11 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { getUserData } from '@/services';
 import { useSelectedSubjectsParameters } from '@/stores/practice';
-import { Question } from '@/types';
+import type { Question } from '@/types';
 import { randomYear } from '@/utilities';
-import { useRouter } from 'next/navigation';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
@@ -29,7 +29,7 @@ export function useQuestionsWithProgress(fetchData: boolean) {
     progress: 0,
     currentSubject: '',
     isLoading: false,
-    error: null,
+    error: null
   });
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export function useQuestionsWithProgress(fetchData: boolean) {
           progress: 0,
           currentSubject: 'Use of English',
           isLoading: true,
-          error: null,
+          error: null
         });
 
         const totalSteps = subjects.length + 1; // +1 for English
@@ -70,9 +70,13 @@ export function useQuestionsWithProgress(fetchData: boolean) {
         // Step 1: Fetch English (Use of English)
         if (isCancelled) return;
 
-        const englishRes = await fetch(`${BASE_URL}/api/questions/english?year=${year}&count=60`);
+        const englishRes = await fetch(
+          `${BASE_URL}/api/questions/english?year=${year}&count=60`
+        );
         if (!englishRes.ok) {
-          throw new Error(`Failed to fetch English questions: ${englishRes.statusText}`);
+          throw new Error(
+            `Failed to fetch English questions: ${englishRes.statusText}`
+          );
         }
         const englishData = await englishRes.json();
 
@@ -86,14 +90,18 @@ export function useQuestionsWithProgress(fetchData: boolean) {
         if (isCancelled) return;
 
         const englishProgress = Math.round((completedSteps / totalSteps) * 100);
-        console.log('English loaded, progress:', englishProgress, `(${completedSteps}/${totalSteps})`);
+        console.log(
+          'English loaded, progress:',
+          englishProgress,
+          `(${completedSteps}/${totalSteps})`
+        );
 
         setState({
           questions: { ...questionsBySubject },
           progress: englishProgress,
           currentSubject: subjects[0] || 'Loading subjects...',
           isLoading: true,
-          error: null,
+          error: null
         });
 
         // Step 2: Fetch each subject sequentially
@@ -105,12 +113,16 @@ export function useQuestionsWithProgress(fetchData: boolean) {
 
           setState((prev) => ({
             ...prev,
-            currentSubject: subject,
+            currentSubject: subject
           }));
 
-          const subjectRes = await fetch(`${BASE_URL}/api/questions/subject?name=${subject}&count=40`);
+          const subjectRes = await fetch(
+            `${BASE_URL}/api/questions/subject?name=${subject}&count=40`
+          );
           if (!subjectRes.ok) {
-            console.error(`Failed to fetch ${subject}, continuing with others...`);
+            console.error(
+              `Failed to fetch ${subject}, continuing with others...`
+            );
             continue; // Don't throw, just skip this subject
           }
 
@@ -120,15 +132,22 @@ export function useQuestionsWithProgress(fetchData: boolean) {
 
           if (isCancelled) return;
 
-          const subjectProgress = Math.round((completedSteps / totalSteps) * 100);
-          console.log(`${subjectData.subject} loaded, progress:`, subjectProgress, `(${completedSteps}/${totalSteps})`);
+          const subjectProgress = Math.round(
+            (completedSteps / totalSteps) * 100
+          );
+          console.log(
+            `${subjectData.subject} loaded, progress:`,
+            subjectProgress,
+            `(${completedSteps}/${totalSteps})`
+          );
 
           setState({
             questions: { ...questionsBySubject },
             progress: subjectProgress,
-            currentSubject: i + 1 < subjects.length ? subjects[i + 1] : 'Complete',
+            currentSubject:
+              i + 1 < subjects.length ? subjects[i + 1] : 'Complete',
             isLoading: true,
-            error: null,
+            error: null
           });
         }
 
@@ -139,7 +158,7 @@ export function useQuestionsWithProgress(fetchData: boolean) {
           progress: 100,
           currentSubject: 'Complete',
           isLoading: false,
-          error: null,
+          error: null
         });
       } catch (err) {
         if (isCancelled) return;
@@ -149,7 +168,7 @@ export function useQuestionsWithProgress(fetchData: boolean) {
           progress: 0,
           currentSubject: '',
           isLoading: false,
-          error: err instanceof Error ? err : new Error('Unknown error'),
+          error: err instanceof Error ? err : new Error('Unknown error')
         });
       }
     };
@@ -161,13 +180,20 @@ export function useQuestionsWithProgress(fetchData: boolean) {
     };
   }, [fetchData, subjects, year, router]);
 
-  console.log('📤 Hook returning - progress:', state.progress, 'isLoading:', state.isLoading, 'currentSubject:', state.currentSubject);
+  console.log(
+    '📤 Hook returning - progress:',
+    state.progress,
+    'isLoading:',
+    state.isLoading,
+    'currentSubject:',
+    state.currentSubject
+  );
 
   return {
     questions: state.questions,
     questionsLoading: state.isLoading,
     questionsError: state.error,
     progress: state.progress,
-    currentSubject: state.currentSubject,
+    currentSubject: state.currentSubject
   };
 }

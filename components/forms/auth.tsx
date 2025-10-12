@@ -1,15 +1,22 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from '@/components/shadcn/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/shadcn/form';
-import { Input } from '@/components/shadcn/input';
-import { createAccount, signInUser, signUpWithGoogle } from '@/services/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { Button } from '@/components/shadcn/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/shadcn/form';
+import { Input } from '@/components/shadcn/input';
+import { createAccount, signInUser, signUpWithGoogle } from '@/services/auth';
 import { OtpModal } from './';
 
 type AuthType = 'sign-in' | 'sign-up';
@@ -17,7 +24,8 @@ type AuthType = 'sign-in' | 'sign-up';
 const authFormSchema = (authType: AuthType) =>
   z.object({
     email: z.string().email(),
-    fullname: authType === 'sign-up' ? z.string().min(2).max(50) : z.string().optional(),
+    fullname:
+      authType === 'sign-up' ? z.string().min(2).max(50) : z.string().optional()
   });
 
 const AuthForm = ({ type }: { type: AuthType }) => {
@@ -31,8 +39,8 @@ const AuthForm = ({ type }: { type: AuthType }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullname: '',
-      email: '',
-    },
+      email: ''
+    }
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -43,36 +51,44 @@ const AuthForm = ({ type }: { type: AuthType }) => {
         type === 'sign-up'
           ? await createAccount({
               fullname: values.fullname ?? '',
-              email: values.email,
+              email: values.email
             })
           : await signInUser({ email: values.email });
       setUserId(user?.userId ?? null);
     } catch (err: any) {
-      setErrorMessage(err?.message ?? 'Failed to create account. Please try again.');
+      setErrorMessage(
+        err?.message ?? 'Failed to create account. Please try again.'
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <main className="flex flex-col gap-4 w-full items-center">
+    <main className='flex flex-col gap-4 w-full items-center'>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form">
-          <h1 className="form-title">{type === 'sign-in' ? '🤗 Welcome Back!' : '🏆 Join The League'}</h1>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='auth-form'>
+          <h1 className='form-title'>
+            {type === 'sign-in' ? '🤗 Welcome Back!' : '🏆 Join The League'}
+          </h1>
 
           {type === 'sign-up' && (
             <FormField
               control={form.control}
-              name="fullname"
+              name='fullname'
               render={({ field }) => (
                 <FormItem>
-                  <div className="shad-form-item">
-                    <FormLabel className="shad-form-label">Full Name</FormLabel>
+                  <div className='shad-form-item'>
+                    <FormLabel className='shad-form-label'>Full Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your full name" className="shad-input" {...field} />
+                      <Input
+                        placeholder='Enter your full name'
+                        className='shad-input'
+                        {...field}
+                      />
                     </FormControl>
                   </div>
-                  <FormMessage className="shad-form-message" />
+                  <FormMessage className='shad-form-message' />
                 </FormItem>
               )}
             />
@@ -80,36 +96,61 @@ const AuthForm = ({ type }: { type: AuthType }) => {
 
           <FormField
             control={form.control}
-            name="email"
+            name='email'
             render={({ field }) => (
               <FormItem>
-                <div className="shad-form-item">
-                  <FormLabel className="shad-form-label" htmlFor="email">
+                <div className='shad-form-item'>
+                  <FormLabel className='shad-form-label' htmlFor='email'>
                     Email
                   </FormLabel>
                   <FormControl>
-                    <Input id="email" placeholder="Enter your email" className="shad-input" aria-describedby="email-message" {...field} />
+                    <Input
+                      type='email'
+                      placeholder='Enter your email'
+                      className='shad-input'
+                      aria-describedby='email-message'
+                      {...field}
+                    />
                   </FormControl>
                 </div>
-                <FormMessage id="email-message" className="shad-form-message" />
+                <FormMessage className='shad-form-message' />
               </FormItem>
             )}
           />
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type='submit' className='w-full' disabled={isLoading}>
             {type === 'sign-in' ? 'Sign In' : 'Sign Up'}
-            {isLoading && <Image src="/assets/loader.svg" alt="Loading circle" width={24} height={24} className="ml-2 animate-spin" />}
+            {isLoading && (
+              <Image
+                src='/assets/loader.svg'
+                alt='Loading circle'
+                width={24}
+                height={24}
+                className='ml-2 animate-spin'
+              />
+            )}
           </Button>
 
           {errorMessage && (
-            <p className="error-message text-red-500" role="alert" aria-live="assertive">
+            <p
+              className='error-message text-red-500'
+              role='alert'
+              aria-live='assertive'
+            >
               {errorMessage}
             </p>
           )}
 
-          <div className="body-2 flex justify-center gap-2 text-xs">
-            <p className="text-foreground/60">{type === 'sign-in' ? "Don't have an account?" : 'Already have an account?'}</p>
-            <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className="font-medium text-brand">
+          <div className='body-2 flex justify-center gap-2 text-xs'>
+            <p className='text-foreground/60'>
+              {type === 'sign-in'
+                ? "Don't have an account?"
+                : 'Already have an account?'}
+            </p>
+            <Link
+              href={type === 'sign-in' ? '/sign-up' : '/sign-in'}
+              className='font-medium text-brand'
+            >
               {type === 'sign-in' ? 'Sign Up' : 'Sign In'}
             </Link>
           </div>

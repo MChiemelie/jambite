@@ -1,9 +1,14 @@
-import { postPerformance, postPractice } from '@/services/practice';
-import { PracticeActions, PracticeStore, Question } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
+import { postPerformance, postPractice } from '@/services/practice';
+import type { PracticeActions, PracticeStore, Question } from '@/types';
 import { updateStreak } from './streak';
 
-export function selectAnswer(s: PracticeStore, questionId: number, selectedOption: string, subject: string) {
+export function selectAnswer(
+  s: PracticeStore,
+  questionId: number,
+  selectedOption: string,
+  subject: string
+) {
   const attempted = { ...s.attemptedQuestions };
   const numberAtt = { ...s.numberAttempted };
   let total = s.totalNumberAttempted;
@@ -23,16 +28,19 @@ export function selectAnswer(s: PracticeStore, questionId: number, selectedOptio
     selectedAnswers: { ...s.selectedAnswers, [questionId]: selectedOption },
     attemptedQuestions: attempted,
     numberAttempted: numberAtt,
-    totalNumberAttempted: total,
+    totalNumberAttempted: total
   };
 }
 
-export function setQuestions(s: PracticeStore, payload: PracticeStore['questions']) {
+export function setQuestions(
+  s: PracticeStore,
+  payload: PracticeStore['questions']
+) {
   const merged = { ...s.questions, ...payload };
   const ids = Object.values(merged)
     .flat()
     .map((q) => q.id);
-  if (new Set(ids).size !== ids.length) console.error('Duplicate Question IDs');
+  if (new Set(ids).size !== ids.length) console.log('Duplicate Question IDs');
 
   const unattempt = { ...s.unattemptedQuestions };
   Object.entries(payload).forEach(([subject, qs]) => {
@@ -45,10 +53,14 @@ export function setQuestions(s: PracticeStore, payload: PracticeStore['questions
 const generateFeedbackMessage = (ua: string, ca: string) => ({
   type: ua === ca ? 'correct' : ua ? 'incorrect' : 'unattempted',
   userAnswer: ua.toUpperCase(),
-  correctAnswer: ca.toUpperCase(),
+  correctAnswer: ca.toUpperCase()
 });
 
-const calculateScores = (subjects: string[], questions: Record<string, Question[]>, selectedAnswers: Record<number, string>) => {
+const calculateScores = (
+  subjects: string[],
+  questions: Record<string, Question[]>,
+  selectedAnswers: Record<number, string>
+) => {
   const feedback: Record<number, any> = {};
   const subjectScores: Record<string, number> = {};
   let totalScore = 0,
@@ -75,7 +87,10 @@ const calculateScores = (subjects: string[], questions: Record<string, Question[
   return { feedback, subjectScores, totalCorrect, totalQuestions };
 };
 
-export async function submitPractice(get: () => PracticeStore & { actions: PracticeActions }, set: (partial: Partial<PracticeStore>) => void) {
+export async function submitPractice(
+  get: () => PracticeStore & { actions: PracticeActions },
+  set: (partial: Partial<PracticeStore>) => void
+) {
   const s = get();
   const { questions, countdown, user, initialCountdown } = s;
 
@@ -85,16 +100,25 @@ export async function submitPractice(get: () => PracticeStore & { actions: Pract
     return;
   }
 
-  const subjects = Array.from(new Set([...Object.keys(s.questions), ...(Array.isArray(s.selectedSubjects) ? s.selectedSubjects : []), ...(s.selectedSubject ? [s.selectedSubject] : [])]));
+  const subjects = Array.from(
+    new Set([
+      ...Object.keys(s.questions),
+      ...(Array.isArray(s.selectedSubjects) ? s.selectedSubjects : []),
+      ...(s.selectedSubject ? [s.selectedSubject] : [])
+    ])
+  );
 
   set({ loading: true, error: null });
 
-  const { feedback, subjectScores, totalCorrect, totalQuestions } = calculateScores(subjects, s.questions, s.selectedAnswers);
+  const { feedback, subjectScores, totalCorrect, totalQuestions } =
+    calculateScores(subjects, s.questions, s.selectedAnswers);
 
   const totalScore = Object.keys(subjectScores).reduce((acc, subject) => {
     const totalForSubject = questions[subject]?.length || 0;
     if (totalForSubject > 0) {
-      const percentage = Number(((subjectScores[subject] / totalForSubject) * 100).toFixed());
+      const percentage = Number(
+        ((subjectScores[subject] / totalForSubject) * 100).toFixed()
+      );
       return acc + percentage;
     }
     return acc;
@@ -114,7 +138,7 @@ export async function submitPractice(get: () => PracticeStore & { actions: Pract
       totalScore,
       totalCorrect,
       totalQuestions,
-      totalAttempts: s.totalNumberAttempted,
+      totalAttempts: s.totalNumberAttempted
     });
 
     await Promise.all(
@@ -127,7 +151,9 @@ export async function submitPractice(get: () => PracticeStore & { actions: Pract
             correct,
             attempts: s.numberAttempted[sub] || 0,
             totalQuestions: s.questions[sub]?.length || 0,
-            score: Math.round((correct / Math.max(1, s.questions[sub]?.length || 1)) * 100),
+            score: Math.round(
+              (correct / Math.max(1, s.questions[sub]?.length || 1)) * 100
+            )
           });
         } catch (e) {
           console.error(`Perf post failed for ${sub}`, e);
@@ -145,7 +171,7 @@ export async function submitPractice(get: () => PracticeStore & { actions: Pract
       totalScore,
       subjectScores,
       duration,
-      totalQuestions,
+      totalQuestions
     });
   } catch (err) {
     console.error('Submission failed', err);
@@ -155,20 +181,31 @@ export async function submitPractice(get: () => PracticeStore & { actions: Pract
   }
 }
 
-export function setAIReview(s: PracticeStore, subject: string, questionId: number, review: string) {
+export function setAIReview(
+  s: PracticeStore,
+  subject: string,
+  questionId: number,
+  review: string
+) {
   return {
     aiReviews: {
       ...s.aiReviews,
-      [subject]: { ...(s.aiReviews[subject] || {}), [questionId]: review },
-    },
+      [subject]: { ...(s.aiReviews[subject] || {}), [questionId]: review }
+    }
   };
 }
 
-export function setUnattemptedQuestions(s: PracticeStore, subject: string, questionId: number) {
+export function setUnattemptedQuestions(
+  s: PracticeStore,
+  subject: string,
+  questionId: number
+) {
   return {
     unattemptedQuestions: {
       ...s.unattemptedQuestions,
-      [subject]: (s.unattemptedQuestions[subject] || []).filter((id) => id !== questionId),
-    },
+      [subject]: (s.unattemptedQuestions[subject] || []).filter(
+        (id) => id !== questionId
+      )
+    }
   };
 }

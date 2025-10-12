@@ -1,20 +1,42 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { UploadAvatar } from '@/components/account';
 import { LocationInput, Status } from '@/components/custom';
 import { Button } from '@/components/shadcn/button';
 import { Checkbox } from '@/components/shadcn/checkbox';
 import { Input } from '@/components/shadcn/input';
 import { Label } from '@/components/shadcn/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/shadcn/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/shadcn/select';
 import { updateProfile } from '@/services';
-import { User } from '@/types';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import type { User } from '@/types';
 
-const subjects = ['Use of English', 'Mathematics', 'Commerce', 'Accounting', 'Biology', 'Physics', 'Chemistry', 'Lit. In English', 'Government', 'Christian Rel. Know', 'Geography', 'Economics', 'Islamic Rel. Know', 'Civic Education', 'History'];
+const subjects = [
+  'Use of English',
+  'Mathematics',
+  'Commerce',
+  'Accounting',
+  'Biology',
+  'Physics',
+  'Chemistry',
+  'Lit. In English',
+  'Government',
+  'Christian Rel. Know',
+  'Geography',
+  'Economics',
+  'Islamic Rel. Know',
+  'Civic Education',
+  'History'
+];
 
 const subjectMap: Record<string, string> = {
   'Use of English': 'english',
@@ -31,7 +53,7 @@ const subjectMap: Record<string, string> = {
   Economics: 'economics',
   'Islamic Rel. Know': 'irk',
   'Civic Education': 'civiledu',
-  History: 'history',
+  History: 'history'
 };
 
 const ENGLISH = subjects[0];
@@ -44,7 +66,12 @@ const accountSchema = z.object({
   phone: z.string().min(10, 'Phone number is too short'),
   gender: z.enum(['male', 'female'], { required_error: 'Gender is required' }),
   location: z.string().min(1, 'Location is required'),
-  subjects: z.array(z.string()).refine((arr) => arr.length === 3, 'Select exactly 3 more subjects (English is compulsory)'),
+  subjects: z
+    .array(z.string())
+    .refine(
+      (arr) => arr.length === 3,
+      'Select exactly 3 more subjects (English is compulsory)'
+    )
 });
 
 type AccountForm = z.infer<typeof accountSchema>;
@@ -55,7 +82,7 @@ export default function Account({ user }: { user: User }) {
     defaultValues: {
       subjects: [ENGLISH],
       gender: 'male' // Add default gender
-    },
+    }
   });
 
   const {
@@ -65,14 +92,16 @@ export default function Account({ user }: { user: User }) {
     watch,
     reset,
     control,
-    formState: { errors, isDirty, isSubmitting },
+    formState: { errors, isDirty, isSubmitting }
   } = form;
   const selectedSubjects = watch('subjects');
 
   useEffect(() => {
     if (user) {
       const mappedSubjects = user.subjects
-        ?.map((s: string) => subjects.find((key) => subjectMap[key] === s) ?? '')
+        ?.map(
+          (s: string) => subjects.find((key) => subjectMap[key] === s) ?? ''
+        )
         .filter(Boolean) || [ENGLISH];
 
       reset({
@@ -83,12 +112,19 @@ export default function Account({ user }: { user: User }) {
         phone: user.phone || '',
         gender: (user.gender as 'male' | 'female') || 'male',
         location: user.location || '',
-        subjects: mappedSubjects.length > 0 ? mappedSubjects : [ENGLISH],
+        subjects: mappedSubjects.length > 0 ? mappedSubjects : [ENGLISH]
       });
     }
   }, [user, reset]);
 
-  if (!user) return <Status image="/assets/profile.svg" desc1="Getting your details." desc2="Hold on." />;
+  if (!user)
+    return (
+      <Status
+        image='/assets/profile.svg'
+        desc1='Getting your details.'
+        desc2='Hold on.'
+      />
+    );
 
   const handleCheckboxChange = (subject: string) => {
     if (subject === ENGLISH) return;
@@ -100,7 +136,10 @@ export default function Account({ user }: { user: User }) {
         { shouldDirty: true, shouldValidate: true }
       );
     } else if (selectedSubjects.length < 3) {
-      setValue('subjects', [...selectedSubjects, subject], { shouldDirty: true, shouldValidate: true });
+      setValue('subjects', [...selectedSubjects, subject], {
+        shouldDirty: true,
+        shouldValidate: true
+      });
     }
   };
 
@@ -110,92 +149,151 @@ export default function Account({ user }: { user: User }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-4 lg:p-8 flex flex-col items-center gap-6 my-10 lg:w-[80%] w-[95%] mx-auto">
-      <div className="flex flex-col gap-8 w-full">
-        <div className="flex items-center gap-4 w-full">
-          <h2 className="text-xs lg:text-sm font-semibold whitespace-nowrap text-foreground/60">BIO DATA</h2>
-          <div className="border-t border-foreground/40 flex-1" />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='p-4 lg:p-8 flex flex-col items-center gap-6 my-10 lg:w-[80%] w-[95%] mx-auto'
+    >
+      <div className='flex flex-col gap-8 w-full'>
+        <div className='flex items-center gap-4 w-full'>
+          <h2 className='text-xs lg:text-sm font-semibold whitespace-nowrap text-foreground/60'>
+            BIO DATA
+          </h2>
+          <div className='border-t border-foreground/40 flex-1' />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-16 items-center justify-center w-full">
+        <div className='flex flex-col md:flex-row gap-16 items-center justify-center w-full'>
           <UploadAvatar />
-          <div className="grid grid-cols-2 gap-4 w-full lg:w-2/3">
-            <div className="flex flex-col gap-1">
+          <div className='grid grid-cols-2 gap-4 w-full lg:w-2/3'>
+            <div className='flex flex-col gap-1'>
               <Label>First Name</Label>
-              <Input {...register('firstname')} placeholder="John" />
-              {errors.firstname && <p className="text-red-500 text-sm">{errors.firstname.message}</p>}
+              <Input {...register('firstname')} placeholder='John' />
+              {errors.firstname && (
+                <p className='text-red-500 text-sm'>
+                  {errors.firstname.message}
+                </p>
+              )}
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className='flex flex-col gap-1'>
               <Label>Last Name</Label>
-              <Input {...register('lastname')} placeholder="Doe" />
-              {errors.lastname && <p className="text-red-500 text-sm">{errors.lastname.message}</p>}
+              <Input {...register('lastname')} placeholder='Doe' />
+              {errors.lastname && (
+                <p className='text-red-500 text-sm'>
+                  {errors.lastname.message}
+                </p>
+              )}
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className='flex flex-col gap-1'>
               <Label>Email</Label>
-              <Input type="email" {...register('email')} disabled placeholder="johndoe@gmail.com" />
-              {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+              <Input
+                type='email'
+                {...register('email')}
+                disabled
+                placeholder='johndoe@gmail.com'
+              />
+              {errors.email && (
+                <p className='text-red-500 text-sm'>{errors.email.message}</p>
+              )}
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className='flex flex-col gap-1'>
               <Label>Date of Birth</Label>
-              <Input type="date" {...register('birthday')} />
-              {errors.birthday && <p className="text-red-500 text-sm">{errors.birthday.message}</p>}
+              <Input type='date' {...register('birthday')} />
+              {errors.birthday && (
+                <p className='text-red-500 text-sm'>
+                  {errors.birthday.message}
+                </p>
+              )}
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className='flex flex-col gap-1'>
               <Label>Phone Number</Label>
-              <Input type="tel" {...register('phone')} placeholder="08123456789" />
-              {errors.phone && <p className="text-red-500 text-sm">{errors.phone.message}</p>}
+              <Input
+                type='tel'
+                {...register('phone')}
+                placeholder='08123456789'
+              />
+              {errors.phone && (
+                <p className='text-red-500 text-sm'>{errors.phone.message}</p>
+              )}
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className='flex flex-col gap-1'>
               <Label>Gender</Label>
               <Controller
                 control={control}
-                name="gender"
+                name='gender'
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select Gender" />
+                    <SelectTrigger className='w-full'>
+                      <SelectValue placeholder='Select Gender' />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value='male'>Male</SelectItem>
+                      <SelectItem value='female'>Female</SelectItem>
                     </SelectContent>
                   </Select>
                 )}
               />
-              {errors.gender && <p className="text-red-500 text-sm">{errors.gender.message}</p>}
+              {errors.gender && (
+                <p className='text-red-500 text-sm'>{errors.gender.message}</p>
+              )}
             </div>
 
-            <div className="flex flex-col gap-1 col-span-2">
+            <div className='flex flex-col gap-1 col-span-2'>
               <Label>Location</Label>
-              <Controller control={control} name="location" render={({ field }) => <LocationInput value={field.value} onChange={field.onChange} />} />
-              {errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
+              <Controller
+                control={control}
+                name='location'
+                render={({ field }) => (
+                  <LocationInput
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+              {errors.location && (
+                <p className='text-red-500 text-sm'>
+                  {errors.location.message}
+                </p>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="w-full flex flex-col gap-6 place-items-center">
-        <div className="flex items-center gap-4 w-full">
-          <h2 className="text-xs lg:text-sm font-semibold whitespace-nowrap text-foreground/60">PREFERRED SUBJECTS</h2>
-          <div className="border-t border-foreground/40 flex-1" />
+      <div className='w-full flex flex-col gap-6 place-items-center'>
+        <div className='flex items-center gap-4 w-full'>
+          <h2 className='text-xs lg:text-sm font-semibold whitespace-nowrap text-foreground/60'>
+            PREFERRED SUBJECTS
+          </h2>
+          <div className='border-t border-foreground/40 flex-1' />
         </div>
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-sm md:text-md">
+        <div className='grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-sm md:text-md'>
           {subjects.map((subject) => (
-            <Label key={subject} className="flex items-center gap-2">
-              <Checkbox checked={subject === ENGLISH || selectedSubjects.includes(subject)} disabled={subject === ENGLISH} onCheckedChange={() => handleCheckboxChange(subject)} />
+            <Label key={subject} className='flex items-center gap-2'>
+              <Checkbox
+                checked={
+                  subject === ENGLISH || selectedSubjects.includes(subject)
+                }
+                disabled={subject === ENGLISH}
+                onCheckedChange={() => handleCheckboxChange(subject)}
+              />
               <span>{subject}</span>
             </Label>
           ))}
         </div>
-        {errors.subjects && <p className="text-red-500 text-sm">{errors.subjects.message}</p>}
+        {errors.subjects && (
+          <p className='text-red-500 text-sm'>{errors.subjects.message}</p>
+        )}
       </div>
-      <Button type="submit" disabled={isSubmitting || !isDirty}>
-        {isSubmitting ? 'Submitting...' : isDirty ? 'Save changes' : 'No changes'}
+      <Button type='submit' disabled={isSubmitting || !isDirty}>
+        {isSubmitting
+          ? 'Submitting...'
+          : isDirty
+            ? 'Save changes'
+            : 'No changes'}
       </Button>
     </form>
   );

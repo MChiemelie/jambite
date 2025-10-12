@@ -3,7 +3,7 @@ import { Status } from '@/components/custom';
 const blog = {
   image: '/assets/blog.svg',
   desc1: 'The blog is in progress.',
-  desc2: 'Watch out!',
+  desc2: 'Watch out!'
 };
 
 export default function BlogPage() {

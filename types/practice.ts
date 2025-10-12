@@ -1,7 +1,7 @@
 import { setQuestions } from '@/helpers/practice';
-import { AppwriteDoc, AppwriteList } from './appwrite';
-import { Question } from './question';
-import { User } from './user';
+import type { AppwriteDoc, AppwriteList } from './appwrite';
+import type { Question } from './question';
+import type { User } from './user';
 
 export type PracticeStore = {
   initialCountdown: number;
@@ -19,7 +19,9 @@ export type PracticeStore = {
   totalCorrect: number;
   totalScore: number;
   subjectScores: { [subject: string]: number };
-  resultsFeedback: { [key: number]: { type: string; userAnswer?: string; correctAnswer: string } };
+  resultsFeedback: {
+    [key: number]: { type: string; userAnswer?: string; correctAnswer: string };
+  };
   timeEnd: boolean;
   submitPopup: boolean;
   selectedSubjects: string[];
@@ -51,15 +53,25 @@ export type PracticeActions = {
   setTotalQuestions: (n: number) => void;
   setResultsFeedback: (fb: PracticeStore['resultsFeedback']) => void;
   setSubmitPopup: (f?: boolean) => void;
-  selectAnswer: (opts: { questionId: number; selectedOption: string; subject: string }) => void;
-  setAiReview: (opts: { subject: string; questionId: number; review: string }) => void;
+  selectAnswer: (opts: {
+    questionId: number;
+    selectedOption: string;
+    subject: string;
+  }) => void;
+  setAiReview: (opts: {
+    subject: string;
+    questionId: number;
+    review: string;
+  }) => void;
   setQuestions: (qs: Record<string, Question[]>) => void;
   reset: () => void;
   setError: (msg: string) => void;
   clearError: () => void;
   setUnattemptedQuestions: (subject: string, questionId: number) => void;
   submitPractice: () => Promise<void>;
-  setPendingReview: (pr: { subject: string; questionId: number } | null) => void;
+  setPendingReview: (
+    pr: { subject: string; questionId: number } | null
+  ) => void;
   setSelectedSubject: (subject: string) => void;
   setHydrated: (v: boolean) => void;
   setFetchData: (v: boolean) => void;
@@ -80,7 +92,10 @@ export interface Practice {
   createdAt: string;
 }
 
-export type CreatePractice = Omit<Practice, keyof AppwriteDoc | 'createdAt' | 'feedback' | 'completed'> & {
+export type CreatePractice = Omit<
+  Practice,
+  keyof AppwriteDoc | 'createdAt' | 'feedback' | 'completed'
+> & {
   feedback?: string | null;
   completed?: boolean;
 };
@@ -100,7 +115,10 @@ export interface Performance {
   createdAt: string;
 }
 
-export type CreatePerformance = Omit<Performance, keyof AppwriteDoc | 'createdAt'>;
+export type CreatePerformance = Omit<
+  Performance,
+  keyof AppwriteDoc | 'createdAt'
+>;
 
 type Performances = AppwriteList<Performance>;
 
