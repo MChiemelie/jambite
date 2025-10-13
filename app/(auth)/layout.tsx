@@ -4,6 +4,8 @@ import GoogleAuth from '@/components/forms/google';
 import { Theme } from '@/components/themes';
 import { getUserData } from '@/services';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AuthLayout({
   children
 }: {
