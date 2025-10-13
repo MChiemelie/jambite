@@ -1,12 +1,18 @@
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 import GoogleAuth from '@/components/forms/google';
 import { Theme } from '@/components/themes';
+import { getUserData } from '@/services';
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getUserData();
+
+  if (user) redirect('/dashboard');
+
   return (
     <div className='flex min-h-screen'>
       <div className='hidden w-1/2 items-center justify-center md:flex relative'>

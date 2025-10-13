@@ -27,7 +27,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const randomYear = searchParams.get('randomYear') ?? '';
 
     const englishResp: AxiosResponse<{ data: Question[] }> = await axios.get(
-      `https://questions.aloc.com.ng/api/v2/m/10`,
+      `https://questions.aloc.com.ng/api/v2/m/60`,
       {
         params: {
           subject: 'english',
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       subjects.map(async (subj): Promise<Fetched> => {
         try {
           const resp: AxiosResponse<{ data: Question[] }> = await axios.get(
-            `https://questions.aloc.com.ng/api/v2/q/3`,
+            `https://questions.aloc.com.ng/api/v2/q/40`,
             {
               params: { subject: subj },
               headers: {
