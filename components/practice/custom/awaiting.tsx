@@ -20,6 +20,7 @@ function CountdownTimer({
  const endedRef = useRef(false);
 
  useEffect(() => {
+  // guard: invalid input
   if (
    typeof initialSeconds !== 'number' ||
    Number.isNaN(initialSeconds) ||
@@ -37,6 +38,7 @@ function CountdownTimer({
     if (prev <= 1) {
      if (!endedRef.current) {
       endedRef.current = true;
+      // call onEnd but don't block UI
       if (onEnd) setTimeout(onEnd, 0);
      }
      clearInterval(id);
@@ -80,15 +82,11 @@ function CountdownTimer({
 export default function Awaiting({
  estimatedSeconds,
  onCancel,
- onTimeEnd,
- onClose,
- ready = false
+ onTimeEnd
 }: {
  estimatedSeconds?: number;
  onCancel?: () => void;
  onTimeEnd?: () => void;
- onClose?: () => void; // closes Awaiting and shows Practice
- ready?: boolean;
 }) {
  return (
   <div className='w-full max-w-3xl mx-auto p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/6 shadow-lg'>
@@ -100,7 +98,7 @@ export default function Awaiting({
     </div>
 
     <div className='flex-1'>
-     <div className='flex items-start justify-between'>
+     <div className='flex items-start gap-4'>
       <div>
        <h2 className='text-lg font-semibold'>Fetching your questions…</h2>
        <p className='text-sm text-muted-foreground mt-1'>
@@ -109,30 +107,19 @@ export default function Awaiting({
        </p>
       </div>
 
-      <div className='flex flex-col items-end gap-2'>
-       <CountdownTimer
-        initialSeconds={estimatedSeconds ?? 180}
-        onEnd={onTimeEnd}
-       />
-       <div className='flex gap-2'>
+      <div className='ml-auto flex flex-col items-end gap-2'>
+       <div className='text-xs text-slate-300'>Need to cancel?</div>
+       <div className='flex items-center gap-3'>
+        <CountdownTimer
+         initialSeconds={estimatedSeconds ?? 180}
+         onEnd={onTimeEnd}
+        />
         <button
-         onClick={onCancel}
          type='button'
+         onClick={onCancel}
          className='text-sm px-3 py-1 rounded bg-transparent border border-white/8 hover:bg-white/3'
         >
          Cancel
-        </button>
-        <button
-         onClick={() => ready && onClose?.()}
-         disabled={!ready}
-         type='button'
-         className={`text-sm px-3 py-1 rounded font-medium transition disabled:opacity-50 disabled:cursor-not-allowed ${
-          ready
-           ? 'bg-emerald-500 text-white hover:bg-emerald-600'
-           : 'bg-transparent border border-white/8'
-         }`}
-        >
-         {ready ? 'Start Practice' : 'Preparing...'}
         </button>
        </div>
       </div>

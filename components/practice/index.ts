@@ -5,6 +5,7 @@ import Pagination from './buttons/pagination';
 import PreviousQuestionButton from './buttons/prev';
 import Report from './buttons/report';
 import SubmitButton from './buttons/submit';
+import Awaiting from './custom/awaiting';
 import Feedback from './custom/feedback';
 import QuestionHeader from './custom/header';
 import Options from './custom/options';
@@ -20,24 +21,25 @@ import Results from './tables/results';
 import UnattemptedSummary from './tables/unattempts';
 
 export {
-  AIReview,
-  AIButton,
-  Candidate,
-  Feedback,
-  ExamTimer,
-  TopControls,
-  Practice,
-  Results,
-  QuestionHeader,
-  QuestionSection,
-  SubmitButton,
-  UnattemptedSummary,
-  Report,
-  Subjects,
-  Links,
-  Options,
-  NextQuestionButton,
-  PreviousQuestionButton,
-  Pagination,
-  QuestionBlock
+ Awaiting,
+ AIReview,
+ AIButton,
+ Candidate,
+ Feedback,
+ ExamTimer,
+ TopControls,
+ Practice,
+ Results,
+ QuestionHeader,
+ QuestionSection,
+ SubmitButton,
+ UnattemptedSummary,
+ Report,
+ Subjects,
+ Links,
+ Options,
+ NextQuestionButton,
+ PreviousQuestionButton,
+ Pagination,
+ QuestionBlock
 };

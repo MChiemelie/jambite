@@ -29,7 +29,7 @@
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2,
+    "indentWidth": 1,
     "lineEnding": "lf"
   },
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
@@ -41,15 +41,10 @@
         "noSvgWithoutTitle": "off"
       },
       "complexity": {
-        "noExcessiveCognitiveComplexity": "off",
-        "noForEach": "off",
         "useLiteralKeys": "off"
       },
       "correctness": {
-        "noUnusedVariables": "off",
-        "noUnusedImports": "off",
-        "useExhaustiveDependencies": "off",
-        "noUndeclaredVariables": "off"
+        "useExhaustiveDependencies": "off"
       },
       "style": {
         "noNonNullAssertion": "off",
@@ -59,7 +54,6 @@
       },
       "suspicious": {
         "noExplicitAny": "off",
-        "noArrayIndexKey": "off",
         "noConsole": { "level": "off", "options": { "allow": ["log"] } }
       }
     }
