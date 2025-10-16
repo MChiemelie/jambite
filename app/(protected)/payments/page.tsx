@@ -12,9 +12,7 @@ export default async function PaymentsPage() {
       <figure className='quote text-center'>
         <blockquote>
           <span className='text-2xl'>💸</span>
-          <h1 className='font-bold italic text-lg'>
-            “If you think education is expensive, try ignorance.”
-          </h1>
+          <h1 className='font-bold italic text-lg'>“If you think education is expensive, try ignorance.”</h1>
         </blockquote>
         <figcaption>
           <cite>

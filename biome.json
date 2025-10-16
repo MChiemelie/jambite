@@ -8,29 +8,14 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": [
-      "**",
-      "!**/node_modules",
-      "!**/.next",
-      "!**/out",
-      "!**/dist",
-      "!**/build",
-      "!**/.vercel",
-      "!**/*.config.js",
-      "!**/*.config.mjs",
-      "!**/*.config.ts",
-      "!**/*.css",
-      "!**/components/shadcn",
-      "!**/components/data-table",
-      "!**/components/ui",
-      "!**/types/data-table"
-    ]
+    "includes": ["**", "!**/node_modules", "!**/.next", "!**/out", "!**/dist", "!**/build", "!**/.vercel", "!**/*.config.js", "!**/*.config.mjs", "!**/*.config.ts", "!**/*.css", "!**/components/shadcn", "!**/components/data-table", "!**/components/ui", "!**/types/data-table"]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineEnding": "lf"
+    "lineEnding": "lf",
+    "lineWidth": 300
   },
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
@@ -41,15 +26,10 @@
         "noSvgWithoutTitle": "off"
       },
       "complexity": {
-        "noExcessiveCognitiveComplexity": "off",
-        "noForEach": "off",
         "useLiteralKeys": "off"
       },
       "correctness": {
-        "noUnusedVariables": "off",
-        "noUnusedImports": "off",
-        "useExhaustiveDependencies": "off",
-        "noUndeclaredVariables": "off"
+        "useExhaustiveDependencies": "off"
       },
       "style": {
         "noNonNullAssertion": "off",
@@ -59,7 +39,6 @@
       },
       "suspicious": {
         "noExplicitAny": "off",
-        "noArrayIndexKey": "off",
         "noConsole": { "level": "off", "options": { "allow": ["log"] } }
       }
     }

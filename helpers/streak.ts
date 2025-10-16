@@ -26,9 +26,7 @@ export async function calculateStreaks() {
     return { currentStreak: 0, longestStreak: 0, practiceDates: [] };
   }
 
-  const practiceDates = Array.from(
-    new Set(practices.map((p) => toDateKey(new Date(p.createdAt))))
-  ).sort();
+  const practiceDates = Array.from(new Set(practices.map((p) => toDateKey(new Date(p.createdAt))))).sort();
 
   let longestStreak = 1;
   let streak = 1;
@@ -56,10 +54,7 @@ export async function calculateStreaks() {
     // Count backwards from last practice to find current streak
     currentStreak = 1;
     for (let i = practiceDates.length - 2; i >= 0; i--) {
-      const daysDiff = getDaysDifference(
-        practiceDates[i],
-        practiceDates[i + 1]
-      );
+      const daysDiff = getDaysDifference(practiceDates[i], practiceDates[i + 1]);
       if (daysDiff === 1) {
         currentStreak++;
       } else {
@@ -73,20 +68,11 @@ export async function calculateStreaks() {
 
 export async function updateStreak(user: User, practicedToday: boolean) {
   const { databases } = await createSessionClient();
-
-  // Recalculate from source of truth to avoid sync issues
   const { currentStreak, longestStreak } = await calculateStreaks();
 
-  return await databases.updateDocument(
-    appwriteConfig.databaseId,
-    appwriteConfig.usersCollectionId,
-    user.$id,
-    {
-      currentStreak,
-      longestStreak,
-      lastPractice: practicedToday
-        ? new Date().toISOString()
-        : user.lastPractice
-    }
-  );
+  return await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, user.$id, {
+    currentStreak,
+    longestStreak,
+    lastPractice: practicedToday ? new Date().toISOString() : user.lastPractice
+  });
 }

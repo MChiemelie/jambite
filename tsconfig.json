@@ -23,12 +23,6 @@
     ],
     "lib": ["dom", "dom.iterable", "esnext"]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "app/page.jsx"
-  ],
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts", "app/page.jsx"],
   "exclude": ["node_modules"]
 }

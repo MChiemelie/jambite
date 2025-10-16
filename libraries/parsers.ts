@@ -1,24 +1,15 @@
 import { createParser } from 'nuqs/server';
 import { z } from 'zod';
 import { dataTableConfig } from '@/config/data-table';
-import type {
-  ExtendedColumnFilter,
-  ExtendedColumnSort
-} from '@/types/data-table';
+import type { ExtendedColumnSort } from '@/types/data-table';
 
 const sortingItemSchema = z.object({
   id: z.string(),
   desc: z.boolean()
 });
 
-export const getSortingStateParser = <TData>(
-  columnIds?: string[] | Set<string>
-) => {
-  const validKeys = columnIds
-    ? columnIds instanceof Set
-      ? columnIds
-      : new Set(columnIds)
-    : null;
+export const getSortingStateParser = <TData>(columnIds?: string[] | Set<string>) => {
+  const validKeys = columnIds ? (columnIds instanceof Set ? columnIds : new Set(columnIds)) : null;
 
   return createParser({
     parse: (value) => {
@@ -38,12 +29,7 @@ export const getSortingStateParser = <TData>(
       }
     },
     serialize: (value) => JSON.stringify(value),
-    eq: (a, b) =>
-      a.length === b.length &&
-      a.every(
-        (item, index) =>
-          item.id === b[index]?.id && item.desc === b[index]?.desc
-      )
+    eq: (a, b) => a.length === b.length && a.every((item, index) => item.id === b[index]?.id && item.desc === b[index]?.desc)
   });
 };
 

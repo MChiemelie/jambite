@@ -1,8 +1,6 @@
 import type { Performance, PerformanceAnalytics } from '@/types';
 
-export function computePerformanceSubjects(
-  performances: Performance[]
-): PerformanceAnalytics {
+export function computePerformanceSubjects(performances: Performance[]): PerformanceAnalytics {
   const subjectsMap = performances.reduce<
     Record<
       string,

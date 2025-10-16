@@ -30,29 +30,20 @@ export default function History() {
       {
         id: 'reference',
         accessorKey: 'reference',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Reference' />
-        ),
-        cell: ({ cell }) => (
-          <span className='uppercase'>{cell.getValue<string>()}</span>
-        )
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Reference' />,
+        cell: ({ cell }) => <span className='uppercase'>{cell.getValue<string>()}</span>
       },
       {
         id: 'status',
         accessorKey: 'status',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Status' />
-        ),
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Status' />,
         cell: ({ cell }) => {
           const value = cell.getValue<string>();
           const success = value === 'success';
           const Icon = success ? CheckCircle2 : XCircle;
 
           return (
-            <Badge
-              variant='outline'
-              className={`capitalize flex items-center gap-1 ${success ? 'text-green-600' : 'text-red-600'}`}
-            >
+            <Badge variant='outline' className={`capitalize flex items-center gap-1 ${success ? 'text-green-600' : 'text-red-600'}`}>
               <Icon className='h-4 w-4' />
               {value}
             </Badge>
@@ -62,33 +53,23 @@ export default function History() {
       {
         id: 'channel',
         accessorKey: 'channel',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Method' />
-        ),
-        cell: ({ cell }) => (
-          <span className='capitalize'>{cell.getValue<string>()}</span>
-        )
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Method' />,
+        cell: ({ cell }) => <span className='capitalize'>{cell.getValue<string>()}</span>
       },
       {
         id: 'amount',
         accessorKey: 'amount',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Amount' />
-        ),
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Amount' />,
         cell: ({ cell }) => `₦${(cell.getValue<number>() / 100).toFixed(2)}`
       },
       {
         id: 'paid_at',
         accessorKey: 'paid_at',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Date' />
-        ),
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Date' />,
         cell: ({ cell }) => {
           const raw = cell.getValue<string>();
           const d = new Date(raw);
-          return Number.isNaN(d.getTime())
-            ? 'Invalid date'
-            : d.toLocaleDateString('en-GB') + ' ' + d.toLocaleTimeString();
+          return Number.isNaN(d.getTime()) ? 'Invalid date' : d.toLocaleDateString('en-GB') + ' ' + d.toLocaleTimeString();
         }
       }
     ],
@@ -125,29 +106,15 @@ export default function History() {
   }, [pageIndex]);
 
   if (loading) {
-    return (
-      <Status
-        image='/assets/payments.svg'
-        desc1='Getting payments history'
-        desc2=''
-      />
-    );
+    return <Status image='/assets/payments.svg' desc1='Getting payments history' desc2='' />;
   }
 
   if (error) {
-    return (
-      <Status
-        image='/assets/payments.svg'
-        desc1='Failed to load payments'
-        desc2={error}
-      />
-    );
+    return <Status image='/assets/payments.svg' desc1='Failed to load payments' desc2={error} />;
   }
 
   if (!transactions.length) {
-    return (
-      <Status image='/assets/payments.svg' desc1='No payments found' desc2='' />
-    );
+    return <Status image='/assets/payments.svg' desc1='No payments found' desc2='' />;
   }
 
   return (

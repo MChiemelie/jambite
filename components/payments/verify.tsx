@@ -7,16 +7,13 @@ import { getUserData, verifyPayment } from '@/services';
 import type { User } from '@/types';
 
 export default function Verify() {
-  const [status, setStatus] = useState<'verifying' | 'success' | 'failed'>(
-    'verifying'
-  );
+  const [status, setStatus] = useState<'verifying' | 'success' | 'failed'>('verifying');
   const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
     async function verify() {
-      const reference =
-        searchParams.get('reference') || searchParams.get('trxref');
+      const reference = searchParams.get('reference') || searchParams.get('trxref');
       const user = (await getUserData()) as User;
       const userId = user?.userId;
 
@@ -44,27 +41,9 @@ export default function Verify() {
 
   return (
     <div>
-      {status === 'verifying' && (
-        <Status
-          image='/assets/verify.svg'
-          desc1="We're verifying your payment."
-          desc2='Please hold on.'
-        />
-      )}
-      {status === 'success' && (
-        <Status
-          image='/assets/confirm.svg'
-          desc1='Payment verified!'
-          desc2='Redirecting...'
-        />
-      )}
-      {status === 'failed' && (
-        <Status
-          image='/assets/failed.svg'
-          desc1='Verification failed'
-          desc2='Contact support if you think this is wrong.'
-        />
-      )}
+      {status === 'verifying' && <Status image='/assets/verify.svg' desc1="We're verifying your payment." desc2='Please hold on.' />}
+      {status === 'success' && <Status image='/assets/confirm.svg' desc1='Payment verified!' desc2='Redirecting...' />}
+      {status === 'failed' && <Status image='/assets/failed.svg' desc1='Verification failed' desc2='Contact support if you think this is wrong.' />}
     </div>
   );
 }

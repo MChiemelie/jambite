@@ -18,23 +18,17 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   try {
     if (!subjectParam) {
-      return NextResponse.json(
-        { error: 'Subject name is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Subject name is required' }, { status: 400 });
     }
 
-    const response: AxiosResponse<{ data: Question[] }> = await axios.get(
-      `https://questions.aloc.com.ng/api/v2/q/${count}`,
-      {
-        params: { subject: subjectParam },
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          AccessToken: ACCESS_TOKEN
-        }
+    const response: AxiosResponse<{ data: Question[] }> = await axios.get(`https://questions.aloc.com.ng/api/v2/q/${count}`, {
+      params: { subject: subjectParam },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        AccessToken: ACCESS_TOKEN
       }
-    );
+    });
 
     const displayName = subjectPathMap[subjectParam] ?? subjectParam;
 

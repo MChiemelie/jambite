@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  ExamTimer,
-  Links,
-  Subjects,
-  SubmitButton
-} from '@/components/practice';
+import { ExamTimer, Links, Subjects, SubmitButton } from '@/components/practice';
 
 export default function TopControls() {
   return (

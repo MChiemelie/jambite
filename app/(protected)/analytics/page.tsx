@@ -5,30 +5,12 @@ import { calculateAnalytics } from '@/helpers/analytics';
 export const dynamic = 'force-dynamic';
 
 export default async function AnalyticsPage() {
-  const {
-    practiceAnalytics,
-    accuracyData,
-    subjectsScoreData,
-    subjectsAttemptsData,
-    acumenData,
-    durationData
-  } = await calculateAnalytics();
+  const { practiceAnalytics, accuracyData, subjectsScoreData, subjectsAttemptsData, acumenData, durationData } = await calculateAnalytics();
 
-  const noData =
-    !practiceAnalytics ||
-    !accuracyData?.length ||
-    !subjectsScoreData?.length ||
-    !subjectsAttemptsData?.length ||
-    !acumenData?.length;
+  const noData = !practiceAnalytics || !accuracyData?.length || !subjectsScoreData?.length || !subjectsAttemptsData?.length || !acumenData?.length;
 
   if (noData) {
-    return (
-      <Status
-        image='/assets/analytics.svg'
-        desc1='You have not practiced yet.'
-        desc2='There is nothing to analyse.'
-      />
-    );
+    return <Status image='/assets/analytics.svg' desc1='You have not practiced yet.' desc2='There is nothing to analyse.' />;
   }
 
   return (
@@ -36,25 +18,15 @@ export default async function AnalyticsPage() {
       <figure className='quote text-center'>
         <blockquote>
           <span className='text-2xl'>📊</span>
-          <h1 className='font-bold italic text-lg'>
-            “Above all else, show the data.”
-          </h1>
+          <h1 className='font-bold italic text-lg'>“Above all else, show the data.”</h1>
         </blockquote>
         <figcaption>
           <cite>
-            — Edward R. Tufte,{' '}
-            <em>The Visual Display of Quantitative Information</em>
+            — Edward R. Tufte, <em>The Visual Display of Quantitative Information</em>
           </cite>
         </figcaption>
       </figure>
-      <AnalyticsGrid
-        practiceAnalytics={practiceAnalytics}
-        accuracyData={accuracyData}
-        subjectsScoreData={subjectsScoreData}
-        subjectsAttemptsData={subjectsAttemptsData}
-        acumenData={acumenData}
-        durationData={durationData}
-      />
+      <AnalyticsGrid practiceAnalytics={practiceAnalytics} accuracyData={accuracyData} subjectsScoreData={subjectsScoreData} subjectsAttemptsData={subjectsAttemptsData} acumenData={acumenData} durationData={durationData} />
     </section>
   );
 }

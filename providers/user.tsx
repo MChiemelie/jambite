@@ -3,12 +3,15 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { SWRConfig } from 'swr';
 import { useUser } from '@/contexts';
+import { updateStreak } from '@/helpers/streak';
 import { disableAI, getUserData } from '@/services';
+import { usePracticeActions } from '@/stores/practice';
 
 function AIWatcher() {
   const { user, mutate } = useUser();
   const disabledRef = useRef(false);
   const isProcessingRef = useRef(false);
+  const { reset } = usePracticeActions();
 
   const handleDisableAI = useCallback(async () => {
     if (!user || disabledRef.current || isProcessingRef.current) return;
@@ -29,17 +32,15 @@ function AIWatcher() {
   }, [user, mutate]);
 
   useEffect(() => {
+    reset();
+    if (user) updateStreak(user, false);
     handleDisableAI();
   }, [handleDisableAI]);
 
   return null;
 }
 
-export default function UserProvider({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export default function UserProvider({ children }: { children: React.ReactNode }) {
   return (
     <SWRConfig value={{ fetcher: getUserData }}>
       <AIWatcher />

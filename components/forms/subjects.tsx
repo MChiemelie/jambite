@@ -9,23 +9,7 @@ import { useUser } from '@/contexts';
 import { getUserData } from '@/services';
 import { usePracticeActions, useSelectedSubjects } from '@/stores/practice';
 
-const subjects = [
-  'Use of English',
-  'Mathematics',
-  'Commerce',
-  'Accounting',
-  'Biology',
-  'Physics',
-  'Chemistry',
-  'Lit. In English',
-  'Government',
-  'Christian Rel. Know',
-  'Geography',
-  'Economics',
-  'Islamic Rel. Know',
-  'Civic Education',
-  'History'
-];
+const subjects = ['Use of English', 'Mathematics', 'Commerce', 'Accounting', 'Biology', 'Physics', 'Chemistry', 'Lit. In English', 'Government', 'Christian Rel. Know', 'Geography', 'Economics', 'Islamic Rel. Know', 'Civic Education', 'History'];
 
 const ENGLISH = subjects[0];
 
@@ -50,8 +34,7 @@ const subjectMap: Record<string, string> = {
 export default function SelectSubjects() {
   const router = useRouter();
   const selectedSubjects = useSelectedSubjects(); // store holds ONLY additional subjects (no English)
-  const { setSelectedSubjects, setSelectedSubjectsParameters } =
-    usePracticeActions();
+  const { setSelectedSubjects, setSelectedSubjectsParameters } = usePracticeActions();
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useUser();
@@ -114,9 +97,7 @@ export default function SelectSubjects() {
       }
 
       if (selectedSubjects.length !== 3) {
-        setMessage(
-          `Pick exactly 3 subjects (you picked ${selectedSubjects.length}).`
-        );
+        setMessage(`Pick exactly 3 subjects (you picked ${selectedSubjects.length}).`);
         setIsLoading(false);
         return;
       }
@@ -141,14 +122,8 @@ export default function SelectSubjects() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className='flex flex-col bg-muted/50 rounded w-full md:h-full p-4 gap-6 mx-auto'
-    >
-      <p className='text-xs text-center italic'>
-        You can only take four subjects per practice. Use of English has already
-        been selected for you.
-      </p>
+    <form onSubmit={handleSubmit} className='flex flex-col bg-muted/50 rounded w-full md:h-full p-4 gap-6 mx-auto'>
+      <p className='text-xs text-center italic'>You can only take four subjects per practice. Use of English has already been selected for you.</p>
 
       <div className='grid grid-cols-1 xs:grid-cols-2 gap-4 text-sm md:text-md place-content-evenly'>
         {subjects.map((subject) => {
@@ -159,13 +134,7 @@ export default function SelectSubjects() {
           return (
             <div key={subject} className='flex items-center gap-2'>
               <Label className='flex items-center gap-2'>
-                <Checkbox
-                  id={subject}
-                  checked={checked}
-                  disabled={disabled}
-                  onCheckedChange={() => handleCheckboxChange(subject)}
-                  aria-label={subject}
-                />
+                <Checkbox id={subject} checked={checked} disabled={disabled} onCheckedChange={() => handleCheckboxChange(subject)} aria-label={subject} />
                 {subject}
               </Label>
             </div>
@@ -175,11 +144,7 @@ export default function SelectSubjects() {
 
       {message && <p className='text-red-500 text-center text-xs'>{message}</p>}
 
-      <Button
-        type='submit'
-        disabled={isLoading}
-        className='w-full sm:w-[60%] mx-auto'
-      >
+      <Button type='submit' disabled={isLoading} className='w-full sm:w-[60%] mx-auto'>
         {isLoading ? 'Loading…' : 'Submit'}
       </Button>
     </form>

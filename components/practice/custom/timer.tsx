@@ -2,11 +2,7 @@
 
 import { Timer } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import {
-  useCountdown,
-  usePracticeActions,
-  useSubmitted
-} from '@/stores/practice';
+import { useCountdown, usePracticeActions, useSubmitted } from '@/stores/practice';
 
 export default function ExamTimer() {
   const countdown = useCountdown();
@@ -23,11 +19,7 @@ export default function ExamTimer() {
     }
 
     // Don't start timer if countdown is invalid
-    if (
-      typeof countdown !== 'number' ||
-      Number.isNaN(countdown) ||
-      countdown < 0
-    ) {
+    if (typeof countdown !== 'number' || Number.isNaN(countdown) || countdown < 0) {
       return;
     }
 
@@ -63,8 +55,7 @@ export default function ExamTimer() {
   }, [submitted, timeEnded, setCountdown, countdown]);
 
   // Handle invalid countdown values
-  const validCountdown =
-    typeof countdown === 'number' && !Number.isNaN(countdown) ? countdown : 0;
+  const validCountdown = typeof countdown === 'number' && !Number.isNaN(countdown) ? countdown : 0;
   const mm = String(Math.floor(validCountdown / 60)).padStart(2, '0');
   const ss = String(validCountdown % 60).padStart(2, '0');
 

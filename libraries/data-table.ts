@@ -1,32 +1,14 @@
 import type { Column } from '@tanstack/react-table';
 import { dataTableConfig } from '@/config/data-table';
-import type {
-  ExtendedColumnFilter,
-  FilterOperator,
-  FilterVariant
-} from '@/types/data-table';
+import type { ExtendedColumnFilter, FilterOperator, FilterVariant } from '@/types/data-table';
 
-export function getCommonPinningStyles<TData>({
-  column,
-  withBorder = false
-}: {
-  column: Column<TData>;
-  withBorder?: boolean;
-}): React.CSSProperties {
+export function getCommonPinningStyles<TData>({ column, withBorder = false }: { column: Column<TData>; withBorder?: boolean }): React.CSSProperties {
   const isPinned = column.getIsPinned();
-  const isLastLeftPinnedColumn =
-    isPinned === 'left' && column.getIsLastColumn('left');
-  const isFirstRightPinnedColumn =
-    isPinned === 'right' && column.getIsFirstColumn('right');
+  const isLastLeftPinnedColumn = isPinned === 'left' && column.getIsLastColumn('left');
+  const isFirstRightPinnedColumn = isPinned === 'right' && column.getIsFirstColumn('right');
 
   return {
-    boxShadow: withBorder
-      ? isLastLeftPinnedColumn
-        ? '-4px 0 4px -4px hsl(var(--border)) inset'
-        : isFirstRightPinnedColumn
-          ? '4px 0 4px -4px hsl(var(--border)) inset'
-          : undefined
-      : undefined,
+    boxShadow: withBorder ? (isLastLeftPinnedColumn ? '-4px 0 4px -4px hsl(var(--border)) inset' : isFirstRightPinnedColumn ? '4px 0 4px -4px hsl(var(--border)) inset' : undefined) : undefined,
     left: isPinned === 'left' ? `${column.getStart('left')}px` : undefined,
     right: isPinned === 'right' ? `${column.getAfter('right')}px` : undefined,
     opacity: isPinned ? 0.97 : 1,

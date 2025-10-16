@@ -13,13 +13,7 @@ export default function Theme() {
 
   if (!mounted) {
     return (
-      <Button
-        variant='ghost'
-        data-sidebar='trigger'
-        size='icon'
-        onClick={() => setTheme('light')}
-        className='h-7 w-7'
-      >
+      <Button variant='ghost' data-sidebar='trigger' size='icon' onClick={() => setTheme('light')} className='h-7 w-7'>
         <SunMoon fill='currentColor' className='h-7 w-7' />
       </Button>
     );
@@ -32,17 +26,7 @@ export default function Theme() {
   const Icon = resolvedTheme === 'dark' ? Sun : Moon;
 
   return (
-    <Button
-      aria-label={
-        resolvedTheme === 'dark'
-          ? 'Switch to light theme'
-          : 'Switch to dark theme'
-      }
-      variant='ghost'
-      data-sidebar='trigger'
-      size='icon'
-      onClick={toggleTheme}
-    >
+    <Button aria-label={resolvedTheme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'} variant='ghost' data-sidebar='trigger' size='icon' onClick={toggleTheme}>
       <Icon fill='currentColor' className='h-7 w-7' />
     </Button>
   );

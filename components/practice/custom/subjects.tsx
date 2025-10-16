@@ -1,12 +1,7 @@
 'use client';
 
 import { subjectPathMap } from '@/data/subjects';
-import {
-  usePracticeActions,
-  useQuestions,
-  useSelectedSubject,
-  useUnattemptedQuestions
-} from '@/stores/practice';
+import { usePracticeActions, useQuestions, useSelectedSubject, useUnattemptedQuestions } from '@/stores/practice';
 import CalculatorDialog from './calculator';
 
 export default function Subjects() {
