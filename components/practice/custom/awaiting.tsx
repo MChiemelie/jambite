@@ -13,12 +13,11 @@ function CountdownTimer({ initialSeconds = 1800, onEnd, frozen = false }: { init
       setSecondsLeft(0);
       return;
     }
-
-    // Don't reset if already counting down
+    
     setSecondsLeft((prev) => (prev > 0 ? prev : initialSeconds));
     endedRef.current = false;
 
-    if (frozen) return; // Don't count down if frozen
+    if (frozen) return;
 
     const id = setInterval(() => {
       setSecondsLeft((prev) => {

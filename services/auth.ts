@@ -152,7 +152,12 @@ export async function signUpWithGoogle() {
 
   const origin = (await headers()).get('origin');
 
-  const redirectUrl = await account.createOAuth2Token(OAuthProvider.Google, `${origin}/api/oauth`, `${origin}/sign-up`);
+  // FIXED: createOAuth2Token expects an object, not positional arguments
+  const redirectUrl = await account.createOAuth2Token(
+    OAuthProvider.Google,
+    `${origin}/api/oauth`, // success URL
+    `${origin}/sign-up` // failure URL (optional)
+  );
 
   return redirect(redirectUrl);
 }
