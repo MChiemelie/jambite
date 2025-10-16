@@ -13,7 +13,7 @@ function CountdownTimer({ initialSeconds = 1800, onEnd, frozen = false }: { init
       setSecondsLeft(0);
       return;
     }
-    
+
     setSecondsLeft((prev) => (prev > 0 ? prev : initialSeconds));
     endedRef.current = false;
 
@@ -53,7 +53,7 @@ function CountdownTimer({ initialSeconds = 1800, onEnd, frozen = false }: { init
         <div className='h-0.5 bg-amber-400' style={{ width: `${percent}%`, transition: 'width 250ms linear' }} />
       </div>
 
-      <div className='text-xs text-slate-300'>{percent}%</div>
+      <div className='text-xs text-foreground/30'>{percent}%</div>
     </div>
   );
 }
