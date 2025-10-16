@@ -4,8 +4,7 @@ const toNumber = (v: unknown, fallback = 0) => {
   const n = Number(v);
   return Number.isFinite(n) ? n : fallback;
 };
-export const convertToString = (v: unknown, fallback = 'Unknown') =>
-  v == null ? fallback : String(v);
+export const convertToString = (v: unknown, fallback = 'Unknown') => (v == null ? fallback : String(v));
 
 export const normalizePractice = (raw: any): Practice => {
   const data = raw.data ?? raw;

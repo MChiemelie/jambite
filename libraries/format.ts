@@ -1,7 +1,4 @@
-export function formatDate(
-  date: Date | string | number | undefined,
-  opts: Intl.DateTimeFormatOptions = {}
-) {
+export function formatDate(date: Date | string | number | undefined, opts: Intl.DateTimeFormatOptions = {}) {
   if (!date) return '';
 
   try {

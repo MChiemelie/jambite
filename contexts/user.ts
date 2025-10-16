@@ -2,6 +2,7 @@
 
 import useSWR from 'swr';
 import { getUserData } from '@/services';
+import type { User } from '@/types';
 
 export function useUser() {
   const {
@@ -9,7 +10,7 @@ export function useUser() {
     isLoading,
     data: user,
     mutate
-  } = useSWR('/api/user', getUserData, {
+  } = useSWR<User>('/api/user', getUserData, {
     revalidateOnFocus: false,
     revalidateOnReconnect: true
   });

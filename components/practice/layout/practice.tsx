@@ -1,17 +1,6 @@
 'use client';
 
-import {
-  AIButton,
-  AIReview,
-  Candidate,
-  Feedback,
-  NextQuestionButton,
-  Pagination,
-  PreviousQuestionButton,
-  QuestionBlock,
-  QuestionHeader,
-  TopControls
-} from '@/components/practice';
+import { AIButton, AIReview, Candidate, Feedback, NextQuestionButton, Pagination, PreviousQuestionButton, QuestionBlock, QuestionHeader, TopControls } from '@/components/practice';
 
 export default function Practice() {
   return (
@@ -34,9 +23,7 @@ export default function Practice() {
         </div>
         <Candidate />
       </div>
-      <h1 className='sr-only'>
-        Take your time to study and attempt all questons.
-      </h1>
+      <h1 className='sr-only'>Take your time to study and attempt all questons.</h1>
     </div>
   );
 }

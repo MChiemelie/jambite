@@ -23,29 +23,15 @@ export default function AIReview({ children }: { children: ReactNode }) {
       'You are a world class teacher helping Nigerian senior and post-secondary students to review JAMB, SSCE, and NECO exam past questions. Explain why their answer is right or wrong in two sentences, under 200 characters. Be friendly, simple, informative, expository, analytical and direct. No emojis.'
   });
 
-  const messages = (rawMessages || []).map(
-    (msg: ChatCompletionMessageParam) => {
-      let contentStr = '';
-      if (typeof msg.content === 'string') {
-        contentStr = msg.content;
-      } else if (Array.isArray(msg.content)) {
-        contentStr = msg.content
-          .map((part) =>
-            typeof part === 'string'
-              ? part
-              : 'text' in part && part.text
-                ? part.text
-                : ''
-          )
-          .join('');
-      }
-      return { role: msg.role, content: contentStr };
+  const messages = (rawMessages || []).map((msg: ChatCompletionMessageParam) => {
+    let contentStr = '';
+    if (typeof msg.content === 'string') {
+      contentStr = msg.content;
+    } else if (Array.isArray(msg.content)) {
+      contentStr = msg.content.map((part) => (typeof part === 'string' ? part : 'text' in part && part.text ? part.text : '')).join('');
     }
-  );
+    return { role: msg.role, content: contentStr };
+  });
 
-  return (
-    <AIContext.Provider value={{ messages, loading, submitNewMessage }}>
-      {children}
-    </AIContext.Provider>
-  );
+  return <AIContext.Provider value={{ messages, loading, submitNewMessage }}>{children}</AIContext.Provider>;
 }

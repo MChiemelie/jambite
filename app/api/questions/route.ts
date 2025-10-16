@@ -26,17 +26,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       queryParams.set('randomYear', randomYear);
     }
 
-    const response = await fetch(
-      `${RENDER_API_URL}/api/questions?${queryParams.toString()}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        // Increase timeout since Render might be cold starting
-        signal: AbortSignal.timeout(60000) // 60 seconds
-      }
-    );
+    const response = await fetch(`${RENDER_API_URL}/api/questions?${queryParams.toString()}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // Increase timeout since Render might be cold starting
+      signal: AbortSignal.timeout(60000) // 60 seconds
+    });
 
     if (!response.ok) {
       throw new Error(`Render API returned ${response.status}`);

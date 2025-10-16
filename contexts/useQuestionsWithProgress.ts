@@ -70,13 +70,9 @@ export function useQuestionsWithProgress(fetchData: boolean) {
         // Step 1: Fetch English (Use of English)
         if (isCancelled) return;
 
-        const englishRes = await fetch(
-          `${BASE_URL}/api/questions/english?year=${year}&count=60`
-        );
+        const englishRes = await fetch(`${BASE_URL}/api/questions/english?year=${year}&count=60`);
         if (!englishRes.ok) {
-          throw new Error(
-            `Failed to fetch English questions: ${englishRes.statusText}`
-          );
+          throw new Error(`Failed to fetch English questions: ${englishRes.statusText}`);
         }
         const englishData = await englishRes.json();
 
@@ -90,11 +86,7 @@ export function useQuestionsWithProgress(fetchData: boolean) {
         if (isCancelled) return;
 
         const englishProgress = Math.round((completedSteps / totalSteps) * 100);
-        console.log(
-          'English loaded, progress:',
-          englishProgress,
-          `(${completedSteps}/${totalSteps})`
-        );
+        console.log('English loaded, progress:', englishProgress, `(${completedSteps}/${totalSteps})`);
 
         setState({
           questions: { ...questionsBySubject },
@@ -116,13 +108,9 @@ export function useQuestionsWithProgress(fetchData: boolean) {
             currentSubject: subject
           }));
 
-          const subjectRes = await fetch(
-            `${BASE_URL}/api/questions/subject?name=${subject}&count=40`
-          );
+          const subjectRes = await fetch(`${BASE_URL}/api/questions/subject?name=${subject}&count=40`);
           if (!subjectRes.ok) {
-            console.error(
-              `Failed to fetch ${subject}, continuing with others...`
-            );
+            console.error(`Failed to fetch ${subject}, continuing with others...`);
             continue; // Don't throw, just skip this subject
           }
 
@@ -132,20 +120,13 @@ export function useQuestionsWithProgress(fetchData: boolean) {
 
           if (isCancelled) return;
 
-          const subjectProgress = Math.round(
-            (completedSteps / totalSteps) * 100
-          );
-          console.log(
-            `${subjectData.subject} loaded, progress:`,
-            subjectProgress,
-            `(${completedSteps}/${totalSteps})`
-          );
+          const subjectProgress = Math.round((completedSteps / totalSteps) * 100);
+          console.log(`${subjectData.subject} loaded, progress:`, subjectProgress, `(${completedSteps}/${totalSteps})`);
 
           setState({
             questions: { ...questionsBySubject },
             progress: subjectProgress,
-            currentSubject:
-              i + 1 < subjects.length ? subjects[i + 1] : 'Complete',
+            currentSubject: i + 1 < subjects.length ? subjects[i + 1] : 'Complete',
             isLoading: true,
             error: null
           });
@@ -180,14 +161,7 @@ export function useQuestionsWithProgress(fetchData: boolean) {
     };
   }, [fetchData, subjects, year, router]);
 
-  console.log(
-    '📤 Hook returning - progress:',
-    state.progress,
-    'isLoading:',
-    state.isLoading,
-    'currentSubject:',
-    state.currentSubject
-  );
+  console.log('📤 Hook returning - progress:', state.progress, 'isLoading:', state.isLoading, 'currentSubject:', state.currentSubject);
 
   return {
     questions: state.questions,

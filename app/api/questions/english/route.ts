@@ -16,22 +16,19 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const year = searchParams.get('year') ?? '';
     const count = parseInt(searchParams.get('count') ?? '60', 10);
 
-    const response: AxiosResponse<{ data: Question[] }> = await axios.get(
-      `https://questions.aloc.com.ng/api/v2/m/${count}`,
-      {
-        params: {
-          subject: 'english',
-          year,
-          random: false,
-          withComprehension: true
-        },
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          AccessToken: ACCESS_TOKEN
-        }
+    const response: AxiosResponse<{ data: Question[] }> = await axios.get(`https://questions.aloc.com.ng/api/v2/m/${count}`, {
+      params: {
+        subject: 'english',
+        year,
+        random: false,
+        withComprehension: true
+      },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        AccessToken: ACCESS_TOKEN
       }
-    );
+    });
 
     return NextResponse.json({ questions: response.data.data });
   } catch (err) {

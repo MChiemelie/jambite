@@ -20,26 +20,4 @@ import TopControls from './layout/top';
 import Results from './tables/results';
 import UnattemptedSummary from './tables/unattempts';
 
-export {
- Awaiting,
- AIReview,
- AIButton,
- Candidate,
- Feedback,
- ExamTimer,
- TopControls,
- Practice,
- Results,
- QuestionHeader,
- QuestionSection,
- SubmitButton,
- UnattemptedSummary,
- Report,
- Subjects,
- Links,
- Options,
- NextQuestionButton,
- PreviousQuestionButton,
- Pagination,
- QuestionBlock
-};
+export { Awaiting, AIReview, AIButton, Candidate, Feedback, ExamTimer, TopControls, Practice, Results, QuestionHeader, QuestionSection, SubmitButton, UnattemptedSummary, Report, Subjects, Links, Options, NextQuestionButton, PreviousQuestionButton, Pagination, QuestionBlock };

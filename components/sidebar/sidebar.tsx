@@ -1,11 +1,7 @@
 'use client';
 
 import { AppSidebar } from '@/components/shadcn/app-sidebar';
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger
-} from '@/components/shadcn/sidebar';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/shadcn/sidebar';
 import { Theme } from '@/components/themes';
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {

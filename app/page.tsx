@@ -1,13 +1,4 @@
-import {
-  Background,
-  Footer,
-  Hero,
-  Nav,
-  Pricing,
-  Stake,
-  Steps,
-  Values
-} from '@/components/landing';
+import { Background, Footer, Hero, Nav, Pricing, Stake, Steps, Values } from '@/components/landing';
 
 export default function LandingPage() {
   return (

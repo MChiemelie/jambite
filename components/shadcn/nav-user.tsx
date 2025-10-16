@@ -31,10 +31,12 @@ import {
 } from '@/components/shadcn/sidebar';
 import { useUser } from '@/contexts';
 import { signOutUser } from '@/services/auth';
+import { usePracticeActions } from '@/stores/practice';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { user } = useUser();
+
 
   if (!user) return null;
 

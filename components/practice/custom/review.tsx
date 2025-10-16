@@ -4,14 +4,7 @@ import { Bot } from 'lucide-react';
 import { useEffect } from 'react';
 import { LoadingDots } from '@/components/custom';
 import { useAIReviewStream } from '@/contexts/ai';
-import {
-  useAiReviews,
-  useCurrentQuestion,
-  usePendingReview,
-  usePracticeActions,
-  useQuestions,
-  useSelectedSubject
-} from '@/stores/practice';
+import { useAiReviews, useCurrentQuestion, usePendingReview, usePracticeActions, useQuestions, useSelectedSubject } from '@/stores/practice';
 
 export default function AIReview() {
   const subject = useSelectedSubject();
