@@ -35,7 +35,7 @@ const nextConfig = {
 
 export default withSentryConfig(nextConfig, {
   org: "jambite",
-  project: "javascript-nextjs",
+  project: "jambite",
   silent: !process.env.CI,
   widenClientFileUpload: true,
   disableLogger: true,
