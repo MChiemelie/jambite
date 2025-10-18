@@ -1,5 +1,5 @@
 import { getPerformances } from '@/services/analytics';
-import { FullSubject, type MostPracticedSubjectResult } from '@/types';
+import type { MostPracticedSubjectResult } from '@/types';
 
 export async function getMostPracticedSubject(): Promise<MostPracticedSubjectResult> {
   const performances = await getPerformances();

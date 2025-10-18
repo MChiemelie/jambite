@@ -1,15 +1,23 @@
 'use client';
 
 import { type JSX, useEffect } from 'react';
-// react-scan must be imported before react
-import { scan } from 'react-scan';
 
-export default function ReactScan(): JSX.Element {
+export function ReactScan(): JSX.Element | null {
   useEffect(() => {
-    scan({
-      enabled: true
-    });
+    if (process.env.NODE_ENV === 'development') {
+      import('react-scan')
+        .then((module) => {
+          const { scan } = module;
+          scan({
+            enabled: true,
+            log: false
+          });
+        })
+        .catch((error) => {
+          console.error('Failed to load react-scan:', error);
+        });
+    }
   }, []);
 
-  return <div />;
+  return null;
 }

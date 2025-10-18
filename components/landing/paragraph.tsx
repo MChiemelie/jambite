@@ -19,7 +19,7 @@ export default function Paragraph() {
         const start = i / words.length;
         const end = start + 1 / words.length;
         return (
-          <Word key={i} progress={scrollYProgress} range={[start, end]}>
+          <Word key={word} progress={scrollYProgress} range={[start, end]}>
             {word}
           </Word>
         );
@@ -44,7 +44,7 @@ function Word({ children, progress, range }: WordProps) {
         const charStart = range[0] + i * step;
         const charEnd = range[0] + (i + 1) * step;
         return (
-          <Char key={`char_${i}`} progress={progress} range={[charStart, charEnd]}>
+          <Char key={`char_${char}`} progress={progress} range={[charStart, charEnd]}>
             {char}
           </Char>
         );

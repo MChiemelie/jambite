@@ -73,9 +73,17 @@ export async function GET(req: Request) {
         }
       }
 
+      if (!params.customer) {
+        return NextResponse.json({
+          data: [],
+          pageCount: 0,
+          total: 0
+        });
+      }
+
       const response = await safePaystackRequest(
         () =>
-          axios.get(`https://api.paystack.co/transaction?customer=${params.customer}`, {
+          axios.get(`https://api.paystack.co/transaction`, {
             headers: paystackHeaders,
             params,
             timeout: 10000

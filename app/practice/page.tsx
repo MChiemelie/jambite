@@ -6,13 +6,15 @@ import { Status } from '@/components/custom';
 import { Awaiting, Practice } from '@/components/practice';
 import { useQuestions, useUser } from '@/contexts';
 import { decrementTrials } from '@/services/payments';
-import { useFetchData, usePracticeActions, useSelectedSubjectsParameters } from '@/stores/practice';
+import { useFetchData, usePracticeActions, useSelectedSubjectsParameters, useQuestions as useStoredQuestions } from '@/stores/practice';
 
 export default function PracticePage() {
   const router = useRouter();
   const hasStarted = useRef(false);
+  const hasDecrementedTrials = useRef(false);
   const selectedSubjectsParameters = useSelectedSubjectsParameters();
   const fetchData = useFetchData();
+  const storedQuestions = useStoredQuestions();
 
   const { setUser, setQuestions, setFetchData } = usePracticeActions();
 
@@ -21,24 +23,31 @@ export default function PracticePage() {
 
   const [started, setStarted] = useState(false);
 
-  // Check if questions object has actual data
-  const hasQuestions = questions && Object.keys(questions).length > 0 && Object.values(questions).some((arr) => Array.isArray(arr) && arr.length > 0);
+  const hasStoredQuestions = storedQuestions && Object.keys(storedQuestions).length > 0 && Object.values(storedQuestions).some((arr) => Array.isArray(arr) && arr.length > 0);
+  const hasFetchedQuestions = questions && Object.keys(questions).length > 0 && Object.values(questions).some((arr) => Array.isArray(arr) && arr.length > 0);
+  const hasQuestions = hasStoredQuestions || hasFetchedQuestions;
 
-  // Questions are ready when loaded and have data
   const questionsReady = !questionsLoading && hasQuestions;
 
-  const startPractice = useCallback(() => {
+  const startPractice = useCallback(async () => {
     if (hasStarted.current) return;
-    if (!questionsReady) return; // Don't start if not ready
+    if (!questionsReady) return;
 
     hasStarted.current = true;
 
-    decrementTrials();
+    if (!hasDecrementedTrials.current) {
+      await decrementTrials();
+      hasDecrementedTrials.current = true;
+    }
+
     if (user) setUser(user);
-    if (questions) setQuestions(questions);
+    if (hasStoredQuestions) {
+    } else if (questions) {
+      setQuestions(questions);
+    }
 
     setStarted(true);
-  }, [questionsReady, user, questions, setUser, setQuestions]);
+  }, [questionsReady, user, questions, hasStoredQuestions, setUser, setQuestions]);
 
   useEffect(() => {
     if (selectedSubjectsParameters.length !== 3) {
@@ -47,28 +56,22 @@ export default function PracticePage() {
   }, [selectedSubjectsParameters, router]);
 
   useEffect(() => {
-    if (!fetchData) {
-      setFetchData(true);
+    if (hasStoredQuestions) {
+      if (fetchData) {
+        setFetchData(false);
+      }
+    } else {
+      if (!fetchData) {
+        setFetchData(true);
+      }
     }
-  }, [fetchData, setFetchData]);
+  }, [hasStoredQuestions, fetchData, setFetchData]);
 
-  if (userLoading || questionsLoading) {
-    return (
-      <Awaiting
-        ready={questionsReady}
-        progress={progress}
-        estimatedSeconds={180}
-        onCancel={() => router.push('/dashboard')}
-        onClose={startPractice}
-        onTimeEnd={() => {
-          // Auto-start only if questions are ready
-          if (questionsReady) {
-            startPractice();
-          }
-        }}
-      />
-    );
-  }
+  useEffect(() => {
+    if (hasStoredQuestions && !started && !userLoading) {
+      startPractice();
+    }
+  }, [hasStoredQuestions, started, userLoading, startPractice]);
 
   if (userError || questionsError) {
     return (
@@ -79,7 +82,28 @@ export default function PracticePage() {
     );
   }
 
-  if (!started || !questionsReady) {
+  if (hasStoredQuestions && (started || hasStarted.current)) {
+    return <Practice />;
+  }
+
+  if (userLoading || questionsLoading || !questionsReady) {
+    return (
+      <Awaiting
+        ready={questionsReady}
+        progress={progress}
+        estimatedSeconds={180}
+        onCancel={() => router.push('/dashboard')}
+        onClose={startPractice}
+        onTimeEnd={() => {
+          if (questionsReady) {
+            startPractice();
+          }
+        }}
+      />
+    );
+  }
+
+  if (!started) {
     return (
       <Awaiting
         ready={questionsReady}

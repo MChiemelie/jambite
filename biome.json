@@ -29,7 +29,13 @@
         "useLiteralKeys": "off"
       },
       "correctness": {
-        "useExhaustiveDependencies": "off"
+        "useExhaustiveDependencies": "off",
+        "noUnusedVariables": {
+          "level": "off",
+          "options": {
+            "ignoreRestSiblings": false
+          }
+        }
       },
       "style": {
         "noNonNullAssertion": "off",

@@ -54,7 +54,7 @@ export default function Account({ user }: { user: User }) {
     resolver: zodResolver(accountSchema),
     defaultValues: {
       subjects: [ENGLISH],
-      gender: 'male' // Add default gender
+      gender: 'male'
     }
   });
 

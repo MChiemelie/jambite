@@ -1,6 +1,3 @@
-// ============ Base ============
-
-// Generic Appwrite system fields
 export interface AppwriteDoc {
   $id: string;
   $createdAt?: string;
@@ -10,7 +7,6 @@ export interface AppwriteDoc {
   $databaseId?: string;
 }
 
-// Generic Appwrite list response
 export interface AppwriteList<T> {
   total: number;
   documents: T[];

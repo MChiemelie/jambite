@@ -1,7 +1,7 @@
 'use client';
 
 import parse from 'html-react-parser';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useKey } from 'react-use';
 import { useCurrentQuestion, usePracticeActions, useQuestions, useSelectedAnswers, useSelectedSubject, useSubmitted } from '@/stores/practice';
 import type { Question } from '@/types';
@@ -17,7 +17,6 @@ export default function Options() {
 
   const [showKeyboardTip, setShowKeyboardTip] = useState(true);
 
-  // hydrate keyboard tip visibility from localStorage once (client-side)
   useEffect(() => {
     try {
       const hidden = localStorage.getItem('kbdTipHidden') === 'true';
@@ -40,19 +39,15 @@ export default function Options() {
 
   const currentQuestionData = currentQuestionsData[currentQuestion] || ({} as Question);
 
-  // dev-time debug to help you see data shape (remove in production)
   if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line no-console
     console.debug('Options — currentQuestionData', { currentQuestionData });
   }
 
-  // normalize option keys so 'a' or 'A' both work and pick only A-D
   const option = useMemo(() => {
     const raw = (currentQuestionData as any)?.option;
     if (!raw || typeof raw !== 'object') return null;
     const normalized = Object.fromEntries(Object.entries(raw).map(([k, v]) => [String(k).toUpperCase(), v])) as Record<string, string>;
 
-    // only keep A-D
     const filtered: Record<string, string> = {};
     ['A', 'B', 'C', 'D'].forEach((k) => {
       if (normalized[k]) filtered[k] = normalized[k];
@@ -77,7 +72,6 @@ export default function Options() {
     [selectAnswer, setUnattemptedQuestions, selectedSubject]
   );
 
-  // helper: avoid interfering when user types in inputs (safe guard)
   const isTyping = () => {
     const el = document?.activeElement as HTMLElement | null;
     if (!el) return false;
@@ -87,7 +81,6 @@ export default function Options() {
     return !!el.isContentEditable;
   };
 
-  // stable handlers for keys A-D
   const makeHandler = useCallback(
     (key: string) => () => {
       if (submitted || !option || !option[key]) return;
@@ -96,7 +89,6 @@ export default function Options() {
     [submitted, option, handleAnswerSelection, currentQuestionId]
   );
 
-  // register keys with case-insensitive predicate and skip while typing
   useKey((e: KeyboardEvent) => !isTyping() && e.key.toLowerCase() === 'a', makeHandler('A'), undefined, [makeHandler]);
   useKey((e: KeyboardEvent) => !isTyping() && e.key.toLowerCase() === 'b', makeHandler('B'), undefined, [makeHandler]);
   useKey((e: KeyboardEvent) => !isTyping() && e.key.toLowerCase() === 'c', makeHandler('C'), undefined, [makeHandler]);

@@ -122,3 +122,6 @@ private.key
 # Appwrite CLI local dev
 .appwrite
 .vercel
+
+# Sentry Config File
+.env.sentry-build-plugin

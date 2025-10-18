@@ -1,24 +1,19 @@
 enum PaymentErrorCode {
-  // Paystack API errors
   PAYSTACK_API_ERROR = 'PAYSTACK_API_ERROR',
   PAYSTACK_VERIFICATION_FAILED = 'PAYSTACK_VERIFICATION_FAILED',
   PAYSTACK_INVALID_CUSTOMER = 'PAYSTACK_INVALID_CUSTOMER',
 
-  // Database errors
   DATABASE_ERROR = 'DATABASE_ERROR',
   USER_NOT_FOUND = 'USER_NOT_FOUND',
   DUPLICATE_REFERENCE = 'DUPLICATE_REFERENCE',
 
-  // Validation errors
   INVALID_INPUT = 'INVALID_INPUT',
   MISSING_PARAMETERS = 'MISSING_PARAMETERS',
   INVALID_AMOUNT = 'INVALID_AMOUNT',
 
-  // Network errors
   NETWORK_ERROR = 'NETWORK_ERROR',
   TIMEOUT_ERROR = 'TIMEOUT_ERROR',
 
-  // General errors
   UNKNOWN_ERROR = 'UNKNOWN_ERROR'
 }
 
@@ -52,7 +47,6 @@ function handlePaymentError(error: any): {
     details: error.response?.data || error.details
   });
 
-  // Handle custom PaymentError
   if (error instanceof PaymentError) {
     return {
       response: {
@@ -65,7 +59,6 @@ function handlePaymentError(error: any): {
     };
   }
 
-  // Handle Axios/Paystack API errors
   if (error.response) {
     const paystackError = error.response.data;
     return {
@@ -79,7 +72,6 @@ function handlePaymentError(error: any): {
     };
   }
 
-  // Handle network errors
   if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
     return {
       response: {
@@ -102,7 +94,6 @@ function handlePaymentError(error: any): {
     };
   }
 
-  // Handle Appwrite errors
   if (error.type?.includes('appwrite')) {
     return {
       response: {
@@ -115,7 +106,6 @@ function handlePaymentError(error: any): {
     };
   }
 
-  // Unknown error
   return {
     response: {
       error: 'An unexpected error occurred',

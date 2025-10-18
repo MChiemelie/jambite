@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import type { Question } from '@/types';
 
-// Your Render API URL
 const RENDER_API_URL = process.env.RENDER_API_URL || 'https://jambite-question-api.onrender.com';
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -17,7 +16,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const randomYear = searchParams.get('randomYear') ?? '';
 
-    // Forward the request to your Render API
     const queryParams = new URLSearchParams();
     if (subjects.length > 0) {
       queryParams.set('subjects', subjects.join(','));
@@ -30,9 +28,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-      },
-      // Increase timeout since Render might be cold starting
-      signal: AbortSignal.timeout(60000) // 60 seconds
+      }
     });
 
     if (!response.ok) {

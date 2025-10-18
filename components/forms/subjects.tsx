@@ -33,35 +33,32 @@ const subjectMap: Record<string, string> = {
 
 export default function SelectSubjects() {
   const router = useRouter();
-  const selectedSubjects = useSelectedSubjects(); // store holds ONLY additional subjects (no English)
+  const selectedSubjects = useSelectedSubjects();
   const { setSelectedSubjects, setSelectedSubjectsParameters } = usePracticeActions();
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useUser();
 
-  // init: map saved params (slugs) back to labels and store only extras (exclude English)
   useEffect(() => {
     if (!user) {
-      setSelectedSubjects([]); // no extras selected by default
+      setSelectedSubjects([]);
       return;
     }
 
-    // user.subjects assumed to be ['english', 'mathematics', ...] (slugs)
     const mapped =
       (user.subjects || [])
         .map((param: string) => {
-          // find label by slug
           const label = subjects.find((name) => subjectMap[name] === param);
           return label ?? null;
         })
-        .filter(Boolean) // remove nulls
+        .filter(Boolean)
         .filter((label) => label !== ENGLISH) || [];
 
     setSelectedSubjects(mapped as string[]);
   }, [user, setSelectedSubjects]);
 
   const handleCheckboxChange = (subject: string) => {
-    if (subject === ENGLISH) return; // English fixed
+    if (subject === ENGLISH) return;
 
     const already = selectedSubjects.includes(subject);
 
@@ -78,7 +75,7 @@ export default function SelectSubjects() {
     }
 
     setMessage('You can only pick 3 subjects in addition to Use of English.');
-    // clear after a few seconds so message doesn't stick
+
     window.setTimeout(() => setMessage(''), 3500);
   };
 
@@ -102,7 +99,6 @@ export default function SelectSubjects() {
         return;
       }
 
-      // map labels -> slugs using subjectMap
       const params = selectedSubjects.map((label) => {
         const slug = subjectMap[label];
         if (!slug) throw new Error(`Unknown subject: ${label}`);
@@ -110,8 +106,7 @@ export default function SelectSubjects() {
       });
 
       setSelectedSubjectsParameters(params);
-      // navigation — no need to setIsLoading(false) because route will change,
-      // but keep it explicit in case navigation fails:
+
       setIsLoading(false);
       router.push('/practice');
     } catch (err) {

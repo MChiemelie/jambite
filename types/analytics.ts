@@ -58,11 +58,6 @@ export type AccuracyProps = {
   }>;
 };
 
-type AttemptsProps = {
-  totalAttempts: number;
-  totalQuestions: number;
-};
-
 export type SubjectsProps = {
   data: Array<{
     subject: string;

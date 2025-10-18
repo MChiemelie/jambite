@@ -50,7 +50,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Logo */}
       <div className='flex justify-center'>
         <Image src='/assets/logo.svg' alt='Jambite Trademark' width={100} height={100} className='w-full' />
       </div>

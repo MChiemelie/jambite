@@ -1,13 +1,9 @@
 'use server';
 
-import axios from 'axios';
 import { redirect } from 'next/navigation';
-import { type Models, Query } from 'node-appwrite';
-import { appwriteConfig } from '@/config/appwrite';
 import { plans } from '@/data';
 import { makePayment } from '@/services';
 import { PaymentError, PaymentErrorCode } from '@/services/error';
-import type { User } from '@/types';
 
 async function handlePay(formData: FormData) {
   const planId = String(formData.get('planId') || '');
@@ -67,12 +63,10 @@ async function retryWithBackoff<T>(fn: () => Promise<T>, maxRetries: number = 3,
     } catch (error: any) {
       lastError = error;
 
-      // Don't retry on validation or client errors
       if (error instanceof PaymentError && (error.code === PaymentErrorCode.INVALID_INPUT || error.code === PaymentErrorCode.DUPLICATE_REFERENCE || error.statusCode < 500)) {
         throw error;
       }
 
-      // Don't retry on 4xx errors from Paystack
       if (error.response?.status && error.response.status < 500) {
         throw error;
       }
@@ -116,33 +110,6 @@ async function safePaystackRequest<T>(requestFn: () => Promise<T>, context: stri
     }
 
     throw new PaymentError(PaymentErrorCode.PAYSTACK_API_ERROR, `Paystack API error: ${context}`, error.response?.status || 500, { originalError: error.response?.data || error.message });
-  }
-}
-
-async function getCustomerIdSafely(email: string, databases: any, paystackHeaders: any): Promise<string | null> {
-  try {
-    const userDocs: Models.DocumentList<User> = await safeDbOperation(() => databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('email', email)]), 'Fetching user by email');
-
-    if (userDocs.total > 0 && userDocs.documents[0].paystackId) {
-      return String(userDocs.documents[0].paystackId);
-    }
-
-    // Fallback to Paystack API
-    const customerResponse = await safePaystackRequest(
-      () =>
-        axios.get(`https://api.paystack.co/customer/${email}`, {
-          headers: paystackHeaders
-        }),
-      'Fetching customer from Paystack'
-    );
-
-    return customerResponse.data?.data?.id || null;
-  } catch (error: any) {
-    // If customer not found, return null (not an error)
-    if (error.code === PaymentErrorCode.PAYSTACK_INVALID_CUSTOMER) {
-      return null;
-    }
-    throw error;
   }
 }
 

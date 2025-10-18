@@ -17,24 +17,20 @@ export async function getQuestions(subjects: string[], randomYear: string, onPro
       queryParams.set('randomYear', randomYear);
     }
 
-    onProgress?.(10); // Initial progress
+    onProgress?.(10);
 
-    // Simulate progress for cold starts - increment slowly
     progressInterval = setInterval(() => {
       if (currentProgress < 85) {
         currentProgress += 5;
         onProgress?.(currentProgress);
       }
-    }, 3000); // Every 3 seconds, add 5%
+    }, 3000);
 
-    // Use Axios for progress tracking
     const response = await axios.get(`${RENDER_API_URL}/api/questions?${queryParams.toString()}`, {
       headers: {
         'Content-Type': 'application/json'
       },
-      timeout: 180000, // 3 minutes timeout
       onDownloadProgress: (progressEvent) => {
-        // Clear simulated progress once real download starts
         if (progressInterval) {
           clearInterval(progressInterval);
           progressInterval = null;
@@ -45,7 +41,6 @@ export async function getQuestions(subjects: string[], randomYear: string, onPro
           currentProgress = percentCompleted;
           onProgress?.(percentCompleted);
         } else {
-          // Estimate progress when total is unknown
           const loaded = progressEvent.loaded;
           const estimated = Math.min(90, 30 + Math.floor(loaded / 10000));
           currentProgress = estimated;
@@ -55,7 +50,7 @@ export async function getQuestions(subjects: string[], randomYear: string, onPro
     });
 
     if (progressInterval) clearInterval(progressInterval);
-    onProgress?.(100); // Complete
+    onProgress?.(100);
     return response.data;
   } catch (error) {
     if (progressInterval) clearInterval(progressInterval);

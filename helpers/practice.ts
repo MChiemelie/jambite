@@ -32,7 +32,7 @@ export function setQuestions(s: PracticeStore, payload: PracticeStore['questions
   const ids = Object.values(merged)
     .flat()
     .map((q) => q.id);
-  if (new Set(ids).size !== ids.length) console.log('Duplicate Question IDs');
+  if (new Set(ids).size !== ids.length) console.warn('Duplicate Question IDs');
 
   const unattempt = { ...s.unattemptedQuestions };
   Object.entries(payload).forEach(([subject, qs]) => {
@@ -51,7 +51,7 @@ const generateFeedbackMessage = (ua: string, ca: string) => ({
 const calculateScores = (subjects: string[], questions: Record<string, Question[]>, selectedAnswers: Record<number, string>) => {
   const feedback: Record<number, any> = {};
   const subjectScores: Record<string, number> = {};
-  let totalScore = 0,
+  let _totalScore = 0,
     totalCorrect = 0,
     totalQuestions = 0;
 
@@ -69,7 +69,7 @@ const calculateScores = (subjects: string[], questions: Record<string, Question[
       return cnt;
     }, 0);
     subjectScores[sub] = correctCount;
-    totalScore += correctCount;
+    _totalScore += correctCount;
   });
 
   return { feedback, subjectScores, totalCorrect, totalQuestions };

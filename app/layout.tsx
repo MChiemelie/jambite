@@ -1,7 +1,7 @@
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import NetworkStatus from '@/components/custom/network';
-import ReactScan from '@/components/dev/react-scan';
+import { ReactScan } from '@/components/dev/react-scan';
 import { lexend } from '@/fonts';
 import { metadata } from '@/libraries/metadata';
 import { Providers } from '@/providers';

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "contexts/**/*.{ts,tsx}", "helpers/**/*.{ts,tsx}", "providers/**/*.{ts,tsx}", "services/**/*.{ts,tsx}", "stores/**/*.{ts,tsx}", "types/**/*.{ts,tsx}", "utilities/**/*.{ts,tsx}"],
+  "project": ["**/*.{ts,tsx}"],
+  "ignore": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}", "**/__tests__/**", "**/dist/**", "**/.next/**", "**/node_modules/**"],
+  "ignoreDependencies": [],
+  "ignoreExportsUsedInFile": true,
+  "includeEntryExports": false
+}

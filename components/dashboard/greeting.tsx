@@ -10,7 +10,6 @@ export default function Greeting({ user }: { user: User }) {
 
   return (
     <div className='flex flex-col p-4 items-center sm:items-start text-center lg:w-full'>
-      {/* <i className="animate-wavePause mx-2">👋🏽</i> */}
       <h1 className='w-full text-3xl font-bold text-nowrap'>
         {getGreeting},<br className='block sm:hidden lg:block' /> {firstname}.
       </h1>

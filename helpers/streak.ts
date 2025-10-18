@@ -6,7 +6,10 @@ import { getPractices } from '@/services/analytics';
 import type { User } from '@/types';
 
 function toDateKey(date: Date): string {
-  return date.toISOString().split('T')[0];
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 function getTodayKey(): string {
@@ -14,8 +17,8 @@ function getTodayKey(): string {
 }
 
 function getDaysDifference(date1Key: string, date2Key: string): number {
-  const d1 = new Date(date1Key);
-  const d2 = new Date(date2Key);
+  const d1 = new Date(date1Key + 'T00:00:00');
+  const d2 = new Date(date2Key + 'T00:00:00');
   return Math.floor((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
 }
 
@@ -31,7 +34,6 @@ export async function calculateStreaks() {
   let longestStreak = 1;
   let streak = 1;
 
-  // Calculate longest streak
   for (let i = 1; i < practiceDates.length; i++) {
     const daysDiff = getDaysDifference(practiceDates[i - 1], practiceDates[i]);
 
@@ -43,15 +45,13 @@ export async function calculateStreaks() {
     }
   }
 
-  // Calculate current streak
   const today = getTodayKey();
   const lastPracticeDate = practiceDates[practiceDates.length - 1];
   const daysSinceLastPractice = getDaysDifference(lastPracticeDate, today);
 
   let currentStreak = 0;
 
-  if (daysSinceLastPractice <= 1) {
-    // Count backwards from last practice to find current streak
+  if (daysSinceLastPractice === 0) {
     currentStreak = 1;
     for (let i = practiceDates.length - 2; i >= 0; i--) {
       const daysDiff = getDaysDifference(practiceDates[i], practiceDates[i + 1]);

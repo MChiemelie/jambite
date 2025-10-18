@@ -19,12 +19,11 @@ export default function NetworkStatus() {
     debounceTimer.current = setTimeout(() => {
       setShowOffline(state.online === false);
 
-      // Reset reconnecting state when back online
       if (state.online === true) {
         setIsReconnecting(false);
         setReconnectAttempt(0);
       }
-    }, 1000); // 1 second debounce
+    }, 1000);
 
     return () => {
       if (debounceTimer.current) {
@@ -33,14 +32,12 @@ export default function NetworkStatus() {
     };
   }, [state.online]);
 
-  // Auto-retry connection check
   useEffect(() => {
     if (showOffline && reconnectAttempt < 5) {
       reconnectTimer.current = setTimeout(
         () => {
           setIsReconnecting(true);
 
-          // Test actual connectivity, not just navigator.onLine
           fetch('https://www.google.com/favicon.ico', {
             mode: 'no-cors',
             cache: 'no-cache'
@@ -56,7 +53,7 @@ export default function NetworkStatus() {
             });
         },
         Math.min(3000 * 2 ** reconnectAttempt, 30000)
-      ); // Exponential backoff
+      );
     }
 
     return () => {

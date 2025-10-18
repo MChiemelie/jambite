@@ -22,7 +22,7 @@ export default function Steps() {
                   <h3 className='text-2xl lg:text-3xl font-semibold'>{title}</h3>
                   <p className='text-sm'>{desc}</p>
                 </div>
-                <Image src={`/images/plan/${image}.png`} width={500} height={500} alt={`A screenshot of the ${image} screen`} className='w-full rounded-sm' />
+                <Image src={`/images/plan/${image}.png`} width={500} height={500} alt={`A screenshot of the ${image} screen`} className='w-full rounded-sm h-full' />
               </div>
             </div>
           ))}

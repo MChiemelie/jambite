@@ -33,7 +33,9 @@ const initialState: PracticeStore = {
   pendingReview: null,
   selectedSubject: 'Use of English',
   hasHydrated: false,
-  fetchData: true
+  fetchData: true,
+  fetchProgress: 0,
+  awaitingCountdown: 0
 };
 
 export const usePracticeStore = create<PracticeStore & { actions: PracticeActions }>()(
@@ -44,6 +46,8 @@ export const usePracticeStore = create<PracticeStore & { actions: PracticeAction
         actions: {
           setHydrated: (v) => set({ hasHydrated: v }),
           setFetchData: (v) => set({ fetchData: v }),
+          setFetchProgress: (progress) => set({ fetchProgress: progress }),
+          setAwaitingCountdown: (seconds) => set({ awaitingCountdown: seconds }),
           setUser: (user) => set({ user }),
           setSelectedSubjects: (selectedSubjects) => set({ selectedSubjects }),
           setSelectedSubjectsParameters: (selectedSubjectsParameters) => set({ selectedSubjectsParameters }),
@@ -65,10 +69,8 @@ export const usePracticeStore = create<PracticeStore & { actions: PracticeAction
               return;
             }
 
-            // Mark that time has ended
             set({ timeEnd: true });
 
-            // Call submitPractice and wait for it to complete
             await get().actions.submitPractice();
           },
           setCountdown: (countdown) => {
@@ -84,7 +86,7 @@ export const usePracticeStore = create<PracticeStore & { actions: PracticeAction
           setQuestions: (payload) => set((s) => setQuestions(s, payload)),
           submitPractice: async () => {
             const state = get();
-            // Prevent double submission
+
             if (state.submitted) {
               return;
             }
@@ -107,11 +109,9 @@ export const usePracticeStore = create<PracticeStore & { actions: PracticeAction
         skipHydration: true,
         partialize: (state) => {
           const { actions, countdown, fetchData, ...rest } = state;
-          // Don't persist countdown or fetchData - they should reset on reload
           return rest;
         },
         onRehydrateStorage: () => (state) => {
-          // Reset countdown to initial value on hydration
           if (state) {
             state.countdown = state.initialCountdown || 1200;
             state.fetchData = false;
@@ -148,3 +148,5 @@ export const useSelectedSubjectsParameters = () => usePracticeStore((s) => s.sel
 export const useSubjectScores = () => usePracticeStore((s) => s.subjectScores);
 export const usePendingReview = () => usePracticeStore((s) => s.pendingReview);
 export const useFetchData = () => usePracticeStore((s) => s.fetchData);
+export const useFetchProgress = () => usePracticeStore((s) => s.fetchProgress);
+export const useAwaitingCountdown = () => usePracticeStore((s) => s.awaitingCountdown);

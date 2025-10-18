@@ -3,8 +3,77 @@
 import { AlertTriangle, BookOpen, CheckCircle, Clock, Download, Timer as TimerIcon, Zap } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Theme } from '@/components/themes';
+import { useAwaitingCountdown, usePracticeActions } from '@/stores/practice';
 
 function CountdownTimer({ initialSeconds = 1800, onEnd, frozen = false }: { initialSeconds?: number; onEnd?: () => void; frozen?: boolean }) {
+  const storedCountdown = useAwaitingCountdown();
+  const { setAwaitingCountdown } = usePracticeActions();
+  const [secondsLeft, setSecondsLeft] = useState<number>(storedCountdown || initialSeconds);
+  const endedRef = useRef(false);
+
+  useEffect(() => {
+    if (typeof initialSeconds !== 'number' || Number.isNaN(initialSeconds) || initialSeconds <= 0) {
+      setSecondsLeft(0);
+      return;
+    }
+
+    if (storedCountdown > 0) {
+      setSecondsLeft(storedCountdown);
+    } else {
+      setSecondsLeft(initialSeconds);
+      setAwaitingCountdown(initialSeconds);
+    }
+
+    endedRef.current = false;
+
+    if (frozen) {
+      setAwaitingCountdown(0);
+      return;
+    }
+
+    const id = setInterval(() => {
+      setSecondsLeft((prev) => {
+        if (prev <= 1) {
+          if (!endedRef.current) {
+            endedRef.current = true;
+            setAwaitingCountdown(0);
+            if (onEnd) setTimeout(onEnd, 0);
+          }
+          clearInterval(id);
+          return 0;
+        }
+        const newValue = prev - 1;
+        setAwaitingCountdown(newValue);
+        return newValue;
+      });
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, [initialSeconds, onEnd, frozen, storedCountdown, setAwaitingCountdown]);
+
+  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+  const ss = String(secondsLeft % 60).padStart(2, '0');
+  const percent = Math.max(0, Math.min(100, Math.round((secondsLeft / initialSeconds) * 100)));
+
+  return (
+    <div className='flex items-center gap-3'>
+      <div className='flex items-center gap-2'>
+        <TimerIcon className='w-4 h-4 text-amber-400' />
+        <span className='font-mono text-sm'>
+          {mm}:{ss}
+        </span>
+      </div>
+
+      <div className='w-40 bg-foreground/6 h-0.5 overflow-hidden'>
+        <div className='h-0.5 bg-amber-400' style={{ width: `${percent}%`, transition: 'width 250ms linear' }} />
+      </div>
+
+      <div className='text-xs text-foreground/30'>{percent}%</div>
+    </div>
+  );
+}
+
+function CountdownTimerS({ initialSeconds = 1800, onEnd, frozen = false }: { initialSeconds?: number; onEnd?: () => void; frozen?: boolean }) {
   const [secondsLeft, setSecondsLeft] = useState<number>(initialSeconds);
   const endedRef = useRef(false);
 
@@ -60,6 +129,7 @@ function CountdownTimer({ initialSeconds = 1800, onEnd, frozen = false }: { init
 
 export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onTimeEnd, onClose, ready = false }: { estimatedSeconds?: number; progress?: number; onCancel?: () => void; onTimeEnd?: () => void; onClose?: () => void; ready?: boolean }) {
   const countdown = useMemo(() => <CountdownTimer initialSeconds={estimatedSeconds} onEnd={onTimeEnd} frozen={ready} />, [estimatedSeconds, onTimeEnd, ready]);
+  const countdowns = useMemo(() => <CountdownTimerS initialSeconds={estimatedSeconds} onEnd={onTimeEnd} frozen={ready} />, [estimatedSeconds, onTimeEnd, ready]);
 
   return (
     <div className='p-6'>
@@ -74,12 +144,13 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
           <div className='flex items-center lg:items-start justify-between flex-col lg:flex-row  gap-4'>
             <div>
               <h2 className='text-center lg:text-justify text-lg font-semibold'>{progress > 0 && progress < 100 ? 'Loading questions...' : ready ? 'Questions ready!' : 'Preparing your exam...'}</h2>
-              <p className=' text-center lg:text-justify text-sm text-muted-foreground mt-1'>{ready ? "All set! Click 'Start Practice' when you're ready." : 'The questions would take at most 3 minutes. Grab a quick read of the instructions and tips.'}</p>
+              <p className=' text-center lg:text-justify text-sm text-muted-foreground mt-1'>{ready ? "All set! Click 'Start Practice' when you're ready." : 'This might take a while, at most 3 minutes. Grab a quick read of the instructions and tips.'}</p>
             </div>
 
             <div className='flex flex-col lg:items-end items-center gap-2'>
               <Theme />
               {countdown}
+              {countdowns}
               <div className='flex gap-2'>
                 <button onClick={onCancel} type='button' className='text-sm px-3 py-1 rounded bg-transparent border border-white/8 hover:bg-white/3'>
                   Cancel
@@ -96,7 +167,6 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
             </div>
           </div>
 
-          {/* Progress Bar */}
           {progress > 0 && progress < 100 && (
             <div className='flex flex-col gap-2'>
               <div className='flex items-center gap-3'>

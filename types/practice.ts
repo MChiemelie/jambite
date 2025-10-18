@@ -1,5 +1,4 @@
-import { setQuestions } from '@/helpers/practice';
-import type { AppwriteDoc, AppwriteList } from './appwrite';
+import type { AppwriteDoc } from './appwrite';
 import type { Question } from './question';
 import type { User } from './user';
 
@@ -34,6 +33,8 @@ export type PracticeStore = {
   selectedSubject: string;
   hasHydrated: boolean;
   fetchData: boolean;
+  fetchProgress: number;
+  awaitingCountdown: number;
 };
 
 export type PracticeActions = {
@@ -48,8 +49,8 @@ export type PracticeActions = {
   previousQuestion: () => void;
   setCurrentQuestion: (n: number) => void;
   setSubmitted: (f: boolean) => void;
-  timeEnded: () => Promise<void>; // Changed from void to Promise<void>
-  setCountdown: (n: number | ((prev: number) => number)) => void; // Added functional update support
+  timeEnded: () => Promise<void>;
+  setCountdown: (n: number | ((prev: number) => number)) => void;
   setTotalQuestions: (n: number) => void;
   setResultsFeedback: (fb: PracticeStore['resultsFeedback']) => void;
   setSubmitPopup: (f?: boolean) => void;
@@ -65,9 +66,9 @@ export type PracticeActions = {
   setSelectedSubject: (subject: string) => void;
   setHydrated: (v: boolean) => void;
   setFetchData: (v: boolean) => void;
+  setFetchProgress: (progress: number) => void;
+  setAwaitingCountdown: (seconds: number) => void;
 };
-
-// ============ Practices ============
 
 export interface Practice {
   timestamp: string;
@@ -87,10 +88,6 @@ export type CreatePractice = Omit<Practice, keyof AppwriteDoc | 'createdAt' | 'f
   completed?: boolean;
 };
 
-type Practices = AppwriteList<Practice>;
-
-// ============ Performances ============
-
 export interface Performance {
   userId: string;
   correct: number;
@@ -103,10 +100,6 @@ export interface Performance {
 }
 
 export type CreatePerformance = Omit<Performance, keyof AppwriteDoc | 'createdAt'>;
-
-type Performances = AppwriteList<Performance>;
-
-// ============ AI Review ============
 
 export interface AIReview {
   image: string;

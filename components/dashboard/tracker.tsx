@@ -84,8 +84,8 @@ export default async function Tracker() {
 
   return (
     <div className='grid grid-cols-3 lg:grid-cols-6 gap-2 max-w-full w-fit md:w-full place-items-center mx-auto'>
-      {trackerItems.map((card, index) => (
-        <Card key={index} title={card.title} subtitle={card.subtitle} value={card.value} icon={<card.icon className={`w-5 h-5 ${card.color} ${card.icon === Flame ? 'fill-current' : ''}`} />} />
+      {trackerItems.map((card) => (
+        <Card key={card.title} title={card.title} subtitle={card.subtitle} value={card.value} icon={<card.icon className={`w-5 h-5 ${card.color} ${card.icon === Flame ? 'fill-current' : ''}`} />} />
       ))}
     </div>
   );

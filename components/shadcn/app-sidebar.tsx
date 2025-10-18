@@ -20,9 +20,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible='icon' {...props}>
       <SidebarHeader>
-        {/* <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild> */}
         <Link href='#' className='flex gap-4 items-center'>
           <Image
             src='/images/special/logo/1.png'
@@ -36,9 +33,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <span className='truncate text-xs'>CBT with AI</span>
           </div>
         </Link>
-        {/* </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu> */}
       </SidebarHeader>
       <SidebarContent>
         <NavMain />

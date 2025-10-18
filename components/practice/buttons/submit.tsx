@@ -50,15 +50,9 @@ export default function SubmitButton() {
     }
   }, [open, submitted, closePopup]);
 
-  // Keyboard shortcuts
-  // 's' or 'e' to open submit dialog (only when not already submitted)
   useKey('s', openPopup, undefined, [openPopup]);
   useKey('e', openPopup, undefined, [openPopup]);
-
-  // 'y' to confirm submission (only when dialog is open and not submitted)
   useKey('y', handleConfirm, undefined, [handleConfirm]);
-
-  // 'n' or 'Escape' to cancel (only when dialog is open and not submitted)
   useKey('n', handleCancel, undefined, [handleCancel]);
 
   const title = timeEnd ? 'Your time is up!' : submitted ? 'Practice Submitted Successfully!' : 'Confirm Submission';

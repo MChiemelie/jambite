@@ -35,7 +35,7 @@ const Background: React.FC = () => {
   const countRef = useRef<number>(0);
 
   const config: Config = {
-    starAnimationDuration: 3000, // Increased duration from 1500ms to 3000ms for slower falling animation
+    starAnimationDuration: 3000,
     minimumTimeBetweenStars: 250,
     minimumDistanceBetweenStars: 75,
     glowDuration: 75,

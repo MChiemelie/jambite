@@ -15,7 +15,3 @@ export type Question = BaseQuestion & {
   image?: string;
   section?: string;
 };
-
-type Questions = {
-  questions: Record<string, Question[]> | Question[];
-};

@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { Button } from '@/components/shadcn/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/shadcn/form';
 import { Input } from '@/components/shadcn/input';
-import { createAccount, signInUser, signUpWithGoogle } from '@/services/auth';
+import { createAccount, signInUser } from '@/services/auth';
 import { OtpModal } from './';
 
 type AuthType = 'sign-in' | 'sign-up';

@@ -1,9 +1,7 @@
 'use server';
 
-import { redirect } from 'next/navigation';
-import { Models, Query } from 'node-appwrite';
+import { Query } from 'node-appwrite';
 import { appwriteConfig } from '@/config/appwrite';
-import { plans } from '@/data';
 import { createSessionClient } from '@/libraries';
 import { getUserData } from './auth';
 import { PaymentError, PaymentErrorCode } from './error';
@@ -79,19 +77,17 @@ async function getPayments(currentPage: number, perPage: number) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new PaymentError(errorData.code || PaymentErrorCode.UNKNOWN_ERROR, errorData.error || 'Failed to fetch payments', response.status, errorData.details);
+      throw new PaymentError(errorData.code || PaymentErrorCode.UNKNOWN_ERROR, errorData.message || 'Failed to fetch payments', response.status, errorData.details);
     }
 
     return response.json();
   } catch (error: any) {
     console.error('Failed to fetch payments:', error);
 
-    // Re-throw PaymentError as-is
     if (error instanceof PaymentError) {
       throw error;
     }
 
-    // Wrap other errors
     throw new PaymentError(PaymentErrorCode.UNKNOWN_ERROR, 'Failed to fetch payments', 500, { originalError: error.message });
   }
 }
