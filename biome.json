@@ -45,6 +45,7 @@
       },
       "suspicious": {
         "noExplicitAny": "off",
+        "noArrayIndexKey": "off",
         "noConsole": { "level": "off", "options": { "allow": ["log"] } }
       }
     }

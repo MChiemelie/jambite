@@ -20,9 +20,9 @@ export default function Steps() {
               <div className='flex flex-col h-full justify-between gap-3 text-center'>
                 <div className='flex flex-col gap-4'>
                   <h3 className='text-2xl lg:text-3xl font-semibold'>{title}</h3>
-                  <p className='text-sm'>{desc}</p>
+                  <p className='text-sm h-20'>{desc}</p>
                 </div>
-                <Image src={`/images/plan/${image}.png`} width={500} height={500} alt={`A screenshot of the ${image} screen`} className='w-full rounded-sm h-full' />
+                <Image src={`/images/steps/${image}.png`} width={500} height={500} alt={`A screenshot of the ${image} screen`} className='w-full rounded-sm h-full' />
               </div>
             </div>
           ))}

@@ -1,109 +1,83 @@
 'use client';
 
 import { AlertTriangle, BookOpen, CheckCircle, Clock, Download, Timer as TimerIcon, Zap } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Theme } from '@/components/themes';
 import { useAwaitingCountdown, usePracticeActions } from '@/stores/practice';
 
 function CountdownTimer({ initialSeconds = 1800, onEnd, frozen = false }: { initialSeconds?: number; onEnd?: () => void; frozen?: boolean }) {
   const storedCountdown = useAwaitingCountdown();
   const { setAwaitingCountdown } = usePracticeActions();
-  const [secondsLeft, setSecondsLeft] = useState<number>(storedCountdown || initialSeconds);
+  const initialValue = storedCountdown > 0 ? storedCountdown : initialSeconds;
+  const [secondsLeft, setSecondsLeft] = useState<number>(initialValue);
   const endedRef = useRef(false);
+  const isMountedRef = useRef(false);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+
+    // Warn user about refreshing/closing the page
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      // Modern browsers will show their own message, but we set this for older browsers
+      const message = "Hold on! Refreshing now will reset your exam preparation and you'll lose all progress. Please don't reload - stay on this page until your questions are ready.";
+      e.returnValue = message;
+      return message;
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      isMountedRef.current = false;
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  // Sync local state to store in a separate effect to avoid setState during render
+  useEffect(() => {
+    if (isMountedRef.current && !frozen) {
+      setAwaitingCountdown(secondsLeft);
+    }
+  }, [secondsLeft, frozen, setAwaitingCountdown]);
+
+  // Handle frozen state separately - stop countdown but don't reset to 0
+  useEffect(() => {
+    if (frozen && isMountedRef.current) {
+      // Save the current countdown value when frozen
+      setAwaitingCountdown(secondsLeft);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [frozen, setAwaitingCountdown]);
 
   useEffect(() => {
     if (typeof initialSeconds !== 'number' || Number.isNaN(initialSeconds) || initialSeconds <= 0) {
       setSecondsLeft(0);
       return;
-    }
-
-    if (storedCountdown > 0) {
-      setSecondsLeft(storedCountdown);
-    } else {
-      setSecondsLeft(initialSeconds);
-      setAwaitingCountdown(initialSeconds);
     }
 
     endedRef.current = false;
 
     if (frozen) {
-      setAwaitingCountdown(0);
       return;
     }
 
     const id = setInterval(() => {
       setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          if (!endedRef.current) {
-            endedRef.current = true;
-            setAwaitingCountdown(0);
-            if (onEnd) setTimeout(onEnd, 0);
+        const newValue = prev <= 1 ? 0 : prev - 1;
+
+        if (newValue === 0 && !endedRef.current) {
+          endedRef.current = true;
+          if (onEnd) {
+            onEnd();
           }
-          clearInterval(id);
-          return 0;
         }
-        const newValue = prev - 1;
-        setAwaitingCountdown(newValue);
+
         return newValue;
       });
     }, 1000);
 
     return () => clearInterval(id);
-  }, [initialSeconds, onEnd, frozen, storedCountdown, setAwaitingCountdown]);
-
-  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
-  const ss = String(secondsLeft % 60).padStart(2, '0');
-  const percent = Math.max(0, Math.min(100, Math.round((secondsLeft / initialSeconds) * 100)));
-
-  return (
-    <div className='flex items-center gap-3'>
-      <div className='flex items-center gap-2'>
-        <TimerIcon className='w-4 h-4 text-amber-400' />
-        <span className='font-mono text-sm'>
-          {mm}:{ss}
-        </span>
-      </div>
-
-      <div className='w-40 bg-foreground/6 h-0.5 overflow-hidden'>
-        <div className='h-0.5 bg-amber-400' style={{ width: `${percent}%`, transition: 'width 250ms linear' }} />
-      </div>
-
-      <div className='text-xs text-foreground/30'>{percent}%</div>
-    </div>
-  );
-}
-
-function CountdownTimerS({ initialSeconds = 1800, onEnd, frozen = false }: { initialSeconds?: number; onEnd?: () => void; frozen?: boolean }) {
-  const [secondsLeft, setSecondsLeft] = useState<number>(initialSeconds);
-  const endedRef = useRef(false);
-
-  useEffect(() => {
-    if (typeof initialSeconds !== 'number' || Number.isNaN(initialSeconds) || initialSeconds <= 0) {
-      setSecondsLeft(0);
-      return;
-    }
-
-    setSecondsLeft((prev) => (prev > 0 ? prev : initialSeconds));
-    endedRef.current = false;
-
-    if (frozen) return;
-
-    const id = setInterval(() => {
-      setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          if (!endedRef.current) {
-            endedRef.current = true;
-            if (onEnd) setTimeout(onEnd, 0);
-          }
-          clearInterval(id);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(id);
-  }, [initialSeconds, onEnd, frozen]);
+  }, [frozen, onEnd, initialSeconds]);
 
   const mm = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
   const ss = String(secondsLeft % 60).padStart(2, '0');
@@ -128,9 +102,6 @@ function CountdownTimerS({ initialSeconds = 1800, onEnd, frozen = false }: { ini
 }
 
 export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onTimeEnd, onClose, ready = false }: { estimatedSeconds?: number; progress?: number; onCancel?: () => void; onTimeEnd?: () => void; onClose?: () => void; ready?: boolean }) {
-  const countdown = useMemo(() => <CountdownTimer initialSeconds={estimatedSeconds} onEnd={onTimeEnd} frozen={ready} />, [estimatedSeconds, onTimeEnd, ready]);
-  const countdowns = useMemo(() => <CountdownTimerS initialSeconds={estimatedSeconds} onEnd={onTimeEnd} frozen={ready} />, [estimatedSeconds, onTimeEnd, ready]);
-
   return (
     <div className='p-6'>
       <div className='flex gap-4 flex-col lg:flex-row items-center lg:items-start'>
@@ -149,8 +120,7 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
 
             <div className='flex flex-col lg:items-end items-center gap-2'>
               <Theme />
-              {countdown}
-              {countdowns}
+              <CountdownTimer initialSeconds={estimatedSeconds} onEnd={onTimeEnd} frozen={ready} />
               <div className='flex gap-2'>
                 <button onClick={onCancel} type='button' className='text-sm px-3 py-1 rounded bg-transparent border border-white/8 hover:bg-white/3'>
                   Cancel
@@ -196,7 +166,7 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
                 <AlertTriangle className='w-4 h-4' /> Rules & Regulations
               </h3>
               <ul className='text-xs leading-snug list-disc list-inside text-foreground/90'>
-                <li>Bring your ID and exam slip – no ID, no entry.</li>
+                <li>Bring your ID and exam slip — no ID, no entry.</li>
                 <li>Mobile phones turned off and stored away.</li>
                 <li>No unauthorized materials: books, cheat sheets, or earphones.</li>
                 <li>Follow invigilator instructions immediately.</li>
@@ -209,10 +179,10 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
                 <Zap className='w-4 h-4' /> Quick Success Tips
               </h3>
               <ol className='mt-2 text-xs leading-snug list-decimal list-inside text-foreground/90'>
-                <li>Read instructions first – 30 seconds can save points.</li>
+                <li>Read instructions first — 30 seconds can save points.</li>
                 <li>Answer easy questions first to secure marks fast.</li>
-                <li>Manage time: set mini-benchmarks every 15–20 mins.</li>
-                <li>If stuck, mark & move on – don't burn time.</li>
+                <li>Manage time: set mini-benchmarks every 15—20 mins.</li>
+                <li>If stuck, mark & move on — don't burn time.</li>
                 <li>Review flagged questions in the last 10 minutes.</li>
               </ol>
             </section>
@@ -234,7 +204,7 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
                     <strong>Formula Sheet:</strong> quick scan of essential formulas or facts.
                   </li>
                   <li>
-                    <strong>Mindset:</strong> 2–3 deep breaths, visualise finishing strong.
+                    <strong>Mindset:</strong> 2—3 deep breaths, visualise finishing strong.
                   </li>
                 </ul>
               </div>
@@ -255,7 +225,7 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
                 <div className='text-sm font-medium flex items-center gap-1'>
                   <CheckCircle className='w-5 h-5' /> {ready ? 'Ready to go' : 'Preparing...'}
                 </div>
-                <div className='text-xs mt-2'>Good luck – don't rush, but don't stall.</div>
+                <div className='text-xs mt-2'>Good luck — don't rush, but don't stall.</div>
               </div>
             </section>
           </div>
