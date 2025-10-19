@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const RENDER_API_URL = 'https://jambite-question-api-withered-hill-5869.fly.dev';
+const RENDER_API_URL = 'https://jambite-question-api.onrender.com';
 
 export async function getQuestions(subjects: string[], randomYear: string, onProgress?: (progress: number) => void) {
   let progressInterval: NodeJS.Timeout | null = null;
