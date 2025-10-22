@@ -8,20 +8,32 @@ export default function ActivePayment({ user }: { user: User }) {
   }
 
   return (
-    <div className='overflow-x-auto w-[90%] md:w-[60%] lg:w-[40%] mx-auto'>
-      <table className='min-w-full border-collapse border rounded border-gray-300 text-sm md:text-lg'>
+    <div className="mx-auto w-[90%] overflow-x-auto md:w-[60%] lg:w-[40%]">
+      <table className="min-w-full border-collapse rounded border border-gray-300 text-sm md:text-lg">
         <thead>
           <tr>
-            <th className='px-2 py-1 md:px-4 md:py-2 border border-gray-300 text-center '>Payment Status</th>
-            <th className='px-2 py-1 md:px-4 md:py-2 border border-gray-300 text-center'>Trials</th>
-            <th className='px-2 py-1 md:px-4 md:py-2 border border-gray-300 text-center'>AI</th>
+            <th className="border border-gray-300 px-2 py-1 text-center md:px-4 md:py-2">
+              Payment Status
+            </th>
+            <th className="border border-gray-300 px-2 py-1 text-center md:px-4 md:py-2">
+              Trials
+            </th>
+            <th className="border border-gray-300 px-2 py-1 text-center md:px-4 md:py-2">
+              AI
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td className='px-2 py-1 md:px-4 md:py-2 border border-gray-300 text-center'>Active</td>
-            <td className='px-2 py-1 md:px-4 md:py-2 border border-gray-300 text-center'>{trials}</td>
-            <td className='px-2 py-1 md:px-4 md:py-2 border border-gray-300 text-center'>{ai ? 'Enabled' : 'Disabled'}</td>
+            <td className="border border-gray-300 px-2 py-1 text-center md:px-4 md:py-2">
+              Active
+            </td>
+            <td className="border border-gray-300 px-2 py-1 text-center md:px-4 md:py-2">
+              {trials}
+            </td>
+            <td className="border border-gray-300 px-2 py-1 text-center md:px-4 md:py-2">
+              {ai ? 'Enabled' : 'Disabled'}
+            </td>
           </tr>
         </tbody>
       </table>

@@ -8,7 +8,23 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!**/node_modules", "!**/.next", "!**/out", "!**/dist", "!**/build", "!**/.vercel", "!**/*.config.js", "!**/*.config.mjs", "!**/*.config.ts", "!**/*.css", "!**/components/shadcn", "!**/components/data-table", "!**/components/ui", "!**/types/data-table"]
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/.next",
+      "!**/out",
+      "!**/dist",
+      "!**/build",
+      "!**/.vercel",
+      "!**/*.config.js",
+      "!**/*.config.mjs",
+      "!**/*.config.ts",
+      "!**/*.css",
+      "!**/components/shadcn",
+      "!**/components/data-table",
+      "!**/components/ui",
+      "!**/types/data-table"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -17,7 +33,21 @@
     "lineEnding": "lf",
     "lineWidth": 300
   },
-  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true
+    },
+    "linter": {
+      "enabled": true
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -46,7 +76,12 @@
       "suspicious": {
         "noExplicitAny": "off",
         "noArrayIndexKey": "off",
-        "noConsole": { "level": "off", "options": { "allow": ["log"] } }
+        "noConsole": {
+          "level": "off",
+          "options": {
+            "allow": ["log"]
+          }
+        }
       }
     }
   },

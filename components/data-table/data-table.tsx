@@ -27,7 +27,7 @@ export function DataTable<TData>({
   return (
     <div className={cn('flex w-full flex-col gap-2.5', className)} {...props}>
       {children}
-      <div className='rounded-md border'>
+      <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -77,7 +77,7 @@ export function DataTable<TData>({
               <TableRow>
                 <TableCell
                   colSpan={table.getAllColumns().length}
-                  className='h-24 text-center'
+                  className="h-24 text-center"
                 >
                   No results.
                 </TableCell>
@@ -86,7 +86,7 @@ export function DataTable<TData>({
           </TableBody>
         </Table>
       </div>
-      <div className='flex flex-col gap-2.5'>
+      <div className="flex flex-col gap-2.5">
         <DataTablePagination table={table} />
         {actionBar &&
           table.getFilteredSelectedRowModel().rows.length > 0 &&

@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useNetworkState } from 'react-use';
+import { Spinner } from '@/components/shadcn/spinner';
 
 export default function NetworkStatus() {
   const state = useNetworkState();
@@ -86,36 +87,61 @@ export default function NetworkStatus() {
   }
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-opacity-95 backdrop-blur-sm'>
-      <div className='flex flex-col items-center gap-4 text-center p-8 bg-white rounded-lg shadow-xl max-w-md mx-4 animate-in fade-in duration-300'>
-        <Image src='/images/special/offline.png' alt='Offline' width={100} height={100} />
+    <div className="bg-opacity-95 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
+      <div className="bg-background animate-in fade-in mx-4 flex max-w-md flex-col items-center gap-4 rounded-lg p-8 text-center shadow-xl duration-300">
+        <Image
+          src="/images/special/offline.png"
+          alt="Offline"
+          width={100}
+          height={100}
+        />
 
-        <h2 className='text-2xl font-bold text-gray-800'>No Internet Connection</h2>
+        <h2 className="text-foreground/80 text-2xl font-bold">
+          No Internet Connection
+        </h2>
 
-        <p className='text-gray-600'>Please check your internet connection and try again.</p>
+        <p className="text-foreground/60">
+          Please check your internet connection and try again.
+        </p>
 
-        <div className='inline-flex items-center text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-full'>
-          <div className='w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse'></div>
+        <div className="text-foreground/50 bg-foreground/10 inline-flex items-center rounded-full px-4 py-2 text-sm">
+          <div className="mr-2 h-2 w-2 animate-pulse rounded-full bg-red-500"></div>
           {isReconnecting ? 'Checking connection...' : 'Offline'}
         </div>
 
-        <button onClick={handleRetry} disabled={isReconnecting} className='w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:cursor-not-allowed' aria-label='Retry connection' type='button'>
+        <button
+          onClick={handleRetry}
+          disabled={isReconnecting}
+          className="w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
+          aria-label="Retry connection"
+          type="button"
+        >
           {isReconnecting ? (
-            <span className='flex items-center justify-center'>
+            <span className="flex items-center justify-center">
               Reconnecting...
-              <Image src='/assets/loader.svg' alt='Loading circle' width={24} height={24} className='ml-2' />
+              <Spinner />
             </span>
           ) : (
             'Try Again'
           )}
         </button>
 
-        {reconnectAttempt > 0 && <p className='text-xs text-gray-500'>Attempt {reconnectAttempt} of 5</p>}
+        {reconnectAttempt > 0 && (
+          <p className="text-foreground/50 text-xs">
+            Attempt {reconnectAttempt} of 5
+          </p>
+        )}
 
-        <div className='border-t border-gray-200 w-[40%]' />
+        <div className="w-[40%] border-t border-gray-200" />
         <div>
-          <p className='text-xs text-gray-500'>Connection type: {state.effectiveType || 'Unknown'}</p>
-          {state.downlink && <p className='text-xs text-gray-500'>Speed: {state.downlink} Mbps</p>}
+          <p className="text-foreground/50 text-xs">
+            Connection type: {state.effectiveType || 'Unknown'}
+          </p>
+          {state.downlink && (
+            <p className="text-foreground/50 text-xs">
+              Speed: {state.downlink} Mbps
+            </p>
+          )}
         </div>
       </div>
     </div>

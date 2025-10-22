@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - 'snyk-upgrade-**'
+  pull_request:
+    branches:
+      - main
+      - dev
+
+# Cancel in-progress runs when a new workflow with the same ref is triggered
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run lint
+        run: pnpm lint
+
+      - name: Run build
+        run: pnpm build
+        env:
+          NODE_ENV: production
+
+      - name: Run tests
+        run: pnpm test:run
+
+  # Auto-create PR from dev to main
+  create-pr:
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: dev
+          base: main
+          title: 'chore: Merge dev into main'
+          body: |
+            ## Automated Pull Request
+
+            This PR was automatically created when changes were pushed to the `dev` branch.
+
+            ### Changes
+            - Auto-generated from latest `dev` branch commits
+
+            ### Checklist
+            - [ ] CI checks passed
+            - [ ] Code reviewed
+            - [ ] Ready to merge
+
+            ---
+            *This PR was created automatically by GitHub Actions*
+          labels: |
+            automated
+            dev-to-main
+          draft: false

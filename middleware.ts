@@ -2,7 +2,13 @@ import { cookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
 
 const routes = {
-  protected: ['/dashboard', '/practice', '/analytics', '/leaderboard', '/payments'],
+  protected: [
+    '/dashboard',
+    '/practice',
+    '/analytics',
+    '/leaderboard',
+    '/payments'
+  ],
   public: ['/sign-in', '/sign-up', '/']
 };
 

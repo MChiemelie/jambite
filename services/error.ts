@@ -110,7 +110,8 @@ function handlePaymentError(error: any): {
     response: {
       error: 'An unexpected error occurred',
       code: PaymentErrorCode.UNKNOWN_ERROR,
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      details:
+        process.env.NODE_ENV === 'development' ? error.message : undefined,
       timestamp: new Date().toISOString()
     },
     statusCode: 500

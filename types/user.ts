@@ -21,7 +21,20 @@ export interface User extends AppwriteDoc {
   paystackId?: number;
 }
 
-type CreateUser = Omit<User, keyof AppwriteDoc | 'ai' | 'lastPractice' | 'avatar' | 'firstname' | 'lastname' | 'location' | 'birthday' | 'subjects' | 'gender' | 'phone'> & {
+type CreateUser = Omit<
+  User,
+  | keyof AppwriteDoc
+  | 'ai'
+  | 'lastPractice'
+  | 'avatar'
+  | 'firstname'
+  | 'lastname'
+  | 'location'
+  | 'birthday'
+  | 'subjects'
+  | 'gender'
+  | 'phone'
+> & {
   ai?: boolean;
   lastPractice?: string | null;
   avatar?: string | null;

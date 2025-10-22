@@ -93,4 +93,19 @@ export type MostPracticedSubjectResult = {
   mostPracticedCount: number;
 };
 
-export type FullSubject = 'Use of English' | 'Mathematics' | 'Commerce' | 'Accounting' | 'Biology' | 'Physics' | 'Chemistry' | 'Lit. In English' | 'Government' | 'Christian Rel. Know' | 'Geography' | 'Economics' | 'Islamic Rel. Know' | 'Civic Education' | 'History';
+export type FullSubject =
+  | 'Use of English'
+  | 'Mathematics'
+  | 'Commerce'
+  | 'Accounting'
+  | 'Biology'
+  | 'Physics'
+  | 'Chemistry'
+  | 'Lit. In English'
+  | 'Government'
+  | 'Christian Rel. Know'
+  | 'Geography'
+  | 'Economics'
+  | 'Islamic Rel. Know'
+  | 'Civic Education'
+  | 'History';

@@ -13,15 +13,28 @@ const toNumber = (v: unknown, fallback = 0) => {
   return Number.isFinite(n) ? n : fallback;
 };
 
-const safeString = (v: unknown, fallback = 'Unknown') => (v == null ? fallback : String(v));
+const safeString = (v: unknown, fallback = 'Unknown') =>
+  v == null ? fallback : String(v);
 
-async function fetchAllDocuments(databases: any, collectionId: string, baseQueries: any[] = []) {
+async function fetchAllDocuments(
+  databases: any,
+  collectionId: string,
+  baseQueries: any[] = []
+) {
   const all: any[] = [];
   let offset = 0;
 
   while (true) {
-    const queries = [...baseQueries, Query.limit(DEFAULT_LIMIT), Query.offset(offset)];
-    const { documents } = await databases.listDocuments(appwriteConfig.databaseId, collectionId, queries);
+    const queries = [
+      ...baseQueries,
+      Query.limit(DEFAULT_LIMIT),
+      Query.offset(offset)
+    ];
+    const { documents } = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      collectionId,
+      queries
+    );
 
     if (!documents || documents.length === 0) break;
 
@@ -41,7 +54,11 @@ export const getPerformances = async (): Promise<Performance[]> => {
 
     if (!userId) return [];
 
-    const raw = await fetchAllDocuments(databases, appwriteConfig.performancesCollectionId, [Query.equal('userId', [userId]), Query.orderDesc('$createdAt')]);
+    const raw = await fetchAllDocuments(
+      databases,
+      appwriteConfig.performancesCollectionId,
+      [Query.equal('userId', [userId]), Query.orderDesc('$createdAt')]
+    );
 
     return raw.map((doc: any) => {
       const data = doc.data ?? doc;
@@ -70,7 +87,11 @@ export const getPractices = async (): Promise<Practice[]> => {
 
     if (!userId) return [];
 
-    const raw = await fetchAllDocuments(databases, appwriteConfig.practicesCollectionId, [Query.equal('userId', [userId]), Query.orderDesc('$createdAt')]);
+    const raw = await fetchAllDocuments(
+      databases,
+      appwriteConfig.practicesCollectionId,
+      [Query.equal('userId', [userId]), Query.orderDesc('$createdAt')]
+    );
 
     return raw.map((doc: any) => {
       const data = doc.data ?? doc;

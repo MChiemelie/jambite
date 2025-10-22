@@ -40,7 +40,11 @@ function AIWatcher() {
   return null;
 }
 
-export default function UserProvider({ children }: { children: React.ReactNode }) {
+export default function UserProvider({
+  children
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <SWRConfig value={{ fetcher: getUserData }}>
       <AIWatcher />

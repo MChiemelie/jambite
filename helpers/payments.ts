@@ -25,7 +25,12 @@ async function handlePay(formData: FormData) {
   }
 }
 
-async function validatePaymentInput(data: { amount?: number; email?: string; reference?: string; userId?: string }) {
+async function validatePaymentInput(data: {
+  amount?: number;
+  email?: string;
+  reference?: string;
+  userId?: string;
+}) {
   const errors: string[] = [];
 
   if (data.amount !== undefined) {
@@ -50,11 +55,20 @@ async function validatePaymentInput(data: { amount?: number; email?: string; ref
   }
 
   if (errors.length > 0) {
-    throw new PaymentError(PaymentErrorCode.INVALID_INPUT, 'Validation failed', 400, { errors });
+    throw new PaymentError(
+      PaymentErrorCode.INVALID_INPUT,
+      'Validation failed',
+      400,
+      { errors }
+    );
   }
 }
 
-async function retryWithBackoff<T>(fn: () => Promise<T>, maxRetries: number = 3, baseDelay: number = 1000): Promise<T> {
+async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  maxRetries: number = 3,
+  baseDelay: number = 1000
+): Promise<T> {
   let lastError: any;
 
   for (let attempt = 0; attempt < maxRetries; attempt++) {
@@ -63,7 +77,12 @@ async function retryWithBackoff<T>(fn: () => Promise<T>, maxRetries: number = 3,
     } catch (error: any) {
       lastError = error;
 
-      if (error instanceof PaymentError && (error.code === PaymentErrorCode.INVALID_INPUT || error.code === PaymentErrorCode.DUPLICATE_REFERENCE || error.statusCode < 500)) {
+      if (
+        error instanceof PaymentError &&
+        (error.code === PaymentErrorCode.INVALID_INPUT ||
+          error.code === PaymentErrorCode.DUPLICATE_REFERENCE ||
+          error.statusCode < 500)
+      ) {
         throw error;
       }
 
@@ -81,36 +100,75 @@ async function retryWithBackoff<T>(fn: () => Promise<T>, maxRetries: number = 3,
   throw lastError;
 }
 
-async function safeDbOperation<T>(operation: () => Promise<T>, errorContext: string): Promise<T> {
+async function safeDbOperation<T>(
+  operation: () => Promise<T>,
+  errorContext: string
+): Promise<T> {
   try {
     return await operation();
   } catch (error: any) {
     console.error(`Database operation failed: ${errorContext}`, error);
 
     if (error.code === 404 || error.type?.includes('document_not_found')) {
-      throw new PaymentError(PaymentErrorCode.USER_NOT_FOUND, 'User not found in database', 404, { context: errorContext });
+      throw new PaymentError(
+        PaymentErrorCode.USER_NOT_FOUND,
+        'User not found in database',
+        404,
+        { context: errorContext }
+      );
     }
 
-    throw new PaymentError(PaymentErrorCode.DATABASE_ERROR, `Database error: ${errorContext}`, 500, { originalError: error.message });
+    throw new PaymentError(
+      PaymentErrorCode.DATABASE_ERROR,
+      `Database error: ${errorContext}`,
+      500,
+      { originalError: error.message }
+    );
   }
 }
 
-async function safePaystackRequest<T>(requestFn: () => Promise<T>, context: string): Promise<T> {
+async function safePaystackRequest<T>(
+  requestFn: () => Promise<T>,
+  context: string
+): Promise<T> {
   try {
     return await retryWithBackoff(requestFn);
   } catch (error: any) {
-    console.error(`Paystack API error: ${context}`, error.response?.data || error.message);
+    console.error(
+      `Paystack API error: ${context}`,
+      error.response?.data || error.message
+    );
 
     if (error.response?.status === 404) {
-      throw new PaymentError(PaymentErrorCode.PAYSTACK_INVALID_CUSTOMER, 'Customer not found in Paystack', 404, { context });
+      throw new PaymentError(
+        PaymentErrorCode.PAYSTACK_INVALID_CUSTOMER,
+        'Customer not found in Paystack',
+        404,
+        { context }
+      );
     }
 
     if (error.response?.status === 401) {
-      throw new PaymentError(PaymentErrorCode.PAYSTACK_API_ERROR, 'Invalid Paystack credentials', 401, { context });
+      throw new PaymentError(
+        PaymentErrorCode.PAYSTACK_API_ERROR,
+        'Invalid Paystack credentials',
+        401,
+        { context }
+      );
     }
 
-    throw new PaymentError(PaymentErrorCode.PAYSTACK_API_ERROR, `Paystack API error: ${context}`, error.response?.status || 500, { originalError: error.response?.data || error.message });
+    throw new PaymentError(
+      PaymentErrorCode.PAYSTACK_API_ERROR,
+      `Paystack API error: ${context}`,
+      error.response?.status || 500,
+      { originalError: error.response?.data || error.message }
+    );
   }
 }
 
-export { validatePaymentInput, safePaystackRequest, safeDbOperation, handlePay };
+export {
+  validatePaymentInput,
+  safePaystackRequest,
+  safeDbOperation,
+  handlePay
+};

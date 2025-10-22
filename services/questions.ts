@@ -2,9 +2,13 @@
 
 import axios from 'axios';
 
-const RENDER_API_URL = 'https://jambite-question-api.onrender.com';
+const questionUrl = process.env.NEXT_PUBLIC_QUESTION_API_URL;
 
-export async function getQuestions(subjects: string[], randomYear: string, onProgress?: (progress: number) => void) {
+export async function getQuestions(
+  subjects: string[],
+  randomYear: string,
+  onProgress?: (progress: number) => void
+) {
   let progressInterval: NodeJS.Timeout | null = null;
   let currentProgress = 10;
 
@@ -26,28 +30,33 @@ export async function getQuestions(subjects: string[], randomYear: string, onPro
       }
     }, 3000);
 
-    const response = await axios.get(`${RENDER_API_URL}/api/questions?${queryParams.toString()}`, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      onDownloadProgress: (progressEvent) => {
-        if (progressInterval) {
-          clearInterval(progressInterval);
-          progressInterval = null;
-        }
+    const response = await axios.get(
+      `${questionUrl}/api/questions?${queryParams.toString()}`,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        onDownloadProgress: (progressEvent) => {
+          if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+          }
 
-        if (progressEvent.total) {
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          currentProgress = percentCompleted;
-          onProgress?.(percentCompleted);
-        } else {
-          const loaded = progressEvent.loaded;
-          const estimated = Math.min(90, 30 + Math.floor(loaded / 10000));
-          currentProgress = estimated;
-          onProgress?.(estimated);
+          if (progressEvent.total) {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            currentProgress = percentCompleted;
+            onProgress?.(percentCompleted);
+          } else {
+            const loaded = progressEvent.loaded;
+            const estimated = Math.min(90, 30 + Math.floor(loaded / 10000));
+            currentProgress = estimated;
+            onProgress?.(estimated);
+          }
         }
       }
-    });
+    );
 
     if (progressInterval) clearInterval(progressInterval);
     onProgress?.(100);

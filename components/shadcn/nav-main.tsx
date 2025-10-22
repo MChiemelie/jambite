@@ -68,7 +68,7 @@ export function NavMain() {
 
   return (
     <SidebarGroup>
-      <SidebarMenu className='py-10 gap-4'>
+      <SidebarMenu className="gap-4 py-10">
         {navData.map((item) => {
           const isActive = pathname === item.url;
 
@@ -87,15 +87,15 @@ export function NavMain() {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       tooltip={item.title}
-                      className={`py-6 px-4 gap-4 rounded ${buttonClasses}`}
+                      className={`gap-4 rounded px-4 py-6 ${buttonClasses}`}
                     >
                       {item.icon && (
                         <item.icon
                           className={`h-5 w-5 ${iconClasses}`}
-                          aria-hidden='true'
+                          aria-hidden="true"
                         />
                       )}
-                      <span className='font-medium'>{item.title}</span>
+                      <span className="font-medium">{item.title}</span>
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                 </Link>

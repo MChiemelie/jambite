@@ -8,4 +8,14 @@ import Stake from './stake';
 import Steps from './steps';
 import Values from './values';
 
-export { Background, Pricing, Steps, Hero, HeroSection, Values, Footer, Nav, Stake };
+export {
+  Background,
+  Pricing,
+  Steps,
+  Hero,
+  HeroSection,
+  Values,
+  Footer,
+  Nav,
+  Stake
+};

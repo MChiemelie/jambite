@@ -16,9 +16,16 @@ export async function getMostPracticedSubject(): Promise<MostPracticedSubjectRes
     {} as Record<string, number>
   );
 
-  const entries = Object.entries(subjectCounts).filter(([subject]) => subject !== 'Use of English');
+  const entries = Object.entries(subjectCounts).filter(
+    ([subject]) => subject !== 'Use of English'
+  );
 
-  const [mostPracticedSubject, mostPracticedCount] = entries.reduce<[string, number]>((maxPair, currPair) => (currPair[1] > maxPair[1] ? currPair : maxPair), ['', 0]);
+  const [mostPracticedSubject, mostPracticedCount] = entries.reduce<
+    [string, number]
+  >(
+    (maxPair, currPair) => (currPair[1] > maxPair[1] ? currPair : maxPair),
+    ['', 0]
+  );
 
   return { mostPracticedSubject, mostPracticedCount };
 }

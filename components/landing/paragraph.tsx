@@ -1,6 +1,11 @@
 'use client';
 
-import { type MotionValue, motion, useScroll, useTransform } from 'motion/react';
+import {
+  type MotionValue,
+  motion,
+  useScroll,
+  useTransform
+} from 'motion/react';
 import { type ReactNode, useRef } from 'react';
 
 export default function Paragraph() {
@@ -14,7 +19,10 @@ export default function Paragraph() {
   const words = paragraph.split(' ');
 
   return (
-    <p ref={containerRef} className='flex flex-wrap text-sm/relaxed sm:text-md/relaxed lg:text-lg/relaxed leading-tight font-meduim max-w-[700px] text-sky-50 text-shadow-xs text-shadow-gray-800 text-justify'>
+    <p
+      ref={containerRef}
+      className="sm:text-md/relaxed font-meduim flex max-w-[700px] flex-wrap text-justify text-sm/relaxed leading-tight text-sky-50 text-shadow-gray-800 text-shadow-xs lg:text-lg/relaxed"
+    >
       {words.map((word, i) => {
         const start = i / words.length;
         const end = start + 1 / words.length;
@@ -39,12 +47,16 @@ function Word({ children, progress, range }: WordProps) {
   const step = amount / children.length;
 
   return (
-    <span className='relative mr-3 mt-3'>
+    <span className="relative mt-3 mr-3">
       {children.split('').map((char, i) => {
         const charStart = range[0] + i * step;
         const charEnd = range[0] + (i + 1) * step;
         return (
-          <Char key={`char_${i}`} progress={progress} range={[charStart, charEnd]}>
+          <Char
+            key={`char_${i}`}
+            progress={progress}
+            range={[charStart, charEnd]}
+          >
             {char}
           </Char>
         );
@@ -63,8 +75,8 @@ function Char({ children, progress, range }: CharProps) {
   const opacity = useTransform(progress, range, [0, 1]);
 
   return (
-    <span className='relative inline-block'>
-      <span className='absolute opacity-20'>{children}</span>
+    <span className="relative inline-block">
+      <span className="absolute opacity-20">{children}</span>
       <motion.span style={{ opacity }}>{children}</motion.span>
     </span>
   );

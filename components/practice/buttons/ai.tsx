@@ -2,7 +2,15 @@
 
 import { useUser } from '@/contexts';
 import { useAIReviewStream } from '@/contexts/ai';
-import { useAiReviews, useCurrentQuestion, usePracticeActions, useQuestions, useSelectedAnswers, useSelectedSubject, useSubmitted } from '@/stores/practice';
+import {
+  useAiReviews,
+  useCurrentQuestion,
+  usePracticeActions,
+  useQuestions,
+  useSelectedAnswers,
+  useSelectedSubject,
+  useSubmitted
+} from '@/stores/practice';
 
 export default function AIButton() {
   const submitted = useSubmitted();
@@ -11,7 +19,8 @@ export default function AIButton() {
   const subject = useSelectedSubject();
   const qs = useQuestions()[subject] || [];
   const q = qs[qIndex];
-  const selected = useSelectedAnswers()[q?.id] || '(The User did not select any answer)';
+  const selected =
+    useSelectedAnswers()[q?.id] || '(The User did not select any answer)';
   const existing = useAiReviews()[subject]?.[q?.id] || '';
   const { submitNewMessage, loading } = useAIReviewStream();
   const { setPendingReview } = usePracticeActions();
@@ -27,15 +36,26 @@ export default function AIButton() {
     setPendingReview({ subject, questionId: q.id });
 
     submitNewMessage(
-      `Question: ${q.question} Selected Answer: ${selected} Correct Answer: ${q.answer} Options: ${Object.entries(q.option || {})
+      `Question: ${q.question} Selected Answer: ${selected} Correct Answer: ${q.answer} Options: ${Object.entries(
+        q.option || {}
+      )
         .map(([k, v]) => `${k}: ${v}`)
         .join(', ')} Context: ${q.section}`
     );
   };
 
   return (
-    <button onClick={handleClick} type='submit' disabled={!!existing || loading} className='col-span-2 bg-accent-4 text-white py-1 rounded-sm text-sm md:text-lg'>
-      {existing ? 'AI Review Generated' : loading ? 'Generating…' : 'Generate AI Review'}
+    <button
+      onClick={handleClick}
+      type="submit"
+      disabled={!!existing || loading}
+      className="bg-accent-4 col-span-2 rounded-sm py-1 text-sm text-white md:text-lg"
+    >
+      {existing
+        ? 'AI Review Generated'
+        : loading
+          ? 'Generating…'
+          : 'Generate AI Review'}
     </button>
   );
 }

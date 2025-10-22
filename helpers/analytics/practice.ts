@@ -31,12 +31,15 @@ export function computePracticeAggregates(practices: Practice[]) {
 
     if (!s.shortest || p.duration < s.shortest.duration) s.shortest = p;
     if (!s.longest || p.duration > s.longest.duration) s.longest = p;
-    if (!s.highestScore || p.totalScore > s.highestScore.totalScore) s.highestScore = p;
+    if (!s.highestScore || p.totalScore > s.highestScore.totalScore)
+      s.highestScore = p;
 
     return s;
   }, initial);
 
-  const averageDuration = acc.totalPractices ? acc.totalDuration / acc.totalPractices : 0;
+  const averageDuration = acc.totalPractices
+    ? acc.totalDuration / acc.totalPractices
+    : 0;
   const totalIncorrect = acc.totalAttempts - acc.totalCorrect;
 
   const practiceAnalytics: PracticeAnalytics = {

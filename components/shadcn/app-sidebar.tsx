@@ -18,19 +18,19 @@ import { NavUser } from './nav-user';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible='icon' {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <Link href='#' className='flex gap-4 items-center'>
+        <Link href="#" className="flex items-center gap-4">
           <Image
-            src='/images/special/logo/1.png'
-            className='w-10'
-            alt='Jambite logo'
+            src="/images/special/logo/1.png"
+            className="w-10"
+            alt="Jambite logo"
             width={100}
             height={100}
           />
-          <div className='grid flex-1 text-left text-sm leading-tight'>
-            <span className='truncate font-semibold'>Jambite</span>
-            <span className='truncate text-xs'>CBT with AI</span>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-semibold">Jambite</span>
+            <span className="truncate text-xs">CBT with AI</span>
           </div>
         </Link>
       </SidebarHeader>

@@ -12,14 +12,23 @@ export const plans = [
   {
     id: 'pro',
     name: 'Pro',
-    features: ['Everything in Free', 'Use of English + 3 Subjects', 'Answers Review and Corrections', 'Experts Solutions (for difficult maths questions)'],
+    features: [
+      'Everything in Free',
+      'Use of English + 3 Subjects',
+      'Answers Review and Corrections',
+      'Experts Solutions (for difficult maths questions)'
+    ],
     pricing: { oneTime: proPrice },
     buttonText: 'Pay Now!'
   },
   {
     id: 'premium',
     name: 'Premium',
-    features: ['Everything in Pro', 'Review Questions and Answers with AI', 'Email Support'],
+    features: [
+      'Everything in Pro',
+      'Review Questions and Answers with AI',
+      'Email Support'
+    ],
     pricing: { oneTime: premiumPrice },
     buttonText: 'Pay Now!'
   },
