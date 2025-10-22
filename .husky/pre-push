@@ -1,2 +1,16 @@
-echo "🔍 Running CI checks before push..."
-pnpm ci:quick
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🚀 Running pre-push checks..."
+echo ""
+
+# Run CI checks (lint + type-check + tests)
+pnpm run ci:check || {
+  echo ""
+  echo "❌ Pre-push checks failed!"
+  echo "Fix the errors above before pushing."
+  exit 1
+}
+
+echo ""
+echo "✅ All checks passed! Pushing to remote..."

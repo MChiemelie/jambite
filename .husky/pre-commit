@@ -1,1 +1,14 @@
-pnpm test
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Format and lint only staged files
+pnpm run check || {
+  echo "❌ Lint/format failed! Running auto-fix..."
+  pnpm run lint:fix
+  echo "✅ Auto-fixed! Please review changes and commit again."
+  exit 1
+}
+
+echo "✅ Pre-commit checks passed!"
