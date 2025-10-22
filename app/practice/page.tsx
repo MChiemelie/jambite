@@ -6,12 +6,7 @@ import { Status } from '@/components/custom';
 import { Awaiting, Practice } from '@/components/practice';
 import { useQuestions, useUser } from '@/contexts';
 import { decrementTrials } from '@/services/payments';
-import {
-  useFetchData,
-  usePracticeActions,
-  useSelectedSubjectsParameters,
-  useQuestions as useStoredQuestions
-} from '@/stores/practice';
+import { useFetchData, usePracticeActions, useSelectedSubjectsParameters, useQuestions as useStoredQuestions } from '@/stores/practice';
 
 export default function PracticePage() {
   const router = useRouter();
@@ -24,23 +19,12 @@ export default function PracticePage() {
   const { setUser, setQuestions, setFetchData } = usePracticeActions();
 
   const { user, isLoading: userLoading, isError: userError } = useUser();
-  const { questions, questionsLoading, questionsError, progress } =
-    useQuestions(fetchData);
+  const { questions, questionsLoading, questionsError, progress } = useQuestions(fetchData);
 
   const [started, setStarted] = useState(false);
 
-  const hasStoredQuestions =
-    storedQuestions &&
-    Object.keys(storedQuestions).length > 0 &&
-    Object.values(storedQuestions).some(
-      (arr) => Array.isArray(arr) && arr.length > 0
-    );
-  const hasFetchedQuestions =
-    questions &&
-    Object.keys(questions).length > 0 &&
-    Object.values(questions).some(
-      (arr) => Array.isArray(arr) && arr.length > 0
-    );
+  const hasStoredQuestions = storedQuestions && Object.keys(storedQuestions).length > 0 && Object.values(storedQuestions).some((arr) => Array.isArray(arr) && arr.length > 0);
+  const hasFetchedQuestions = questions && Object.keys(questions).length > 0 && Object.values(questions).some((arr) => Array.isArray(arr) && arr.length > 0);
   const hasQuestions = hasStoredQuestions || hasFetchedQuestions;
 
   const questionsReady = !questionsLoading && hasQuestions;
@@ -63,14 +47,7 @@ export default function PracticePage() {
     }
 
     setStarted(true);
-  }, [
-    questionsReady,
-    user,
-    questions,
-    hasStoredQuestions,
-    setUser,
-    setQuestions
-  ]);
+  }, [questionsReady, user, questions, hasStoredQuestions, setUser, setQuestions]);
 
   useEffect(() => {
     if (selectedSubjectsParameters.length !== 3) {
@@ -99,20 +76,8 @@ export default function PracticePage() {
   if (userError || questionsError) {
     return (
       <>
-        {userError && (
-          <Status
-            image="/assets/error.svg"
-            desc1={`User Error: ${String(userError)}`}
-            desc2="Couldn't fetch your profile."
-          />
-        )}
-        {questionsError && (
-          <Status
-            image="/assets/error.svg"
-            desc1={`Questions Error: ${String(questionsError?.message ?? questionsError)}`}
-            desc2="Couldn't load your questions."
-          />
-        )}
+        {userError && <Status image='/assets/error.svg' desc1={`User Error: ${String(userError)}`} desc2="Couldn't fetch your profile." />}
+        {questionsError && <Status image='/assets/error.svg' desc1={`Questions Error: ${String(questionsError?.message ?? questionsError)}`} desc2="Couldn't load your questions." />}
       </>
     );
   }

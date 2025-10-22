@@ -12,9 +12,7 @@ export async function GET(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get('secret');
 
   if (!userId || !secret) {
-    return NextResponse.redirect(
-      `${request.nextUrl.origin}/sign-up?error=missing_params`
-    );
+    return NextResponse.redirect(`${request.nextUrl.origin}/sign-up?error=missing_params`);
   }
 
   try {
@@ -35,28 +33,19 @@ export async function GET(request: NextRequest) {
 
     const profilePictureUrl = user.prefs?.profilePicture || null;
 
-    const existingUser = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.usersCollectionId,
-      [Query.equal('userId', userId)]
-    );
+    const existingUser = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', userId)]);
 
     if (existingUser.documents.length === 0) {
       const [firstname, lastname] = await names(fullname);
 
-      await databases.createDocument(
-        appwriteConfig.databaseId,
-        appwriteConfig.usersCollectionId,
-        ID.unique(),
-        {
-          fullname,
-          firstname,
-          lastname,
-          email,
-          userId,
-          avatarUrl: profilePictureUrl
-        }
-      );
+      await databases.createDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, ID.unique(), {
+        fullname,
+        firstname,
+        lastname,
+        email,
+        userId,
+        avatarUrl: profilePictureUrl
+      });
     }
 
     return NextResponse.redirect(`${request.nextUrl.origin}/dashboard`);
@@ -66,8 +55,6 @@ export async function GET(request: NextRequest) {
     console.error('Error message:', error?.message);
     console.error('Error code:', error?.code);
 
-    return NextResponse.redirect(
-      `${request.nextUrl.origin}/sign-up?error=auth_failed`
-    );
+    return NextResponse.redirect(`${request.nextUrl.origin}/sign-up?error=auth_failed`);
   }
 }

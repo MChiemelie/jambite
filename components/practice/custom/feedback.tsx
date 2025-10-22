@@ -2,45 +2,27 @@
 
 import parse from 'html-react-parser';
 import { Check, ThumbsUp, X } from 'lucide-react';
-import {
-  useCurrentQuestion,
-  useHasHydrated,
-  useQuestions,
-  useResultsFeedback,
-  useSelectedSubject,
-  useSubmitted
-} from '@/stores/practice';
+import { useCurrentQuestion, useHasHydrated, useQuestions, useResultsFeedback, useSelectedSubject, useSubmitted } from '@/stores/practice';
 import type { Question } from '@/types';
 
-const renderFeedbackMessage = (fb: {
-  type: string;
-  userAnswer?: string;
-  correctAnswer: string;
-}) => {
+const renderFeedbackMessage = (fb: { type: string; userAnswer?: string; correctAnswer: string }) => {
   switch (fb.type) {
     case 'correct':
       return (
-        <p className="text-md md:text-lg">
-          You are Correct! <ThumbsUp className="inline h-4 w-4" /> The answer is{' '}
-          {fb.correctAnswer} <Check className="inline h-4 w-4 text-green-600" />
-          .
+        <p className='text-md md:text-lg'>
+          You are Correct! <ThumbsUp className='inline h-4 w-4' /> The answer is {fb.correctAnswer} <Check className='inline h-4 w-4 text-green-600' />.
         </p>
       );
     case 'incorrect':
       return (
-        <p className="text-md md:text-lg">
-          <X className="inline h-4 w-4 text-red-600" /> {fb.userAnswer} is
-          incorrect. The correct answer is {fb.correctAnswer}{' '}
-          <Check className="inline h-4 w-4 text-green-600" />.
+        <p className='text-md md:text-lg'>
+          <X className='inline h-4 w-4 text-red-600' /> {fb.userAnswer} is incorrect. The correct answer is {fb.correctAnswer} <Check className='inline h-4 w-4 text-green-600' />.
         </p>
       );
     case 'unattempted':
       return (
-        <p className="text-md md:text-lg">
-          You didn't attempt this question{' '}
-          <X className="inline h-4 w-4 text-red-600" />. The correct answer is{' '}
-          {fb.correctAnswer} <Check className="inline h-4 w-4 text-green-600" />
-          .
+        <p className='text-md md:text-lg'>
+          You didn't attempt this question <X className='inline h-4 w-4 text-red-600' />. The correct answer is {fb.correctAnswer} <Check className='inline h-4 w-4 text-green-600' />.
         </p>
       );
     default:
@@ -59,24 +41,17 @@ export default function Feedback() {
   if (!hasHydrated) return null;
 
   const currentQuestionsData = questions[selectedSub] ?? [];
-  const currentQuestionData = currentQuestionsData[currentQ] as
-    | Question
-    | undefined;
+  const currentQuestionData = currentQuestionsData[currentQ] as Question | undefined;
   const currentQuestionId = currentQuestionData?.id;
 
-  const fb =
-    currentQuestionId != null ? feedbackMap[currentQuestionId] : undefined;
+  const fb = currentQuestionId != null ? feedbackMap[currentQuestionId] : undefined;
 
   if (!submitted || !fb) return null;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className='flex flex-col gap-4'>
       {renderFeedbackMessage(fb)}
-      {currentQuestionData?.solution && (
-        <p className="md:text-lg">
-          Solution: {parse(currentQuestionData.solution)}
-        </p>
-      )}
+      {currentQuestionData?.solution && <p className='md:text-lg'>Solution: {parse(currentQuestionData.solution)}</p>}
     </div>
   );
 }

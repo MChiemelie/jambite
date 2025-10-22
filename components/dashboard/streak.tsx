@@ -5,11 +5,5 @@ export default async function Streak() {
   const { practiceDates } = await calculateStreaks();
   const practiceDays = practiceDates.map((d) => new Date(d));
 
-  return (
-    <Calendar
-      mode="default"
-      selected={practiceDays}
-      className="mx-auto w-fit rounded"
-    />
-  );
+  return <Calendar mode='default' selected={practiceDays} className='mx-auto w-fit rounded' />;
 }

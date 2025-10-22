@@ -1,22 +1,8 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import {
-  Accuracy,
-  Attempts,
-  Duration,
-  Precision,
-  Scores,
-  Subjects
-} from '@/components/analytics';
-import type {
-  AccuracyProps,
-  AcumenProps,
-  DurationProps,
-  PracticeAnalytics,
-  ScoresProps,
-  SubjectsProps
-} from '@/types';
+import { Accuracy, Attempts, Duration, Precision, Scores, Subjects } from '@/components/analytics';
+import type { AccuracyProps, AcumenProps, DurationProps, PracticeAnalytics, ScoresProps, SubjectsProps } from '@/types';
 
 type Props = {
   practiceAnalytics: PracticeAnalytics;
@@ -27,34 +13,18 @@ type Props = {
   durationData: DurationProps;
 };
 
-function AnalyticsGridComponent({
-  practiceAnalytics,
-  accuracyData,
-  subjectsScoreData,
-  subjectsAttemptsData,
-  acumenData,
-  durationData
-}: Props) {
+function AnalyticsGridComponent({ practiceAnalytics, accuracyData, subjectsScoreData, subjectsAttemptsData, acumenData, durationData }: Props) {
   const memoAccuracy = useMemo(() => accuracyData, [accuracyData]);
-  const memoSubjectsScore = useMemo(
-    () => subjectsScoreData,
-    [subjectsScoreData]
-  );
-  const memoSubjectsAttempts = useMemo(
-    () => subjectsAttemptsData,
-    [subjectsAttemptsData]
-  );
+  const memoSubjectsScore = useMemo(() => subjectsScoreData, [subjectsScoreData]);
+  const memoSubjectsAttempts = useMemo(() => subjectsAttemptsData, [subjectsAttemptsData]);
   const memoAcumen = useMemo(() => acumenData, [acumenData]);
   const memoDuration = useMemo(() => durationData, [durationData]);
 
   return (
-    <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
       <Accuracy data={memoAccuracy} />
 
-      <Attempts
-        totalAttempts={practiceAnalytics?.totalAttempts}
-        totalQuestions={practiceAnalytics?.totalQuestions}
-      />
+      <Attempts totalAttempts={practiceAnalytics?.totalAttempts} totalQuestions={practiceAnalytics?.totalQuestions} />
 
       <Subjects data={memoSubjectsAttempts} />
 

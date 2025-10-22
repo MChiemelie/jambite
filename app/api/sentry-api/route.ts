@@ -8,7 +8,5 @@ class SentryExampleAPIError extends Error {
 }
 
 export function GET(): never {
-  throw new SentryExampleAPIError(
-    'This error is raised on the backend called by the example page.'
-  );
+  throw new SentryExampleAPIError('This error is raised on the backend called by the example page.');
 }

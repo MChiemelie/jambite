@@ -4,14 +4,7 @@ import { Bot } from 'lucide-react';
 import { useEffect } from 'react';
 import { LoadingDots } from '@/components/custom';
 import { useAIReviewStream } from '@/contexts/ai';
-import {
-  useAiReviews,
-  useCurrentQuestion,
-  usePendingReview,
-  usePracticeActions,
-  useQuestions,
-  useSelectedSubject
-} from '@/stores/practice';
+import { useAiReviews, useCurrentQuestion, usePendingReview, usePracticeActions, useQuestions, useSelectedSubject } from '@/stores/practice';
 
 export default function AIReview() {
   const subject = useSelectedSubject();
@@ -34,10 +27,10 @@ export default function AIReview() {
 
   if (loading) {
     return (
-      <div className="animate-glowing flex gap-2 rounded border-2 border-gray-300 bg-gray-200 p-4">
-        <Bot className="h-auto max-w-8" />
-        <div className="flex items-center">
-          <p className="md:text-lg">Erudite is thinking</p>
+      <div className='animate-glowing flex gap-2 rounded border-2 border-gray-300 bg-gray-200 p-4'>
+        <Bot className='h-auto max-w-8' />
+        <div className='flex items-center'>
+          <p className='md:text-lg'>Erudite is thinking</p>
           <LoadingDots />
         </div>
       </div>
@@ -46,9 +39,9 @@ export default function AIReview() {
 
   return (
     existing && (
-      <div className="flex items-start gap-2 rounded border-2 border-gray-300 bg-gray-200 p-4">
-        <Bot className="h-auto min-w-8" />
-        <p className="md:text-lg">{existing}</p>
+      <div className='flex items-start gap-2 rounded border-2 border-gray-300 bg-gray-200 p-4'>
+        <Bot className='h-auto min-w-8' />
+        <p className='md:text-lg'>{existing}</p>
       </div>
     )
   );

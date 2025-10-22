@@ -2,11 +2,7 @@
 
 import { Timer } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import {
-  useCountdown,
-  usePracticeActions,
-  useSubmitted
-} from '@/stores/practice';
+import { useCountdown, usePracticeActions, useSubmitted } from '@/stores/practice';
 
 export default function ExamTimer() {
   const countdown = useCountdown();
@@ -19,11 +15,7 @@ export default function ExamTimer() {
       return;
     }
 
-    if (
-      typeof countdown !== 'number' ||
-      Number.isNaN(countdown) ||
-      countdown < 0
-    ) {
+    if (typeof countdown !== 'number' || Number.isNaN(countdown) || countdown < 0) {
       return;
     }
 
@@ -52,15 +44,14 @@ export default function ExamTimer() {
 
     return () => clearInterval(timerId);
   }, [submitted, timeEnded, setCountdown, countdown]);
-  const validCountdown =
-    typeof countdown === 'number' && !Number.isNaN(countdown) ? countdown : 0;
+  const validCountdown = typeof countdown === 'number' && !Number.isNaN(countdown) ? countdown : 0;
   const mm = String(Math.floor(validCountdown / 60)).padStart(2, '0');
   const ss = String(validCountdown % 60).padStart(2, '0');
 
   return (
-    <div className="flex items-center gap-2">
+    <div className='flex items-center gap-2'>
       <Timer />
-      <span className="bg-accent-2 w-[60px] rounded-sm p-2 text-center text-white">
+      <span className='bg-accent-2 w-[60px] rounded-sm p-2 text-center text-white'>
         {mm}:{ss}
       </span>
     </div>

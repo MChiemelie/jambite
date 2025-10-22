@@ -3,11 +3,7 @@
 import { useCallback, useMemo, useRef } from 'react';
 import useSWR from 'swr';
 import { getQuestions } from '@/services';
-import {
-  useFetchProgress,
-  usePracticeActions,
-  useSelectedSubjectsParameters
-} from '@/stores/practice';
+import { useFetchProgress, usePracticeActions, useSelectedSubjectsParameters } from '@/stores/practice';
 import type { Question } from '@/types';
 import { randomYear } from '@/utilities';
 
@@ -40,30 +36,26 @@ export function useQuestions(fetchData: boolean) {
     return data;
   }, [subjects, year, handleProgress, storedProgress, setFetchProgress]);
 
-  const { data, error, isLoading } = useSWR<Record<string, Question[]>>(
-    fetchData ? key : null,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      dedupingInterval: 2000,
-      onSuccess: (_fetchedData) => {
-        setFetchProgress(100);
-        setTimeout(() => {
-          setFetchProgress(0);
-          progressRef.current = 0;
-        }, 500);
-      },
-      onError: (err) => {
-        console.error('❌ Questions loading error:', err);
+  const { data, error, isLoading } = useSWR<Record<string, Question[]>>(fetchData ? key : null, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    dedupingInterval: 2000,
+    onSuccess: (_fetchedData) => {
+      setFetchProgress(100);
+      setTimeout(() => {
         setFetchProgress(0);
         progressRef.current = 0;
-      },
-      errorRetryInterval: 5000,
-      errorRetryCount: 2,
-      keepPreviousData: true
-    }
-  );
+      }, 500);
+    },
+    onError: (err) => {
+      console.error('❌ Questions loading error:', err);
+      setFetchProgress(0);
+      progressRef.current = 0;
+    },
+    errorRetryInterval: 5000,
+    errorRetryCount: 2,
+    keepPreviousData: true
+  });
 
   return {
     questions: data,

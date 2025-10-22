@@ -9,17 +9,9 @@ import './globals.css';
 
 export { metadata };
 
-export default function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${lexend.className} select-none`}
-      suppressHydrationWarning
-    >
+    <html lang='en' className={`${lexend.className} select-none`} suppressHydrationWarning>
       <body>
         <Providers>
           {children}

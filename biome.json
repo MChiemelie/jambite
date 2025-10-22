@@ -8,23 +8,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": [
-      "**",
-      "!**/node_modules",
-      "!**/.next",
-      "!**/out",
-      "!**/dist",
-      "!**/build",
-      "!**/.vercel",
-      "!**/*.config.js",
-      "!**/*.config.mjs",
-      "!**/*.config.ts",
-      "!**/*.css",
-      "!**/components/shadcn",
-      "!**/components/data-table",
-      "!**/components/ui",
-      "!**/types/data-table"
-    ]
+    "includes": ["**", "!**/node_modules", "!**/.next", "!**/out", "!**/dist", "!**/build", "!**/.vercel", "!**/*.config.js", "!**/*.config.mjs", "!**/*.config.ts", "!**/*.css", "!**/components/shadcn", "!**/components/data-table", "!**/components/ui", "!**/types/data-table"]
   },
   "formatter": {
     "enabled": true,

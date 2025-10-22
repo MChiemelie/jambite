@@ -9,17 +9,11 @@ export default function Links() {
   return (
     <>
       {submitted && (
-        <div className="flex w-full justify-evenly gap-3">
-          <Link
-            href="/dashboard"
-            className="rounded border-2 border-gray-300 p-2 text-center text-sm lg:w-28"
-          >
+        <div className='flex w-full justify-evenly gap-3'>
+          <Link href='/dashboard' className='rounded border-2 border-gray-300 p-2 text-center text-sm lg:w-28'>
             Dashboard
           </Link>
-          <Link
-            href="/analytics"
-            className="rounded border-2 border-gray-300 p-2 text-center text-sm lg:w-30"
-          >
+          <Link href='/analytics' className='rounded border-2 border-gray-300 p-2 text-center text-sm lg:w-30'>
             Analytics
           </Link>
         </div>

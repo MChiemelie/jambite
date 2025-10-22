@@ -53,11 +53,7 @@ async function getPayments(currentPage: number, perPage: number) {
     const user = await getUserData();
 
     if (!user?.email) {
-      throw new PaymentError(
-        PaymentErrorCode.INVALID_INPUT,
-        'User email not found',
-        400
-      );
+      throw new PaymentError(PaymentErrorCode.INVALID_INPUT, 'User email not found', 400);
     }
 
     const { email, paystackId } = user;
@@ -74,22 +70,14 @@ async function getPayments(currentPage: number, perPage: number) {
       params.append('email', email);
     }
 
-    const response = await fetch(
-      `${BASE_URL}/api/payments?${params.toString()}`,
-      {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      }
-    );
+    const response = await fetch(`${BASE_URL}/api/payments?${params.toString()}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new PaymentError(
-        errorData.code || PaymentErrorCode.UNKNOWN_ERROR,
-        errorData.message || 'Failed to fetch payments',
-        response.status,
-        errorData.details
-      );
+      throw new PaymentError(errorData.code || PaymentErrorCode.UNKNOWN_ERROR, errorData.message || 'Failed to fetch payments', response.status, errorData.details);
     }
 
     return response.json();
@@ -100,12 +88,7 @@ async function getPayments(currentPage: number, perPage: number) {
       throw error;
     }
 
-    throw new PaymentError(
-      PaymentErrorCode.UNKNOWN_ERROR,
-      'Failed to fetch payments',
-      500,
-      { originalError: error.message }
-    );
+    throw new PaymentError(PaymentErrorCode.UNKNOWN_ERROR, 'Failed to fetch payments', 500, { originalError: error.message });
   }
 }
 
@@ -114,23 +97,14 @@ async function decrementTrials() {
     const user = await getUserData();
     const { userId } = user;
     const { databases } = await createSessionClient();
-    const { documents } = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.usersCollectionId,
-      [Query.equal('userId', userId)]
-    );
+    const { documents } = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', userId)]);
 
     if (documents.length > 0) {
       const userDocumentId = documents[0].$id;
       const { trials } = documents[0];
       const updatedTrials = Math.max((trials || 0) - 1, 0);
 
-      await databases.updateDocument(
-        appwriteConfig.databaseId,
-        appwriteConfig.usersCollectionId,
-        userDocumentId,
-        { trials: updatedTrials }
-      );
+      await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, userDocumentId, { trials: updatedTrials });
     }
   } catch (error) {
     console.error('Failed to decrement trials:', error);
@@ -142,20 +116,11 @@ async function disableAI() {
     const user = await getUserData();
     const { userId } = user;
     const { databases } = await createSessionClient();
-    const { documents } = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.usersCollectionId,
-      [Query.equal('userId', userId)]
-    );
+    const { documents } = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal('userId', userId)]);
 
     if (documents.length > 0) {
       const userDocumentId = documents[0].$id;
-      await databases.updateDocument(
-        appwriteConfig.databaseId,
-        appwriteConfig.usersCollectionId,
-        userDocumentId,
-        { ai: false }
-      );
+      await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, userDocumentId, { ai: false });
     }
   } catch (error) {
     console.error('Failed to disable AI:', error);
