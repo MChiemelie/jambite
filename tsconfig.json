@@ -24,6 +24,12 @@
     "lib": ["dom", "dom.iterable", "esnext"]
   },
   "types": ["vitest/globals", "@testing-library/jest-dom"],
-  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts", "app/page.jsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "app/page.jsx"
+  ],
+  "exclude": ["node_modules", ".next", "out", "dist"]
 }
