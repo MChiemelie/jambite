@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - dev
-      - 'snyk-upgrade-**'
   pull_request:
     branches:
       - main
@@ -53,7 +52,6 @@ jobs:
       - name: Run tests
         run: pnpm test:run
 
-  # Auto-create PR from dev to main
   create-pr:
     if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
     needs: ci

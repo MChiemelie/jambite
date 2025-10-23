@@ -1,9 +1,35 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "entry": ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "contexts/**/*.{ts,tsx}", "helpers/**/*.{ts,tsx}", "providers/**/*.{ts,tsx}", "services/**/*.{ts,tsx}", "stores/**/*.{ts,tsx}", "types/**/*.{ts,tsx}", "utilities/**/*.{ts,tsx}"],
-  "project": ["**/*.{ts,tsx}"],
-  "ignore": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}", "**/__tests__/**", "**/dist/**", "**/.next/**", "**/node_modules/**"],
-  "ignoreDependencies": [],
-  "ignoreExportsUsedInFile": true,
-  "includeEntryExports": false
+  "entry": [
+    "app/**/*.{ts,tsx}",
+    "components/**/*.{ts,tsx}",
+    "lib/**/*.{ts,tsx}",
+    "hooks/**/*.{ts,tsx}",
+    "next.config.mjs",
+    "vitest.config.ts"
+  ],
+  "project": [
+    "**/*.{ts,tsx,js,jsx}",
+    "!**/*.test.{ts,tsx}",
+    "!**/*.spec.{ts,tsx}"
+  ],
+  "ignore": [".next/**", "out/**", "node_modules/**", "dist/**"],
+  "ignoreDependencies": [
+    "tailwindcss",
+    "postcss",
+    "@tailwindcss/postcss",
+    "next-sitemap",
+    "import-in-the-middle",
+    "require-in-the-middle",
+    "@sentry/nextjs",
+    "@vercel/analytics",
+    "@vercel/speed-insights"
+  ],
+  "next": {
+    "entry": ["app/**/*.{ts,tsx}", "middleware.ts"]
+  },
+  "vitest": {
+    "config": ["vitest.config.ts"],
+    "entry": ["vitest.setup.ts"]
+  }
 }

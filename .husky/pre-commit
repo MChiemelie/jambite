@@ -6,7 +6,7 @@ echo "🔍 Running pre-commit checks..."
 # Format and lint only staged files
 pnpm run check || {
   echo "❌ Lint/format failed! Running auto-fix..."
-  pnpm run lint:fix
+  pnpm run lint
   echo "✅ Auto-fixed! Please review changes and commit again."
   exit 1
 }

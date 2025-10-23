@@ -115,7 +115,7 @@ const AuthForm = ({ type }: { type: AuthType }) => {
 
           <div className='body-2 flex justify-center gap-2 text-xs'>
             <p className='text-foreground/60'>{type === 'sign-in' ? "Don't have an account?" : 'Already have an account?'}</p>
-            <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className='text-blue-400 dark:text-sky-400 font-medium'>
+            <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className='font-medium text-blue-400 dark:text-sky-400'>
               {type === 'sign-in' ? 'Sign Up' : 'Sign In'}
             </Link>
           </div>

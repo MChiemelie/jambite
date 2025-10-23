@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import LandingPage from './page';
 
-// Mock all the landing components
 vi.mock('@/components/landing', () => ({
   Background: () => <div data-testid='background'>Background</div>,
   Nav: () => <nav data-testid='nav'>Navigation</nav>,

@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 const config = {
-  siteUrl: 'https://jambite.ng',
+  siteUrl: 'https://jambite.vercel.app',
   generateRobotsTxt: true,
   sitemapSize: 7000
 };
