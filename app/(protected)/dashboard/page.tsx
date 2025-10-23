@@ -9,9 +9,9 @@ export default async function DashboardPage() {
 
   return (
     <div className='flex flex-col gap-4 px-4'>
-      <div className='flex flex-col lg:flex-row w-full gap-4 h-full justify-center'>
-        <div className='flex lg:flex-col flex-col md:flex-row gap-4  justify-around items-center mx-auto lg:h-full'>
-          <div className='flex flex-col items-center justify-evenly h-full'>
+      <div className='flex h-full w-full flex-col justify-center gap-4 lg:flex-row'>
+        <div className='mx-auto flex flex-col items-center justify-around gap-4 md:flex-row lg:h-full lg:flex-col'>
+          <div className='flex h-full flex-col items-center justify-evenly'>
             <Greeting user={user} />
             <div className='lg:hidden'>
               <Tracker />
@@ -19,11 +19,11 @@ export default async function DashboardPage() {
           </div>
           <Streak />
         </div>
-        <div className='flex flex-col gap-4 w-full flex-1'>
+        <div className='flex w-full flex-1 flex-col gap-4'>
           <div className='hidden lg:block'>
             <Tracker />
           </div>
-          <div className='flex-1 flex flex-col md:flex-row gap-4'>
+          <div className='flex flex-1 flex-col gap-4 md:flex-row'>
             <SelectSubjects />
             <Words />
           </div>

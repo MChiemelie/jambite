@@ -24,7 +24,7 @@ export default function NextQuestionButton() {
   useKey('n', handleNextQuestion, undefined, [handleNextQuestion]);
 
   return (
-    <button aria-label='Next Question' type='button' onClick={handleNextQuestion} disabled={isLastQuestion} className='col-span-1 bg-accent-2 text-white rounded-sm py-1 text-sm md:text-lg disabled:opacity-50 disabled:cursor-not-allowed'>
+    <button aria-label='Next Question' type='button' onClick={handleNextQuestion} disabled={isLastQuestion} className='bg-accent-2 col-span-1 rounded-sm py-1 text-sm text-white disabled:cursor-not-allowed disabled:opacity-50 md:text-lg'>
       Next
     </button>
   );

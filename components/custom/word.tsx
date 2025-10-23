@@ -11,7 +11,7 @@ export default function WordComponent({ words }: { words: Word[] }) {
   const currentWord = words[currentIndex];
 
   return (
-    <div className='rounded bg-muted/50 w-full md:min-h-full p-4 gap-4 flex flex-col justify-between'>
+    <div className='bg-muted/50 flex w-full flex-col justify-between gap-4 rounded p-4 md:min-h-full'>
       <div className='flex items-center justify-between'>
         <button
           onClick={() => setCurrentIndex((prev) => Math.min(prev + 1, words.length - 1))}
@@ -32,15 +32,15 @@ export default function WordComponent({ words }: { words: Word[] }) {
 
       <div className='flex items-center gap-4 text-end'>
         <h2 className='text-3xl font-semibold'>{currentWord.word}</h2>
-        <span className='text-blue-600 text-xs'>
+        <span className='text-xs text-blue-600'>
           {currentWord.pronunciation ? `${currentWord.pronunciation}` : ''}
           {currentWord.partOfSpeech ? ` • ${currentWord.partOfSpeech}` : ''}
           {currentWord.nounType ? ` • ${currentWord.nounType}` : ''}
         </span>
       </div>
 
-      <p className='text-sm md:text-md lowercase overflow-auto max-h-20'>{currentWord.meaningHTML ? parse(currentWord.meaningHTML) : 'No meaning available.'}</p>
-      <p className='text-sm md:text-md italic overflow-auto max-h-20'>{currentWord.exampleHTML ? parse(currentWord.exampleHTML) : 'No example available.'}</p>
+      <p className='md:text-md max-h-20 overflow-auto text-sm lowercase'>{currentWord.meaningHTML ? parse(currentWord.meaningHTML) : 'No meaning available.'}</p>
+      <p className='md:text-md max-h-20 overflow-auto text-sm italic'>{currentWord.exampleHTML ? parse(currentWord.exampleHTML) : 'No example available.'}</p>
 
       <div className='text-center'>
         <p className='text-xs'>
@@ -58,7 +58,7 @@ export default function WordComponent({ words }: { words: Word[] }) {
       <div className='flex items-center justify-between border-t pt-4'>
         <p className='text-xs text-gray-500'>
           Powered by{' '}
-          <a href='https://www.merriam-webster.com/word-of-the-day' className='text-blue-500 font-semibold text-xs' target='_blank' rel='noopener noreferrer'>
+          <a href='https://www.merriam-webster.com/word-of-the-day' className='text-xs font-semibold text-blue-500' target='_blank' rel='noopener noreferrer'>
             Merriam-Webster's Word of the Day
           </a>
         </p>

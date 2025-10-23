@@ -43,7 +43,7 @@ export default function History() {
           const Icon = success ? CheckCircle2 : XCircle;
 
           return (
-            <Badge variant='outline' className={`capitalize flex items-center gap-1 ${success ? 'text-green-600' : 'text-red-600'}`}>
+            <Badge variant='outline' className={`flex items-center gap-1 capitalize ${success ? 'text-green-600' : 'text-red-600'}`}>
               <Icon className='h-4 w-4' />
               {value}
             </Badge>
@@ -118,7 +118,7 @@ export default function History() {
   }
 
   return (
-    <div className='w-full max-w-[90vw] md:max-w-screen overflow-x-auto mx-auto'>
+    <div className='mx-auto w-full max-w-[90vw] overflow-x-auto md:max-w-screen'>
       <DataTable table={table}>
         <DataTableToolbar table={table} />
       </DataTable>

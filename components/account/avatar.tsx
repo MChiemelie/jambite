@@ -54,10 +54,10 @@ export default function UploadAvatar() {
   return (
     <div className='flex flex-col items-center'>
       <div className='relative cursor-pointer'>
-        <Image src={avatarUrl} alt={user?.fullname || 'Avatar'} width={300} height={300} className='border-2 border-foreground/60 object-cover rounded-full h-60 w-60' />
+        <Image src={avatarUrl} alt={user?.fullname || 'Avatar'} width={300} height={300} className='border-foreground/60 h-60 w-60 rounded-full border-2 object-cover' />
 
-        <div className='absolute bottom-4 right-4 lg:bottom-5 lg:right-5 bg-background/90 p-1 rounded-full border-2 border-brand'>
-          <ImageUp className='text-foreground w-6 h-6' />
+        <div className='bg-background/90 border-brand absolute right-4 bottom-4 rounded-full border-2 p-1 lg:right-5 lg:bottom-5'>
+          <ImageUp className='text-foreground h-6 w-6' />
         </div>
       </div>
       <Input type='file' accept='image/*' ref={fileInputRef} onChange={handleFileChange} className='hidden' onClick={handleClick} />

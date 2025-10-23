@@ -117,10 +117,10 @@ export default function SelectSubjects() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col bg-muted/50 rounded w-full md:h-full p-4 gap-6 mx-auto'>
-      <p className='text-xs text-center italic'>You can only take four subjects per practice. Use of English has already been selected for you.</p>
+    <form onSubmit={handleSubmit} className='bg-muted/50 mx-auto flex w-full flex-col gap-6 rounded p-4 md:h-full'>
+      <p className='text-center text-xs italic'>You can only take four subjects per practice. Use of English has already been selected for you.</p>
 
-      <div className='grid grid-cols-1 xs:grid-cols-2 gap-4 text-sm md:text-md place-content-evenly'>
+      <div className='xs:grid-cols-2 md:text-md grid grid-cols-1 place-content-evenly gap-4 text-sm'>
         {subjects.map((subject) => {
           const isEnglish = subject === ENGLISH;
           const checked = isEnglish ? true : selectedSubjects.includes(subject);
@@ -137,9 +137,9 @@ export default function SelectSubjects() {
         })}
       </div>
 
-      {message && <p className='text-red-500 text-center text-xs'>{message}</p>}
+      {message && <p className='text-center text-xs text-red-500'>{message}</p>}
 
-      <Button type='submit' disabled={isLoading} className='w-full sm:w-[60%] mx-auto'>
+      <Button type='submit' disabled={isLoading} className='mx-auto w-full sm:w-[60%]'>
         {isLoading ? 'Loading…' : 'Submit'}
       </Button>
     </form>

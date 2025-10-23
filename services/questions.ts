@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const RENDER_API_URL = 'https://jambite-question-api.onrender.com';
+const questionUrl = process.env.NEXT_PUBLIC_QUESTION_API_URL;
 
 export async function getQuestions(subjects: string[], randomYear: string, onProgress?: (progress: number) => void) {
   let progressInterval: NodeJS.Timeout | null = null;
@@ -26,7 +26,7 @@ export async function getQuestions(subjects: string[], randomYear: string, onPro
       }
     }, 3000);
 
-    const response = await axios.get(`${RENDER_API_URL}/api/questions?${queryParams.toString()}`, {
+    const response = await axios.get(`${questionUrl}/api/questions?${queryParams.toString()}`, {
       headers: {
         'Content-Type': 'application/json'
       },

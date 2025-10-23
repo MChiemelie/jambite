@@ -34,7 +34,7 @@ export default function AIButton() {
   };
 
   return (
-    <button onClick={handleClick} type='submit' disabled={!!existing || loading} className='col-span-2 bg-accent-4 text-white py-1 rounded-sm text-sm md:text-lg'>
+    <button onClick={handleClick} type='submit' disabled={!!existing || loading} className='bg-accent-4 col-span-2 rounded-sm py-1 text-sm text-white md:text-lg'>
       {existing ? 'AI Review Generated' : loading ? 'Generating…' : 'Generate AI Review'}
     </button>
   );

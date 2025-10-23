@@ -9,11 +9,11 @@ export default function Greeting({ user }: { user: User }) {
   const firstname = fullname.split(/\s+/)[0] || 'Jambite';
 
   return (
-    <div className='flex flex-col p-4 items-center sm:items-start text-center lg:w-full'>
+    <div className='flex flex-col items-center p-4 text-center sm:items-start lg:w-full'>
       <h1 className='w-full text-3xl font-bold text-nowrap'>
         {getGreeting},<br className='block sm:hidden lg:block' /> {firstname}.
       </h1>
-      <p className='mx-auto lg:mx-0 text-sm text-foreground/80 w-full'>Let's ace today's practice!</p>
+      <p className='text-foreground/80 mx-auto w-full text-sm lg:mx-0'>Let's ace today's practice!</p>
     </div>
   );
 }

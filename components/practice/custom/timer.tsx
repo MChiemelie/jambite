@@ -49,9 +49,9 @@ export default function ExamTimer() {
   const ss = String(validCountdown % 60).padStart(2, '0');
 
   return (
-    <div className='flex gap-2 items-center'>
+    <div className='flex items-center gap-2'>
       <Timer />
-      <span className='bg-accent-2 p-2 w-[60px] text-center rounded-sm text-white'>
+      <span className='bg-accent-2 w-[60px] rounded-sm p-2 text-center text-white'>
         {mm}:{ss}
       </span>
     </div>

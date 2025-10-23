@@ -1,3 +1,5 @@
+'use server';
+
 import { cookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
 import { ID, Query } from 'node-appwrite';

@@ -10,19 +10,19 @@ const renderFeedbackMessage = (fb: { type: string; userAnswer?: string; correctA
     case 'correct':
       return (
         <p className='text-md md:text-lg'>
-          You are Correct! <ThumbsUp className='inline w-4 h-4' /> The answer is {fb.correctAnswer} <Check className='inline w-4 h-4 text-green-600' />.
+          You are Correct! <ThumbsUp className='inline h-4 w-4' /> The answer is {fb.correctAnswer} <Check className='inline h-4 w-4 text-green-600' />.
         </p>
       );
     case 'incorrect':
       return (
         <p className='text-md md:text-lg'>
-          <X className='inline w-4 h-4 text-red-600' /> {fb.userAnswer} is incorrect. The correct answer is {fb.correctAnswer} <Check className='inline w-4 h-4 text-green-600' />.
+          <X className='inline h-4 w-4 text-red-600' /> {fb.userAnswer} is incorrect. The correct answer is {fb.correctAnswer} <Check className='inline h-4 w-4 text-green-600' />.
         </p>
       );
     case 'unattempted':
       return (
         <p className='text-md md:text-lg'>
-          You didn't attempt this question <X className='inline w-4 h-4 text-red-600' />. The correct answer is {fb.correctAnswer} <Check className='inline w-4 h-4 text-green-600' />.
+          You didn't attempt this question <X className='inline h-4 w-4 text-red-600' />. The correct answer is {fb.correctAnswer} <Check className='inline h-4 w-4 text-green-600' />.
         </p>
       );
     default:

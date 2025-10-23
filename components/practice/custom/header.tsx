@@ -18,9 +18,9 @@ export default function QuestionHeader() {
   const currentQuestionId = currentQuestionData?.id ?? null;
 
   return (
-    <header className='p-4 md:p-6 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4'>
+    <header className='flex flex-col items-center justify-between gap-4 p-4 sm:flex-row sm:items-start md:p-6'>
       <div className='flex flex-col gap-1'>
-        <p className='uppercase text-accent-2 text-center'>{selectedSubject}</p>
+        <p className='text-accent-2 text-center uppercase'>{selectedSubject}</p>
         <p className='text-center sm:text-justify'>Question {currentQuestion + 1}</p>
       </div>
       {submitted && currentQuestionId !== null ? <Report /> : <KeyboardShortcutsDialog />}

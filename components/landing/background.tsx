@@ -181,37 +181,44 @@ const Background: React.FC = () => {
       <style jsx>{`
         @keyframes fall-1 {
           0% {
-            transform: translate(0px, 0px) rotateX(45deg) rotateY(30deg) rotateZ(0deg) scale(0.25);
+            transform: translate(0px, 0px) rotateX(45deg) rotateY(30deg)
+              rotateZ(0deg) scale(0.25);
             opacity: 0;
           }
           5% {
-            transform: translate(10px, -10px) rotateX(45deg) rotateY(30deg) rotateZ(0deg) scale(1);
+            transform: translate(10px, -10px) rotateX(45deg) rotateY(30deg)
+              rotateZ(0deg) scale(1);
             opacity: 1;
           }
           100% {
-            transform: translate(25px, 200px) rotateX(180deg) rotateY(270deg) rotateZ(90deg) scale(1);
+            transform: translate(25px, 200px) rotateX(180deg) rotateY(270deg)
+              rotateZ(90deg) scale(1);
             opacity: 0;
           }
         }
 
         @keyframes fall-2 {
           0% {
-            transform: translate(0px, 0px) rotateX(-20deg) rotateY(10deg) scale(0.25);
+            transform: translate(0px, 0px) rotateX(-20deg) rotateY(10deg)
+              scale(0.25);
             opacity: 0;
           }
           10% {
-            transform: translate(-10px, -5px) rotateX(-20deg) rotateY(10deg) scale(1);
+            transform: translate(-10px, -5px) rotateX(-20deg) rotateY(10deg)
+              scale(1);
             opacity: 1;
           }
           100% {
-            transform: translate(-10px, 160px) rotateX(-90deg) rotateY(45deg) scale(0.25);
+            transform: translate(-10px, 160px) rotateX(-90deg) rotateY(45deg)
+              scale(0.25);
             opacity: 0;
           }
         }
 
         @keyframes fall-3 {
           0% {
-            transform: translate(0px, 0px) rotateX(0deg) rotateY(45deg) scale(0.5);
+            transform: translate(0px, 0px) rotateX(0deg) rotateY(45deg)
+              scale(0.5);
             opacity: 0;
           }
           15% {
@@ -219,13 +226,14 @@ const Background: React.FC = () => {
             opacity: 1;
           }
           100% {
-            transform: translate(20px, 120px) rotateX(-180deg) rotateY(-90deg) scale(0.5);
+            transform: translate(20px, 120px) rotateX(-180deg) rotateY(-90deg)
+              scale(0.5);
             opacity: 0;
           }
         }
       `}</style>
 
-      <div ref={containerRef} className='fixed inset-0 w-screen h-screen overflow-hidden pointer-events-none' />
+      <div ref={containerRef} className='pointer-events-none fixed inset-0 h-screen w-screen overflow-hidden' />
     </>
   );
 };

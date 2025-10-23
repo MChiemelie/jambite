@@ -1,15 +1,16 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/shadcn/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/shadcn/form';
 import { Input } from '@/components/shadcn/input';
 import { createAccount, signInUser } from '@/services/auth';
+import { Spinner } from '../shadcn/spinner';
 import { OtpModal } from './';
 
 type AuthType = 'sign-in' | 'sign-up';
@@ -24,6 +25,11 @@ const AuthForm = ({ type }: { type: AuthType }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [userId, setUserId] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    router.refresh();
+  }, [router]);
 
   const formSchema = authFormSchema(type);
 
@@ -55,7 +61,7 @@ const AuthForm = ({ type }: { type: AuthType }) => {
   };
 
   return (
-    <main className='flex flex-col gap-4 w-full items-center'>
+    <main className='flex w-full flex-col items-center gap-4'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='auth-form'>
           <h1 className='form-title'>{type === 'sign-in' ? '🤗 Welcome Back!' : '🏆 Join The League'}</h1>
@@ -98,7 +104,7 @@ const AuthForm = ({ type }: { type: AuthType }) => {
 
           <Button type='submit' className='w-full' disabled={isLoading}>
             {type === 'sign-in' ? 'Sign In' : 'Sign Up'}
-            {isLoading && <Image src='/assets/loader.svg' alt='Loading circle' width={24} height={24} className='ml-2 animate-spin' />}
+            {isLoading && <Spinner />}
           </Button>
 
           {errorMessage && (
@@ -109,7 +115,7 @@ const AuthForm = ({ type }: { type: AuthType }) => {
 
           <div className='body-2 flex justify-center gap-2 text-xs'>
             <p className='text-foreground/60'>{type === 'sign-in' ? "Don't have an account?" : 'Already have an account?'}</p>
-            <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className='font-medium text-brand'>
+            <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className='font-medium text-blue-400 dark:text-sky-400'>
               {type === 'sign-in' ? 'Sign Up' : 'Sign In'}
             </Link>
           </div>

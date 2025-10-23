@@ -32,7 +32,7 @@ function AccuracyComponent({ data }: Props) {
   );
 
   return (
-    <Card className='flex flex-col justify-between bg-muted/50' aria-label='Accuracy card'>
+    <Card className='bg-muted/50 flex flex-col justify-between' aria-label='Accuracy card'>
       <CardHeader className='items-center'>
         <CardTitle>Accuracy</CardTitle>
         <CardDescription>Correct vs Wrong</CardDescription>
@@ -65,9 +65,9 @@ function AccuracyComponent({ data }: Props) {
         </ChartContainer>
       </CardContent>
 
-      <CardFooter className='flex-col text-center gap-2 text-sm'>
-        <p className='font-medium leading-none'>Your answers are {accuracy}% accurate</p>
-        <p className='leading-none text-muted-foreground'>
+      <CardFooter className='flex-col gap-2 text-center text-sm'>
+        <p className='leading-none font-medium'>Your answers are {accuracy}% accurate</p>
+        <p className='text-muted-foreground leading-none'>
           Aced {correct} of {totalAttempts} attempts
         </p>
       </CardFooter>

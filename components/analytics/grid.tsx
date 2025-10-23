@@ -21,7 +21,7 @@ function AnalyticsGridComponent({ practiceAnalytics, accuracyData, subjectsScore
   const memoDuration = useMemo(() => durationData, [durationData]);
 
   return (
-    <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 w-full'>
+    <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
       <Accuracy data={memoAccuracy} />
 
       <Attempts totalAttempts={practiceAnalytics?.totalAttempts} totalQuestions={practiceAnalytics?.totalQuestions} />

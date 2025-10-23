@@ -31,7 +31,7 @@ export default function Precision({ data }: AcumenProps) {
   const topSubject = getTopSubjectByAccuracy(chartData);
 
   return (
-    <Card className='flex flex-col justify-between bg-muted/50'>
+    <Card className='bg-muted/50 flex flex-col justify-between'>
       <CardHeader>
         <CardTitle className='text-center'>Precision</CardTitle>
         <CardDescription className='text-center'>Correct vs Incorrect by Subject</CardDescription>
@@ -48,7 +48,7 @@ export default function Precision({ data }: AcumenProps) {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className='flex-col items-center gap-2 text-sm text-center leading-none'>
+      <CardFooter className='flex-col items-center gap-2 text-center text-sm leading-none'>
         <p className='font-medium'>
           {topSubject.subject} with {topSubject.correct} correct and {topSubject.incorrect} incorect answers.
         </p>

@@ -4,16 +4,16 @@ import { AIButton, AIReview, Candidate, Feedback, NextQuestionButton, Pagination
 
 export default function Practice() {
   return (
-    <div className='bg-white text-black min-h-screen min-w-full select-none'>
+    <div className='min-h-screen min-w-full bg-white text-black select-none'>
       <TopControls />
-      <div className='flex flex-col md:flex-row p-4 gap-4'>
-        <div className='border-2 border-gray-300 rounded w-full'>
+      <div className='flex flex-col gap-4 p-4 md:flex-row'>
+        <div className='w-full rounded border-2 border-gray-300'>
           <QuestionHeader />
           <QuestionBlock />
           <div className='flex flex-col gap-8 p-4 md:p-6'>
             <AIReview />
             <Feedback />
-            <div className='grid grid-cols-4 gap-3 max-w-lg'>
+            <div className='grid max-w-lg grid-cols-4 gap-3'>
               <PreviousQuestionButton />
               <NextQuestionButton />
               <AIButton />

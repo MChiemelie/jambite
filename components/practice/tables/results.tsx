@@ -16,7 +16,7 @@ export default function Results() {
   const durationSeconds = duration % 60;
 
   return (
-    <div className='text-center text-xs sm:text-sm md:text-base gap-1'>
+    <div className='gap-1 text-center text-xs sm:text-sm md:text-base'>
       <p className='block w-full'>
         Accuracy: {totalCorrect}/{totalQuestions} ({((totalCorrect / totalQuestions) * 100).toFixed()}%)
       </p>
@@ -30,10 +30,10 @@ export default function Results() {
       <table className='w-full table-auto'>
         <thead>
           <tr>
-            <th className='px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base'>Subject</th>
-            <th className='px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base'>Correct</th>
-            <th className='px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base'>Score (100)</th>
-            <th className='px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base'>Attempts (%)</th>
+            <th className='px-2 py-1 text-xs sm:text-sm md:px-4 md:text-base lg:py-2'>Subject</th>
+            <th className='px-2 py-1 text-xs sm:text-sm md:px-4 md:text-base lg:py-2'>Correct</th>
+            <th className='px-2 py-1 text-xs sm:text-sm md:px-4 md:text-base lg:py-2'>Score (100)</th>
+            <th className='px-2 py-1 text-xs sm:text-sm md:px-4 md:text-base lg:py-2'>Attempts (%)</th>
           </tr>
         </thead>
         <tbody>
@@ -46,10 +46,10 @@ export default function Results() {
 
             return (
               <tr key={subject}>
-                <td className='border px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base'>{subject}</td>
-                <td className='border px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base'>{correctForSubject}</td>
-                <td className='border px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base'>{jambScoreForSubject}</td>
-                <td className='border px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base'>
+                <td className='border px-2 py-1 text-xs sm:text-sm md:px-4 md:text-base lg:py-2'>{subject}</td>
+                <td className='border px-2 py-1 text-xs sm:text-sm md:px-4 md:text-base lg:py-2'>{correctForSubject}</td>
+                <td className='border px-2 py-1 text-xs sm:text-sm md:px-4 md:text-base lg:py-2'>{jambScoreForSubject}</td>
+                <td className='border px-2 py-1 text-xs sm:text-sm md:px-4 md:text-base lg:py-2'>
                   {attemptedForSubject}/{totalForSubject} ({attemptPercentage})
                 </td>
               </tr>

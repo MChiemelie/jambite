@@ -27,7 +27,7 @@ export default function AIReview() {
 
   if (loading) {
     return (
-      <div className='flex bg-gray-200 border-2 border-gray-300 gap-2 p-4 rounded  animate-glowing'>
+      <div className='animate-glowing flex gap-2 rounded border-2 border-gray-300 bg-gray-200 p-4'>
         <Bot className='h-auto max-w-8' />
         <div className='flex items-center'>
           <p className='md:text-lg'>Erudite is thinking</p>
@@ -39,7 +39,7 @@ export default function AIReview() {
 
   return (
     existing && (
-      <div className='flex items-start bg-gray-200 border-2 border-gray-300 gap-2 p-4 rounded'>
+      <div className='flex items-start gap-2 rounded border-2 border-gray-300 bg-gray-200 p-4'>
         <Bot className='h-auto min-w-8' />
         <p className='md:text-lg'>{existing}</p>
       </div>

@@ -43,7 +43,7 @@ export default function Scores({ data }: { data: { subject: string; score: numbe
   } satisfies ChartConfig;
 
   return (
-    <Card className='flex flex-col justify-between bg-muted/50'>
+    <Card className='bg-muted/50 flex flex-col justify-between'>
       <CardHeader>
         <CardTitle className='text-center'>Scores</CardTitle>
         <CardDescription className='text-center'>Top Scores by Subject</CardDescription>

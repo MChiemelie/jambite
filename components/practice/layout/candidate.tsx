@@ -16,11 +16,11 @@ export default function Candidate() {
   const totalQuestionsForSubject = questions[selectedSubject]?.length || 0;
 
   return (
-    <aside className='border-2 border-gray-300 rounded w-full md:max-w-64 mx-auto'>
+    <aside className='mx-auto w-full rounded border-2 border-gray-300 md:max-w-64'>
       <h2 className='border-b-2 border-gray-300 p-3 text-center'>Candidate Details</h2>
-      <div className='flex flex-col text-center rounded p-3 gap-3'>
+      <div className='flex flex-col gap-3 rounded p-3 text-center'>
         <Image src='/images/special/qr.png' alt='QR Code' width={100} height={100} className='mx-auto' />
-        <Image src={user?.avatarUrl || '/images/profile/default.jpg'} alt='Avatar' width={100} height={100} className='mx-auto aspect-square w-24 h-24 rounded object-cover' />
+        <Image src={user?.avatarUrl || '/images/profile/default.jpg'} alt='Avatar' width={100} height={100} className='mx-auto aspect-square h-24 w-24 rounded object-cover' />
         <p className='text-accent-2 uppercase'>{user?.fullname || 'JOE DOE'}</p>
         <p className='text-accent-2 uppercase'>{user?.userId || '0123456789'}</p>
         <p>Seat Number: 1234</p>

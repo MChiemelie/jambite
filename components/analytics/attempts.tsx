@@ -31,7 +31,7 @@ export default function Attempts({ totalAttempts, totalQuestions }: QuestionsAtt
   ];
 
   return (
-    <Card className='flex flex-col justify-between bg-muted/50'>
+    <Card className='bg-muted/50 flex flex-col justify-between'>
       <CardHeader className='items-center pb-0'>
         <CardTitle>Attempts</CardTitle>
         <CardDescription>Total Questions Attempted</CardDescription>
@@ -62,11 +62,11 @@ export default function Attempts({ totalAttempts, totalQuestions }: QuestionsAtt
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className='flex-col gap-2 text-sm text-center'>
-        <div className='flex items-center gap-2 font-medium leading-none'>
+      <CardFooter className='flex-col gap-2 text-center text-sm'>
+        <div className='flex items-center gap-2 leading-none font-medium'>
           You attempted {attemptRate.toFixed()}% of {totalQuestions} questions.
         </div>
-        <div className='leading-none text-muted-foreground'>{totalAttempts} attempted questions</div>
+        <div className='text-muted-foreground leading-none'>{totalAttempts} attempted questions</div>
       </CardFooter>
     </Card>
   );

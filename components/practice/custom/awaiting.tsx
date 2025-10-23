@@ -86,17 +86,17 @@ function CountdownTimer({ initialSeconds = 1800, onEnd, frozen = false }: { init
   return (
     <div className='flex items-center gap-3'>
       <div className='flex items-center gap-2'>
-        <TimerIcon className='w-4 h-4 text-amber-400' />
+        <TimerIcon className='h-4 w-4 text-amber-400' />
         <span className='font-mono text-sm'>
           {mm}:{ss}
         </span>
       </div>
 
-      <div className='w-40 bg-foreground/6 h-0.5 overflow-hidden'>
+      <div className='bg-foreground/6 h-0.5 w-40 overflow-hidden'>
         <div className='h-0.5 bg-amber-400' style={{ width: `${percent}%`, transition: 'width 250ms linear' }} />
       </div>
 
-      <div className='text-xs text-foreground/30'>{percent}%</div>
+      <div className='text-foreground/30 text-xs'>{percent}%</div>
     </div>
   );
 }
@@ -104,32 +104,32 @@ function CountdownTimer({ initialSeconds = 1800, onEnd, frozen = false }: { init
 export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onTimeEnd, onClose, ready = false }: { estimatedSeconds?: number; progress?: number; onCancel?: () => void; onTimeEnd?: () => void; onClose?: () => void; ready?: boolean }) {
   return (
     <div className='p-6'>
-      <div className='flex gap-4 flex-col lg:flex-row items-center lg:items-start'>
-        <div className='flex-none '>
-          <div className='w-16 h-16 rounded-xl bg-gradient-to-br from-blue-600 to-sky-500 flex items-center justify-center text-white'>
-            <Clock className='w-8 h-8' />
+      <div className='flex flex-col items-center gap-4 lg:flex-row lg:items-start'>
+        <div className='flex-none'>
+          <div className='flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-sky-500 text-white'>
+            <Clock className='h-8 w-8' />
           </div>
         </div>
 
-        <div className='flex-1 flex flex-col gap-8'>
-          <div className='flex items-center lg:items-start justify-between flex-col lg:flex-row  gap-4'>
+        <div className='flex flex-1 flex-col gap-8'>
+          <div className='flex flex-col items-center justify-between gap-4 lg:flex-row lg:items-start'>
             <div>
-              <h2 className='text-center lg:text-justify text-lg font-semibold'>{progress > 0 && progress < 100 ? 'Loading questions...' : ready ? 'Questions ready!' : 'Preparing your exam...'}</h2>
-              <p className=' text-center lg:text-justify text-sm text-muted-foreground mt-1'>{ready ? "All set! Click 'Start Practice' when you're ready." : 'This might take a while, at most 3 minutes. Grab a quick read of the instructions and tips.'}</p>
+              <h2 className='text-center text-lg font-semibold lg:text-justify'>{progress > 0 && progress < 100 ? 'Loading questions...' : ready ? 'Questions ready!' : 'Preparing your exam...'}</h2>
+              <p className='text-muted-foreground mt-1 text-center text-sm lg:text-justify'>{ready ? "All set! Click 'Start Practice' when you're ready." : 'This might take a while, at most 3 minutes. Grab a quick read of the instructions and tips.'}</p>
             </div>
 
-            <div className='flex flex-col lg:items-end items-center gap-2'>
+            <div className='flex flex-col items-center gap-2 lg:items-end'>
               <Theme />
               <CountdownTimer initialSeconds={estimatedSeconds} onEnd={onTimeEnd} frozen={ready} />
               <div className='flex gap-2'>
-                <button onClick={onCancel} type='button' className='text-sm px-3 py-1 rounded bg-transparent border border-white/8 hover:bg-white/3'>
+                <button onClick={onCancel} type='button' className='rounded border border-white/8 bg-transparent px-3 py-1 text-sm hover:bg-white/3'>
                   Cancel
                 </button>
                 <button
                   onClick={() => ready && onClose?.()}
                   disabled={!ready}
                   type='button'
-                  className={`text-sm px-3 py-1 rounded font-medium transition disabled:opacity-50 disabled:cursor-not-allowed ${ready ? 'bg-emerald-500 text-white hover:bg-emerald-600' : 'bg-transparent border border-white/8'}`}
+                  className={`rounded px-3 py-1 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50 ${ready ? 'bg-emerald-500 text-white hover:bg-emerald-600' : 'border border-white/8 bg-transparent'}`}
                 >
                   {ready ? 'Start Practice' : 'Preparing...'}
                 </button>
@@ -140,13 +140,13 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
           {progress > 0 && progress < 100 && (
             <div className='flex flex-col gap-2'>
               <div className='flex items-center gap-3'>
-                <Download className='w-4 h-4 text-blue-400 animate-bounce' />
+                <Download className='h-4 w-4 animate-bounce text-blue-400' />
                 <span className='text-sm font-medium'>Loading Questions: {progress}%</span>
               </div>
-              <div className='w-full bg-foreground/10 rounded h-0.5 overflow-hidden'>
+              <div className='bg-foreground/10 h-0.5 w-full overflow-hidden rounded'>
                 <div className='h-0.5 rounded-full bg-gradient-to-r from-blue-500 to-sky-500 transition-all duration-900 ease-out' style={{ width: `${progress}%` }} />
               </div>
-              <p className='text-xs text-foreground-400'>
+              <p className='text-foreground-400 text-xs'>
                 {progress < 20 && 'Connecting to server...'}
                 {progress >= 20 && progress < 50 && 'Downloading questions...'}
                 {progress >= 50 && progress < 70 && 'Almost there...'}
@@ -155,17 +155,17 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
             </div>
           )}
 
-          <div className='flex flex-wrap gap-2 items-center justify-center lg:justify-normal'>
-            <div className='text-xs bg-white/6 px-3 py-1 rounded-full'>Network: {progress > 0 ? 'Downloading' : ready ? 'Ready' : 'Checking'}</div>
-            {estimatedSeconds && <div className='text-xs bg-white/6 px-3 py-1 rounded-full'>Est. wait: {estimatedSeconds}s</div>}
+          <div className='flex flex-wrap items-center justify-center gap-2 lg:justify-normal'>
+            <div className='rounded-full bg-white/6 px-3 py-1 text-xs'>Network: {progress > 0 ? 'Downloading' : ready ? 'Ready' : 'Checking'}</div>
+            {estimatedSeconds && <div className='rounded-full bg-white/6 px-3 py-1 text-xs'>Est. wait: {estimatedSeconds}s</div>}
           </div>
 
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-            <section className='p-3 bg-white/3 rounded flex flex-col gap-4'>
+          <div className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+            <section className='flex flex-col gap-4 rounded bg-white/3 p-3'>
               <h3 className='flex items-center gap-2 text-sm font-medium'>
-                <AlertTriangle className='w-4 h-4' /> Rules & Regulations
+                <AlertTriangle className='h-4 w-4' /> Rules & Regulations
               </h3>
-              <ul className='text-xs leading-snug list-disc list-inside text-foreground/90'>
+              <ul className='text-foreground/90 list-inside list-disc text-xs leading-snug'>
                 <li>Bring your ID and exam slip — no ID, no entry.</li>
                 <li>Mobile phones turned off and stored away.</li>
                 <li>No unauthorized materials: books, cheat sheets, or earphones.</li>
@@ -174,11 +174,11 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
               </ul>
             </section>
 
-            <section className='p-3 bg-white/3 rounded'>
+            <section className='rounded bg-white/3 p-3'>
               <h3 className='flex items-center gap-2 text-sm font-medium'>
-                <Zap className='w-4 h-4' /> Quick Success Tips
+                <Zap className='h-4 w-4' /> Quick Success Tips
               </h3>
-              <ol className='mt-2 text-xs leading-snug list-decimal list-inside text-foreground/90'>
+              <ol className='text-foreground/90 mt-2 list-inside list-decimal text-xs leading-snug'>
                 <li>Read instructions first — 30 seconds can save points.</li>
                 <li>Answer easy questions first to secure marks fast.</li>
                 <li>Manage time: set mini-benchmarks every 15—20 mins.</li>
@@ -187,13 +187,13 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
               </ol>
             </section>
 
-            <section className='p-3 bg-white/3 rounded sm:col-span-2'>
+            <section className='rounded bg-white/3 p-3 sm:col-span-2'>
               <h3 className='flex items-center gap-2 text-sm font-medium'>
-                <BookOpen className='w-4 h-4' /> What to Read While You Wait
+                <BookOpen className='h-4 w-4' /> What to Read While You Wait
               </h3>
-              <div className='mt-2 text-xs text-foreground/90 space-y-2'>
+              <div className='text-foreground/90 mt-2 space-y-2 text-xs'>
                 <p>Short reads to keep you sharp while the test loads:</p>
-                <ul className='list-disc list-inside ml-3'>
+                <ul className='ml-3 list-inside list-disc'>
                   <li>
                     <strong>Exam Format:</strong> skim subject breakdown and question types.
                   </li>
@@ -210,11 +210,11 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
               </div>
             </section>
 
-            <section className='p-3 bg-white/3 rounded sm:col-span-2 flex items-center justify-between'>
+            <section className='flex items-center justify-between rounded bg-white/3 p-3 sm:col-span-2'>
               <div>
                 <h4 className='text-sm font-semibold'>Final checklist</h4>
-                <p className='text-xs text-foreground/80 mt-1'>Two-minute run-through before you start.</p>
-                <ul className='mt-2 text-xs list-disc list-inside text-foreground/80'>
+                <p className='text-foreground/80 mt-1 text-xs'>Two-minute run-through before you start.</p>
+                <ul className='text-foreground/80 mt-2 list-inside list-disc text-xs'>
                   <li>Seat number visible</li>
                   <li>Calculator rules followed</li>
                   <li>All answers saved / ready to submit</li>
@@ -222,10 +222,10 @@ export default function Awaiting({ estimatedSeconds, progress = 0, onCancel, onT
               </div>
 
               <div className='ml-4 flex flex-col items-end'>
-                <div className='text-sm font-medium flex items-center gap-1'>
-                  <CheckCircle className='w-5 h-5' /> {ready ? 'Ready to go' : 'Preparing...'}
+                <div className='flex items-center gap-1 text-sm font-medium'>
+                  <CheckCircle className='h-5 w-5' /> {ready ? 'Ready to go' : 'Preparing...'}
                 </div>
-                <div className='text-xs mt-2'>Good luck — don't rush, but don't stall.</div>
+                <div className='mt-2 text-xs'>Good luck — don't rush, but don't stall.</div>
               </div>
             </section>
           </div>

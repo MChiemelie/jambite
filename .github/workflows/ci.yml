@@ -1,0 +1,100 @@
+name: CI
+permissions:
+  contents: write
+  pull-requests: write
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.19.0
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+        
+      - name: Check OPENAI key presence (safe — does NOT print the value)
+        run: |
+          node -e "console.log(process.env.OPENAI_API_KEY ? 'OPENAI_API_KEY is set' : 'OPENAI_API_KEY is MISSING')"
+
+      - name: Run lint
+        run: pnpm lint
+
+      - name: Run build
+        run: pnpm build
+        env:
+          NODE_ENV: production
+
+      - name: Run tests
+        run: pnpm test:run
+
+  create-pr:
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true   # <- important
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # create a fresh branch per run instead of pushing to protected 'dev'
+          branch: automated/dev-${{ github.run_id }}
+          base: main
+          title: 'chore: Merge dev into main'
+          body: |
+            ## Automated Pull Request
+
+            This PR was automatically created when changes were pushed to the `dev` branch.
+
+            ### Changes
+            - Auto-generated from latest `dev` branch commits
+
+            ### Checklist
+            - [ ] CI checks passed
+            - [ ] Code reviewed
+            - [ ] Ready to merge
+
+            ---
+            *This PR was created automatically by GitHub Actions*
+          labels: |
+            automated
+            dev-to-main
+          draft: false
+

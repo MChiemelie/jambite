@@ -64,21 +64,21 @@ export default function Report() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className='flex items-center gap-2 text-gray-700 p-2 rounded border-2 border-gray-300 text-sm md:text-md' type='button'>
-          <Flag className='w-4 h-4' />
+        <button className='md:text-md flex items-center gap-2 rounded border-2 border-gray-300 p-2 text-sm text-gray-700' type='button'>
+          <Flag className='h-4 w-4' />
           <span>Report Question</span>
         </button>
       </DialogTrigger>
-      <DialogContent className='w-[90%] sm:max-w-[625px] rounded bg-white text-black'>
+      <DialogContent className='w-[90%] rounded bg-white text-black sm:max-w-[625px]'>
         <DialogHeader>
           <DialogTitle className='text-center'>Report Question</DialogTitle>
-          <DialogDescription className='text-center text-sm md:text-lg text-gray-800'>We would love to know the exact issue you found with the question.</DialogDescription>
+          <DialogDescription className='text-center text-sm text-gray-800 md:text-lg'>We would love to know the exact issue you found with the question.</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div>
             <label className='block font-medium' htmlFor='report_type' aria-label='report_type'>
               Report Type
-              <select value={reportType} onChange={(e) => setReportType(parseInt(e.target.value, 10))} className='w-full border p-2 rounded bg-white text-black'>
+              <select value={reportType} onChange={(e) => setReportType(parseInt(e.target.value, 10))} className='w-full rounded border bg-white p-2 text-black'>
                 <option value={1}>Question</option>
                 <option value={2}>Option A</option>
                 <option value={3}>Option B</option>
@@ -92,16 +92,16 @@ export default function Report() {
           <div>
             <label className='block font-medium' htmlFor='report_message' aria-label='report_message'>
               Message (optional)
-              <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full border p-1 rounded bg-white text-black' placeholder='Describe the issue...' />
+              <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full rounded border bg-white p-1 text-black' placeholder='Describe the issue...' />
             </label>
           </div>
           {error && <p className='text-red-500'>{error}</p>}
           {success && <p className='text-green-600'>Report submitted successfully!</p>}
-          <div className='flex justify-between w-full'>
-            <button type='button' onClick={() => setOpen(false)} className='text-gray-600 w-20 md:w-40  border p-1 rounded'>
+          <div className='flex w-full justify-between'>
+            <button type='button' onClick={() => setOpen(false)} className='w-20 rounded border p-1 text-gray-600 md:w-40'>
               Cancel
             </button>
-            <button type='submit' disabled={loading} className='bg-accent-2 text-white w-20 md:w-40 p-1 rounded'>
+            <button type='submit' disabled={loading} className='bg-accent-2 w-20 rounded p-1 text-white md:w-40'>
               {loading ? 'Submitting...' : 'Submit'}
             </button>
           </div>

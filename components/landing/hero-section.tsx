@@ -51,20 +51,20 @@ export default function HeroSection() {
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   return (
-    <div ref={ref} className='flex min-h-[100vh] md:min-h-[200vh] shrink-0 scale-[.30] xs:scale-[.35] sm:scale-[.65] transform flex-col items-center justify-start [perspective:800px] md:scale-100 md:py-48'>
-      <section className='p-4 -mt-60 xs:-mt-20 sm:-mt-10 md:-mt-5 scale-200 sm:scale-none pb-40 sm:pb-0 flex flex-col sm:gap-8 gap-4 md:gap-4 max-w-3xl'>
-        <motion.h1 style={{ translateY: textTransform, opacity: textOpacity }} className='text-nowrap text-center text-5xl sm:text-6xl 3xl:text-8xl font-extrabold md:text-sky-50 lg:text-shadow-md text-shadow-2xs text-shadow-gray-800'>
+    <div ref={ref} className='xs:scale-[.35] flex min-h-[100vh] shrink-0 scale-[.30] transform flex-col items-center justify-start [perspective:800px] sm:scale-[.65] md:min-h-[200vh] md:scale-100 md:py-48'>
+      <section className='xs:-mt-20 -mt-60 flex max-w-3xl scale-200 flex-col gap-4 p-4 pb-40 sm:-mt-10 sm:scale-none sm:gap-8 sm:pb-0 md:-mt-5 md:gap-4'>
+        <motion.h1 style={{ translateY: textTransform, opacity: textOpacity }} className='3xl:text-8xl text-center text-5xl font-extrabold text-nowrap text-shadow-2xs text-shadow-gray-800 sm:text-6xl md:text-sky-50 lg:text-shadow-md'>
           Ace JAMB <br />
           with AI CBT Practice
         </motion.h1>
-        <motion.p style={{ translateY: textTransform, opacity: textOpacity }} className='text-center text-2xl md:text-base md:text-sky-50 lg:text-shadow-sm text-shadow-xs text-shadow-gray-800'>
+        <motion.p style={{ translateY: textTransform, opacity: textOpacity }} className='text-center text-2xl text-shadow-gray-800 text-shadow-xs md:text-base md:text-sky-50 lg:text-shadow-sm'>
           Access a wide range of 17 subjects, a trove of over 20,000 past questions, a realistic interface, an AI assistant, performance analytics, a leaderboard of champions, and an authentic exam experience.
         </motion.p>
-        <Link href='/sign-up' className='w-full flex justify-center'>
+        <Link href='/sign-up' className='flex w-full justify-center'>
           <motion.button
             whileHover={{ scale: 1.025 }}
             style={{ translateY: textTransform, opacity: textOpacity }}
-            className='bg-black text-white max-w-[280px] w-[60%] lg:w-[40%] py-1 lg:py-2 rounded mb-8 inline-flex h-12 animate-shimmer items-center justify-center border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] font-medium transition-colors focus:outline-none text-lg md:text-sm'
+            className='animate-shimmer mb-8 inline-flex h-12 w-[60%] max-w-[280px] items-center justify-center rounded border border-slate-800 bg-black bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] py-1 text-lg font-medium text-white transition-colors focus:outline-none md:text-sm lg:w-[40%] lg:py-2'
           >
             Get Started
           </motion.button>
@@ -126,7 +126,7 @@ const Lid = ({ scaleX, scaleY, rotate, translate }: { scaleX: MotionValue; scale
         className='absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2'
       >
         <div className='absolute inset-0 rounded-lg bg-[#272729]' />
-        <Image src='/images/hero/screenshot.png' alt='aceternity logo' fill sizes='(max-width: 768px) 80vw, 40vw' priority className='absolute inset-0 h-full w-full rounded-lg  object-cover object-left-top' />
+        <Image src='/images/hero/screenshot.png' alt='aceternity logo' fill sizes='(max-width: 768px) 80vw, 40vw' priority className='absolute inset-0 h-full w-full rounded-lg object-cover object-left-top' />
       </motion.div>
     </div>
   );

@@ -16,7 +16,7 @@ export default function Pagination() {
   const handlePaginationClick = (i: number) => setCurrentQuestion(i);
 
   return (
-    <div className='grid grid-cols-5 sm:grid-cols-10 gap-2 p-2 md:p-4'>
+    <div className='grid grid-cols-5 gap-2 p-2 sm:grid-cols-10 md:p-4'>
       {currentQuestionsData.map((question, index) => {
         const isAnswered = question.id in selectedAnswers;
         return (
@@ -24,7 +24,7 @@ export default function Pagination() {
             key={question.id}
             type='button'
             onClick={() => handlePaginationClick(index)}
-            className={`w-10 h-10 rounded flex items-center justify-center font-medium transition-colors ${currentQuestion === index ? 'bg-red-600 text-white' : isAnswered ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}
+            className={`flex h-10 w-10 items-center justify-center rounded font-medium transition-colors ${currentQuestion === index ? 'bg-red-600 text-white' : isAnswered ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}
             aria-label={`Go to question ${index + 1}`}
           >
             {index + 1}

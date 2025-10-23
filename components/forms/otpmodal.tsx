@@ -1,7 +1,6 @@
 'use client';
 
 import { X } from 'lucide-react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import type React from 'react';
 import { useState } from 'react';
@@ -9,6 +8,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescript
 import { Button } from '@/components/shadcn/button';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/shadcn/input-otp';
 import { sendEmailOTP, verifySecret } from '@/services/auth';
+import { Spinner } from '../shadcn/spinner';
 
 export default function OtpModal({ userId, email }: { userId: string; email: string }) {
   const router = useRouter();
@@ -40,8 +40,8 @@ export default function OtpModal({ userId, email }: { userId: string; email: str
             Enter Your OTP
             <X onClick={() => setIsOpen(false)} className='otp-close-button' />
           </AlertDialogTitle>
-          <AlertDialogDescription className='subtitle-2 text-center text-foreground'>
-            We&apos;ve sent a code to <span className='pl-1 text-brand'>{email}</span>
+          <AlertDialogDescription className='subtitle-2 text-foreground text-center'>
+            We&apos;ve sent a code to <span className='text-brand pl-1'>{email}</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -60,12 +60,12 @@ export default function OtpModal({ userId, email }: { userId: string; email: str
           <div className='flex w-full flex-col gap-4'>
             <AlertDialogAction onClick={handleSubmit} className='h-12' type='button'>
               Submit
-              {isLoading && <Image src='/assets/loader.svg' alt='loader' width={24} height={24} className='ml-2 animate-spin' />}
+              {isLoading && <Spinner />}
             </AlertDialogAction>
 
-            <div className='subtitle-2 mt-2 text-center text-light-100'>
+            <div className='subtitle-2 text-light-100 mt-2 text-center'>
               Didn&apos;t get a code?
-              <Button type='button' variant='link' className='pl-1 text-brand' onClick={handleResendOtp}>
+              <Button type='button' variant='link' className='text-brand pl-1' onClick={handleResendOtp}>
                 Click to resend
               </Button>
             </div>

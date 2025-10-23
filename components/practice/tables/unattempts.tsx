@@ -22,8 +22,8 @@ export default function UnattemptedSummary() {
             <tbody>
               {Object.keys(unattemptedQuestions).map((subject) => (
                 <tr key={subject}>
-                  <td className='border px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base font-semibold'>{subject}</td>
-                  <td className='border px-2 py-1 md:px-4 lg:py-2 text-xs sm:text-sm md:text-base text-center'>{unattemptedQuestions[subject]?.length || 0}</td>
+                  <td className='border px-2 py-1 text-xs font-semibold sm:text-sm md:px-4 md:text-base lg:py-2'>{subject}</td>
+                  <td className='border px-2 py-1 text-center text-xs sm:text-sm md:px-4 md:text-base lg:py-2'>{unattemptedQuestions[subject]?.length || 0}</td>
                 </tr>
               ))}
             </tbody>

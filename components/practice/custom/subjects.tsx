@@ -19,21 +19,21 @@ export default function Subjects() {
   };
 
   return (
-    <div className='flex items-center gap-3 uppercase w-full'>
-      <div className='flex gap-2 items-center w-full'>
-        <div className='grid grid-cols-2 sm:grid-cols-4 gap-2 w-full lg:max-w-[950px] place-items-stretch'>
+    <div className='flex w-full items-center gap-3 uppercase'>
+      <div className='flex w-full items-center gap-2'>
+        <div className='grid w-full grid-cols-2 place-items-stretch gap-2 sm:grid-cols-4 lg:max-w-[950px]'>
           {Object.keys(questions).map((subject) => (
             <button
               type='button'
               key={subject}
               onClick={() => handleSubjectChange(subject)}
-              className={`uppercase flex flex-col justify-center items-center w-full p-2 rounded cursor-pointer text-center ${selectedSubject === subject ? 'text-accent-2 border-2 border-accent-2' : 'bg-accent-2 text-white'}`}
+              className={`flex w-full cursor-pointer flex-col items-center justify-center rounded p-2 text-center uppercase ${selectedSubject === subject ? 'text-accent-2 border-accent-2 border-2' : 'bg-accent-2 text-white'}`}
             >
               {subjectPathMap[subject] || subject}
             </button>
           ))}
         </div>
-        <span className='hidden md:block p-2 bg-accent-2 rounded text-white'>
+        <span className='bg-accent-2 hidden rounded p-2 text-white md:block'>
           <CalculatorDialog />
         </span>
       </div>

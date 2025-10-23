@@ -8,11 +8,11 @@ export default async function PaymentsPage() {
   const { trials } = user;
 
   return (
-    <section className='flex flex-col gap-10 '>
+    <section className='flex flex-col gap-10'>
       <figure className='quote text-center'>
         <blockquote>
           <span className='text-2xl'>💸</span>
-          <h1 className='font-bold italic text-lg'>“If you think education is expensive, try ignorance.”</h1>
+          <h1 className='text-lg font-bold italic'>“If you think education is expensive, try ignorance.”</h1>
         </blockquote>
         <figcaption>
           <cite>
@@ -20,7 +20,7 @@ export default async function PaymentsPage() {
           </cite>
         </figcaption>
       </figure>
-      <div className='flex flex-col mx-auto p-2 md:p-4 lg:p-6 gap-10 divide-y-2 w-full overflow-x-0'>
+      <div className='overflow-x-0 mx-auto flex w-full flex-col gap-10 divide-y-2 p-2 md:p-4 lg:p-6'>
         {trials === 0 ? <Plans /> : <ActivePayment user={user} />}
         <History />
       </div>

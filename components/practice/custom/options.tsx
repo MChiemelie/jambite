@@ -96,7 +96,7 @@ export default function Options() {
 
   if (!option) {
     return (
-      <div className='p-4 text-sm text-red-600 bg-red-50 rounded'>
+      <div className='rounded bg-red-50 p-4 text-sm text-red-600'>
         No options available for this question. Check console for <code>currentQuestionData</code>.
       </div>
     );
@@ -115,10 +115,10 @@ export default function Options() {
           const id = `q_${String(currentQuestionId)}_opt_${key}`;
           return (
             <li key={key}>
-              <label htmlFor={id} className='flex items-center gap-4 cursor-pointer'>
+              <label htmlFor={id} className='flex cursor-pointer items-center gap-4'>
                 <input
                   id={id}
-                  className='appearance-none w-4 h-4 border-2 md:border-4 border-gray-300 rounded-full checked:bg-blue-200 checked:border-blue-600'
+                  className='h-4 w-4 appearance-none rounded-full border-2 border-gray-300 checked:border-blue-600 checked:bg-blue-200 md:border-4'
                   type='radio'
                   name={`question_${String(currentQuestionId)}`}
                   value={key}
@@ -128,7 +128,7 @@ export default function Options() {
                 />
                 <div className='flex-1'>
                   <div className='flex items-center gap-3'>
-                    <span className='uppercase font-meduim'>{key}.</span>
+                    <span className='font-meduim uppercase'>{key}.</span>
                     <div className='prose max-w-none'>{parse(value)}</div>
                   </div>
                 </div>

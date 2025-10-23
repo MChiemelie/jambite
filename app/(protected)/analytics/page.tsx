@@ -14,11 +14,11 @@ export default async function AnalyticsPage() {
   }
 
   return (
-    <section className='p-2 md:p-4 lg:p-8 w-full flex flex-col gap-10'>
+    <section className='flex w-full flex-col gap-10 p-2 md:p-4 lg:p-8'>
       <figure className='quote text-center'>
         <blockquote>
           <span className='text-2xl'>📊</span>
-          <h1 className='font-bold italic text-lg'>“Above all else, show the data.”</h1>
+          <h1 className='text-lg font-bold italic'>“Above all else, show the data.”</h1>
         </blockquote>
         <figcaption>
           <cite>

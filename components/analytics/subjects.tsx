@@ -33,7 +33,7 @@ export default function Subjects({ data }: { data: SubjectAttempts[] }) {
   const mostPracticedSubjects = React.useMemo(() => getMostPracticedSubject(data), [data]);
 
   return (
-    <Card className='flex flex-col justify-between bg-muted/50'>
+    <Card className='bg-muted/50 flex flex-col justify-between'>
       <CardHeader className='items-center pb-0'>
         <CardTitle>Subjects</CardTitle>
         <CardDescription>Top Practiced Subjects</CardDescription>
@@ -63,8 +63,8 @@ export default function Subjects({ data }: { data: SubjectAttempts[] }) {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className='text-center flex flex-col gap-2 text-sm'>
-        <div className='font-medium leading-5'>
+      <CardFooter className='flex flex-col gap-2 text-center text-sm'>
+        <div className='leading-5 font-medium'>
           You practiced
           {mostPracticedSubjects.map((subject, index) => {
             const subjectAttempts = data.filter((item) => item.subject === subject)[0]?.attempts ?? 0;
@@ -77,7 +77,7 @@ export default function Subjects({ data }: { data: SubjectAttempts[] }) {
             );
           })}
         </div>
-        <div className='leading-none text-muted-foreground'>Use of English is not included</div>
+        <div className='text-muted-foreground leading-none'>Use of English is not included</div>
       </CardFooter>
     </Card>
   );

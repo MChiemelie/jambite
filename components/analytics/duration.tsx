@@ -39,10 +39,10 @@ export default function Duration({ data }: { data: DurationProps }) {
         </ChartContainer>
       </CardContent>
       <CardFooter className='flex-col items-center gap-2 text-sm'>
-        <p className='flex gap-2 leading-none font-medium text-center'>
+        <p className='flex gap-2 text-center leading-none font-medium'>
           Best Time: {best.metric} with score {best.score} in {best.duration} secs
         </p>
-        <p className='text-muted-foreground leading-none text-center'>Comparing performance by time</p>
+        <p className='text-muted-foreground text-center leading-none'>Comparing performance by time</p>
       </CardFooter>
     </Card>
   );

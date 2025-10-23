@@ -111,44 +111,44 @@ export default function Account({ user }: { user: User }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='p-4 lg:p-8 flex flex-col items-center gap-6 my-10 lg:w-[80%] w-[95%] mx-auto'>
-      <div className='flex flex-col gap-8 w-full'>
-        <div className='flex items-center gap-4 w-full'>
-          <h2 className='text-xs lg:text-sm font-semibold whitespace-nowrap text-foreground/60'>BIO DATA</h2>
-          <div className='border-t border-foreground/40 flex-1' />
+    <form onSubmit={handleSubmit(onSubmit)} className='mx-auto my-10 flex w-[95%] flex-col items-center gap-6 p-4 lg:w-[80%] lg:p-8'>
+      <div className='flex w-full flex-col gap-8'>
+        <div className='flex w-full items-center gap-4'>
+          <h2 className='text-foreground/60 text-xs font-semibold whitespace-nowrap lg:text-sm'>BIO DATA</h2>
+          <div className='border-foreground/40 flex-1 border-t' />
         </div>
 
-        <div className='flex flex-col md:flex-row gap-16 items-center justify-center w-full'>
+        <div className='flex w-full flex-col items-center justify-center gap-16 md:flex-row'>
           <UploadAvatar />
-          <div className='grid grid-cols-2 gap-4 w-full lg:w-2/3'>
+          <div className='grid w-full grid-cols-2 gap-4 lg:w-2/3'>
             <div className='flex flex-col gap-1'>
               <Label>First Name</Label>
               <Input {...register('firstname')} placeholder='John' />
-              {errors.firstname && <p className='text-red-500 text-sm'>{errors.firstname.message}</p>}
+              {errors.firstname && <p className='text-sm text-red-500'>{errors.firstname.message}</p>}
             </div>
 
             <div className='flex flex-col gap-1'>
               <Label>Last Name</Label>
               <Input {...register('lastname')} placeholder='Doe' />
-              {errors.lastname && <p className='text-red-500 text-sm'>{errors.lastname.message}</p>}
+              {errors.lastname && <p className='text-sm text-red-500'>{errors.lastname.message}</p>}
             </div>
 
             <div className='flex flex-col gap-1'>
               <Label>Email</Label>
               <Input type='email' {...register('email')} disabled placeholder='johndoe@gmail.com' />
-              {errors.email && <p className='text-red-500 text-sm'>{errors.email.message}</p>}
+              {errors.email && <p className='text-sm text-red-500'>{errors.email.message}</p>}
             </div>
 
             <div className='flex flex-col gap-1'>
               <Label>Date of Birth</Label>
               <Input type='date' {...register('birthday')} />
-              {errors.birthday && <p className='text-red-500 text-sm'>{errors.birthday.message}</p>}
+              {errors.birthday && <p className='text-sm text-red-500'>{errors.birthday.message}</p>}
             </div>
 
             <div className='flex flex-col gap-1'>
               <Label>Phone Number</Label>
               <Input type='tel' {...register('phone')} placeholder='08123456789' />
-              {errors.phone && <p className='text-red-500 text-sm'>{errors.phone.message}</p>}
+              {errors.phone && <p className='text-sm text-red-500'>{errors.phone.message}</p>}
             </div>
 
             <div className='flex flex-col gap-1'>
@@ -168,24 +168,24 @@ export default function Account({ user }: { user: User }) {
                   </Select>
                 )}
               />
-              {errors.gender && <p className='text-red-500 text-sm'>{errors.gender.message}</p>}
+              {errors.gender && <p className='text-sm text-red-500'>{errors.gender.message}</p>}
             </div>
 
-            <div className='flex flex-col gap-1 col-span-2'>
+            <div className='col-span-2 flex flex-col gap-1'>
               <Label>Location</Label>
               <Controller control={control} name='location' render={({ field }) => <LocationInput value={field.value} onChange={field.onChange} />} />
-              {errors.location && <p className='text-red-500 text-sm'>{errors.location.message}</p>}
+              {errors.location && <p className='text-sm text-red-500'>{errors.location.message}</p>}
             </div>
           </div>
         </div>
       </div>
 
-      <div className='w-full flex flex-col gap-6 place-items-center'>
-        <div className='flex items-center gap-4 w-full'>
-          <h2 className='text-xs lg:text-sm font-semibold whitespace-nowrap text-foreground/60'>PREFERRED SUBJECTS</h2>
-          <div className='border-t border-foreground/40 flex-1' />
+      <div className='flex w-full flex-col place-items-center gap-6'>
+        <div className='flex w-full items-center gap-4'>
+          <h2 className='text-foreground/60 text-xs font-semibold whitespace-nowrap lg:text-sm'>PREFERRED SUBJECTS</h2>
+          <div className='border-foreground/40 flex-1 border-t' />
         </div>
-        <div className='grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-sm md:text-md'>
+        <div className='xs:grid-cols-2 md:text-md grid grid-cols-1 gap-4 text-sm sm:grid-cols-3 md:grid-cols-6'>
           {subjects.map((subject) => (
             <Label key={subject} className='flex items-center gap-2'>
               <Checkbox checked={subject === ENGLISH || selectedSubjects.includes(subject)} disabled={subject === ENGLISH} onCheckedChange={() => handleCheckboxChange(subject)} />
@@ -193,7 +193,7 @@ export default function Account({ user }: { user: User }) {
             </Label>
           ))}
         </div>
-        {errors.subjects && <p className='text-red-500 text-sm'>{errors.subjects.message}</p>}
+        {errors.subjects && <p className='text-sm text-red-500'>{errors.subjects.message}</p>}
       </div>
       <Button type='submit' disabled={isSubmitting || !isDirty}>
         {isSubmitting ? 'Submitting...' : isDirty ? 'Save changes' : 'No changes'}

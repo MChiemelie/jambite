@@ -49,16 +49,16 @@ const LocationInput = forwardRef<HTMLInputElement, LocationInputProps>(({ value,
         }}
         onBlur={onBlur}
         placeholder='Location'
-        className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand'
+        className='focus:ring-brand w-full rounded-lg border px-4 py-2 focus:ring-2 focus:outline-none'
         {...props}
       />
 
       {suggestions.length > 0 && !selected && (
-        <ul className='absolute z-10 w-full border mt-1 rounded-lg shadow max-h-40 overflow-y-auto text-foreground bg-background'>
+        <ul className='text-foreground bg-background absolute z-10 mt-1 max-h-40 w-full overflow-y-auto rounded-lg border shadow'>
           {suggestions.map((place) => (
             <li
               key={place.place_id}
-              className='px-4 py-2 cursor-pointer hover:bg-accent hover:text-accent-foreground'
+              className='hover:bg-accent hover:text-accent-foreground cursor-pointer px-4 py-2'
               onClick={() => {
                 setSelected(place.display_name);
                 setQuery(place.display_name);

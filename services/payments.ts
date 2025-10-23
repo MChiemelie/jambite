@@ -6,7 +6,7 @@ import { createSessionClient } from '@/libraries';
 import { getUserData } from './auth';
 import { PaymentError, PaymentErrorCode } from './error';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 async function makePayment(amount: number) {
   try {
