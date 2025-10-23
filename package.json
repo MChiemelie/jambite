@@ -4,7 +4,7 @@
   "description": "Jambite - A JAMB CBT web application with AI",
   "type": "module",
   "scripts": {
-    "ci:local": "pnpm install --frozen-lockfile && pnpm lint && pnpm build && pnpm test:run",
+    "ci:local": "pnpm install && pnpm lint && pnpm build && pnpm test:run",
     "ci:quick": "pnpm lint && pnpm test:run",
     "ci:check": "pnpm lint && pnpm tsc --noEmit && pnpm test:run",
     "prepare": "husky",
