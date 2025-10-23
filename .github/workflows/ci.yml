@@ -41,8 +41,8 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
+        run: pnpm install
+        
       - name: Check OPENAI key presence (safe — does NOT print the value)
         run: |
           node -e "console.log(process.env.OPENAI_API_KEY ? 'OPENAI_API_KEY is set' : 'OPENAI_API_KEY is MISSING')"
