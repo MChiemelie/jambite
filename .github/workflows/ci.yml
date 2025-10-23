@@ -10,7 +10,6 @@ on:
       - main
       - dev
 
-# Cancel in-progress runs when a new workflow with the same ref is triggered
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -18,7 +17,9 @@ concurrency:
 jobs:
   ci:
     runs-on: ubuntu-latest
-
+    env:
+      # job-level secret available to all steps (make sure you've added this in repo Settings → Secrets → Actions)
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     strategy:
       matrix:
         node-version: [20.x]
@@ -40,6 +41,10 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Check OPENAI key presence (safe — does NOT print the value)
+        run: |
+          node -e "console.log(process.env.OPENAI_API_KEY ? 'OPENAI_API_KEY is set' : 'OPENAI_API_KEY is MISSING')"
 
       - name: Run lint
         run: pnpm lint
